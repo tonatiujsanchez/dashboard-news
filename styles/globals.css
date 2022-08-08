@@ -2,12 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --primary-color: #0284c7;
+    --white-color: #ffffff;
+    --slate-color-600: #475569;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 1.6rem;
+    background-color: rgb(250, 251, 255);
+}
 
 @media screen and (min-width: 2048px) {
     body {
         zoom: 1.5;
     }
 }
+
 /* For 2K & 4K resolutions */
 @media screen and (min-width: 3840px) {
     body {
