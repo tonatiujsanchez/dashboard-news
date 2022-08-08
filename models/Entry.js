@@ -1,14 +1,10 @@
 import mongoose, { Schema } from 'mongoose'
-import { authorSchema } from './Author'
-import { categorySchema } from './Category'
-import { imageSchema } from './Image'
-import { municipioSchema } from './Municipio'
-
 
 const entrySchema = new Schema({
     user: { 
         type: mongoose.Types.ObjectId,
-        require: true,
+        ref: 'User',
+        require: false,
     },
     title: { 
         type: String, 
@@ -21,25 +17,17 @@ const entrySchema = new Schema({
         type: String, 
         require: true,
     },
-    createdAd: {
-        type: Number,
-        require: true,
-    },
-    updatedAt: {
-        type: Number,
-        require: true,
-    },
     published: {
         type: Boolean,
         require: true,
         default: false,
     },
     image: {
-        type: imageSchema,
+        type: String,
         require: false,
     },
     imageSocial: {
-        type: imageSchema,
+        type: String,
         require: false,
     },
     destacado: {
@@ -52,15 +40,15 @@ const entrySchema = new Schema({
         require: true,
     },
     category: {
-        type: categorySchema,
+        type: String,
         require: true,
     },
     autor: {
-        type: authorSchema,
+        type: String,
         require: false,
     },
     municipio: {
-        type: municipioSchema,
+        type: String,
         require: false,
     },
     views: {
@@ -68,6 +56,8 @@ const entrySchema = new Schema({
         require: true,
         default: 0,
     }
+},{
+    timestamps: true
 })
 
 const EntryModel = mongoose.models.Entry || mongoose.model('Entry', entrySchema)

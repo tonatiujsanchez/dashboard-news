@@ -1,0 +1,10 @@
+
+
+
+export const initialData = {
+    entries: [
+        {
+            
+        }
+    ]
+}

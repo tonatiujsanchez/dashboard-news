@@ -1,3 +1,4 @@
+import 'boxicons/css/boxicons.min.css'
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
