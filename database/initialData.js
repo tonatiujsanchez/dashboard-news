@@ -59,6 +59,77 @@ export const initialData = {
             position: 9
         },
     ],
-    subcategories: [],
+    subcategories: [
+        {
+            title: 'Tlapa de Comonfort',
+            slug: 'tlapa-de-comonfort',
+            tag: 'Tlapa',
+            position: 1,
+            category: '62f213a958d7737510d1f001'
+        },
+        {
+            title: 'Malinaltepec',
+            slug: 'malinaltepec',
+            tag: 'Malinaltepec',
+            position: 2,
+            category: '62f213a958d7737510d1f001'
+        },
+        {
+            title: 'Alpoyeca',
+            slug: 'alpoyeca',
+            tag: 'Alpoyeca',
+            position: 3,
+            category: '62f213a958d7737510d1f001'
+        },
+        {
+            title: 'Xochihuehuetlán',
+            slug: 'xochihuehuetlan',
+            tag: 'Xochihuehuetlán',
+            position: 4,
+            category: '62f213a958d7737510d1f001'
+        },
+        {
+            title: 'Tlacoapa',
+            slug: 'tlacoapa',
+            tag: 'Tlacoapa',
+            position: 5,
+            category: '62f213a958d7737510d1f001'
+        },
+        {
+            title: 'Cochoapa el Grande',
+            slug: 'cochoapa-el-grande',
+            tag: 'Cochoapa',
+            position: 6,
+            category: '62f213a958d7737510d1f001'
+        },
+        {
+            title: 'Olinalá',
+            slug: 'olinala',
+            tag: 'Olinalá',
+            position: 7,
+            category: '62f213a958d7737510d1f001'
+        },
+        {
+            title: 'Iliatenco',
+            slug: 'iliatenco',
+            tag: 'Iliatenco',
+            position: 8,
+            category: '62f213a958d7737510d1f001'
+        },
+        {
+            title: 'Acapulco',
+            slug: 'acapulco',
+            tag: 'Acapulco',
+            position: 9,
+            category: '62f213a958d7737510d1f000'
+        },
+        {
+            title: 'Chilpancingo',
+            slug: 'chilpancingo',
+            tag: 'Chilpancingo',
+            position: 10,
+            category: '62f213a958d7737510d1f000'
+        },
+    ],
     autores: [],
 }

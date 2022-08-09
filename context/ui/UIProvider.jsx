@@ -5,7 +5,7 @@ import { uiReducer } from './uiReducer'
 import { types } from '../../types'
 
 const UI_INITIAL_STATE = {
-    showSideMenu: false
+    showSideMenu: true
 }
 
 

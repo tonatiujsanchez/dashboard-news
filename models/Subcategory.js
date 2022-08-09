@@ -8,16 +8,15 @@ export const subcategorySchema = new Schema({
         type: String
     },
     tag: {
-        type: Number,
-        require: true,
-        default: Date.now,
+        type: String,
     },
-    posicion: {
+    position: {
         type: Number,
         required: true,
     },
     category: {
         type: mongoose.Types.ObjectId,
+        required: true,
     }
 })
 

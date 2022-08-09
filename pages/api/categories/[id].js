@@ -45,7 +45,7 @@ const getCategory = async (req, res) => {
         return res.status(400).json({ message: 'No hay ninguna categoria con ese ID' })
     }
 
-    await res.status(200).json(category)
+    return res.status(200).json(category)
 
 }
 
@@ -84,7 +84,8 @@ const updateCategory = async (req, res) => {
     } catch (error) {
         
         await db.disconnect()
-        return res.status(500).json({ message: error.errors.status.message })
+        console.log(error)
+        return res.status(500).json({ message: 'Algo salio mal, revisar la consola del servidor' })
     }
 }
 
@@ -109,8 +110,10 @@ const removeCategory = async(req, res) => {
         return res.status(200).json({ message: 'Categoria eliminada' })
     
     } catch (error) {
+
         await db.disconnect()
-        return res.status(400).json({ message: error.errors.status.message })
+        console.log(error)
+        return res.status(400).json({ message: 'Algo salio mal, revisar la consola del servidor' })
     }
 
 }

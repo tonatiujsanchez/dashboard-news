@@ -21,38 +21,38 @@ export const SideMenu = () => {
                     </button>
                     <NextLink href="/admin" passHref>
                         <a className="nav__logo">
-                            <i class='bx bxs-dashboard'></i>
+                            <i className='bx bxs-dashboard'></i>
                             <span className="nav__logo-name">ADMIN</span>
                         </a>
                     </NextLink>
                     <div className="nav__list">
                         <NextLink href="/admin/nuevo" passHref>
                             <a className={`nav__link ${ pathname === '/admin/nuevo' ? 'active-link' : '' }`}>
-                                <i class='bx bxs-plus-square' ></i>
+                                <i className='bx bxs-plus-square' ></i>
                                 <span className="nav__name">Nuevo articulo</span>
                             </a>
                         </NextLink>
                         <NextLink href="/admin/articulos" passHref>
                             <a className={`nav__link ${ pathname === '/admin/articulos' ? 'active-link' : '' }`}>
-                                <i class='bx bx-list-ul' ></i>
+                                <i className='bx bx-list-ul' ></i>
                                 <span className="nav__name">Articulos</span>
                             </a>
                         </NextLink>
                         <NextLink href="/admin/multimedia" passHref>
                             <a className={`nav__link ${ pathname === '/admin/multimedia' ? 'active-link' : '' }`}>
-                                <i class='bx bx-image' ></i>
+                                <i className='bx bx-image' ></i>
                                 <span className="nav__name">Multimedia</span>
                             </a>
                         </NextLink>
                         <NextLink href="/admin/categorias" passHref>
                             <a className={`nav__link ${ pathname === '/admin/categorias' ? 'active-link' : '' }`}>
-                                <i class='bx bx-category-alt' ></i>
+                                <i className='bx bx-category-alt' ></i>
                                 <span className="nav__name">Categorias</span>
                             </a>
                         </NextLink>
                         <NextLink href="/admin/autores" passHref>
                             <a className={`nav__link ${ pathname === '/admin/autores' ? 'active-link' : '' }`}>
-                                <i class='bx bxs-user-circle' ></i>
+                                <i className='bx bxs-user-circle' ></i>
                                 <span className="nav__name">Autores</span>
                             </a>
                         </NextLink>
