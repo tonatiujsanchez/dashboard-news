@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
-import { imageSchema } from './Image'
+
 
 
 export const authorSchema = new Schema({
@@ -8,13 +8,13 @@ export const authorSchema = new Schema({
         require: true,
     },
     email: {
-        type: Email,
+        type: String,
     },
     web: {
         type: String,
     },
     photo: {
-        type: imageSchema,
+        type: String,
     },
     description: {
         type: String,

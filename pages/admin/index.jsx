@@ -1,11 +1,12 @@
 import React from 'react'
-import { AdminLayout } from '../../components/layouts/AdminLayout'
+import { TitlePage } from '../../components/admin'
+import { AdminLayout } from '../../components/layouts'
 
 
 const AdminPage = () => {
     return (
         <AdminLayout>
-            <h1>Dashboard</h1>
+            <TitlePage title="Dashboard" />
         </AdminLayout>
     )
 }

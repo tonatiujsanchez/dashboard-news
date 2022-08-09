@@ -9,11 +9,9 @@ export const categorySchema = new Schema({
         type: String
     },
     tag: {
-        type: Number,
-        require: true,
-        default: Date.now,
+        type: String,
     },
-    posicion: {
+    position: {
         type: Number,
         required: true,
     }

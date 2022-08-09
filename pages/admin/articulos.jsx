@@ -1,10 +1,11 @@
-import { AdminLayout } from "../../components/layouts/AdminLayout"
+import { TitlePage } from "../../components/admin"
+import { AdminLayout } from "../../components/layouts"
 
 
 const ArticulosPage = () => {
     return (
-        <AdminLayout title="- Articulos" >
-            <h1>Articulos</h1>
+        <AdminLayout title="- Artículos" >
+            <TitlePage title="Artículos" />
         </AdminLayout>
     )
 }

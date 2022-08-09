@@ -1,8 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
-import { categorySchema } from './Category'
 
-
-export const municipioSchema = new Schema({
+export const subcategorySchema = new Schema({
     title: {
         type: String,
     },
@@ -19,11 +17,11 @@ export const municipioSchema = new Schema({
         required: true,
     },
     category: {
-        type: categorySchema
+        type: mongoose.Types.ObjectId,
     }
 })
 
 
-const MunicipioModel = mongoose.models.Municipio || mongoose.model('Municipio', municipioSchema)
+const SubcategoryModel = mongoose.models.Subcategory || mongoose.model('Subcategory', subcategorySchema)
 
-export default MunicipioModel
+export default SubcategoryModel

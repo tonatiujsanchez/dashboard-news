@@ -1,8 +1,8 @@
 import { useReducer } from 'react'
-import { types } from '../../types'
 import { UIContext } from './UIContext'
 import { uiReducer } from './uiReducer'
 
+import { types } from '../../types'
 
 const UI_INITIAL_STATE = {
     showSideMenu: false

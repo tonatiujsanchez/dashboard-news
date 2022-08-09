@@ -1,9 +1,10 @@
-import { AdminLayout } from "../../components/layouts/AdminLayout"
+import { TitlePage } from "../../components/admin"
+import { AdminLayout } from "../../components/layouts"
 
 const MultimediaPage = () => {
     return (
         <AdminLayout title="- Multimedia" >
-            <h1>Multimedia</h1>
+            <TitlePage title="Multimedia" />
         </AdminLayout>
     )
 }
