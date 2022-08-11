@@ -1,8 +1,11 @@
-import styled from '@emotion/styled'
 import Head from 'next/head'
-import { useUI } from '../../hook/useUI'
 
+
+import styled from '@emotion/styled'
+
+import { useUI } from '../../hooks/useUI'
 import { SideMenu } from "../admin"
+
 
 
 export const AdminLayout = ({ children, title = '' }) => {
@@ -12,11 +15,11 @@ export const AdminLayout = ({ children, title = '' }) => {
     return (
         <>
             <Head>
-                <title>{`Admin ${ title }`}</title>
+                <title>{`Admin ${title}`}</title>
             </Head>
             <AdminLayoutContainer>
                 <SideMenu showMenu={showSideMenu} setShowMenu={toggleSideMenu} />
-                <main className={`container section ${showSideMenu ? 'container-show-sidemenu' : ''}`}>
+                <main className={`container-admin section ${showSideMenu ? 'container-show-sidemenu' : ''}`}>
                     {children}
                 </main>
             </AdminLayoutContainer>
@@ -27,10 +30,11 @@ export const AdminLayout = ({ children, title = '' }) => {
 
 const AdminLayoutContainer = styled.div`
     position: relative;
-
-    .container {
+    
+    .container-admin {
         margin-left: 1rem;
         margin-right: 1rem;
+        margin-bottom: 10rem;
     }
     .section {
         padding: 2rem 1rem;
@@ -42,7 +46,7 @@ const AdminLayoutContainer = styled.div`
             padding: 3rem 2rem;
             transition: 0.3s;
         }
-        .container{
+        .container-admin{
             margin-left: 9rem;
             margin-right: 1.5rem;
         }

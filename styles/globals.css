@@ -23,6 +23,19 @@ body {
     background-color: rgb(250, 251, 255);
 }
 
+body.fixed-body {
+    overflow:hidden
+}
+
+.bg-admin {
+    background-color: rgb(250, 251, 255);
+}
+.color-admin {
+    color: rgb(250, 251, 255);
+}
+
+
+
 @media screen and (min-width: 2048px) {
     body {
         zoom: 1.5;

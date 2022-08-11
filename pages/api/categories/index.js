@@ -35,10 +35,16 @@ const getCategories = async (res) => {
 
 const postCategory = async (req, res) => {
 
-    const { title = '', tag = '', position = null } = req.body
+    const { 
+        title = '', 
+        tag = '', 
+        position = null,
+        type = '',
+        category = null
+    } = req.body
 
-    if ([title.trim(), tag.trim()].includes('')) {
-        return res.status(400).json({ message: 'La propiedades title y tag son requeridas' })
+    if ([title.trim(), tag.trim(), type.trim()].includes('')) {
+        return res.status(400).json({ message: 'La propiedades title, tag y type son requeridas' })
     }
 
     if (!position) {
@@ -53,7 +59,9 @@ const postCategory = async (req, res) => {
         title: title.trim(),
         tag: tag.trim(),
         position,
-        slug
+        slug,
+        type,
+        category
     })
 
     try {

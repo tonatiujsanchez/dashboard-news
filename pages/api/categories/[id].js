@@ -25,7 +25,7 @@ export default async function handler(req, res) {
             return updateCategory(req, res)
         // Remove
         case 'DELETE':
-            return removeCategory(req, res)
+            return deleteCategory(req, res)
 
         default:
             return res.status(400).json({ message: 'Endpoint NO existente' })
@@ -66,16 +66,25 @@ const updateCategory = async (req, res) => {
         title = categoryToUpdate.title,
         tag = categoryToUpdate.tag,
         position = categoryToUpdate.position,
+        type = categoryToUpdate.type,
+        category = categoryToUpdate.category,
     } = req.body
 
     if( title !== categoryToUpdate.title ){
         categoryToUpdate.slug = slugify(title, { replacement: '-', lower: true})
     }
 
+    if(type === 'subcategory'){
+        categoryToUpdate.category = null
+    }else{
+        categoryToUpdate.category = category
+    }
+
     try {
         categoryToUpdate.title = title
         categoryToUpdate.tag = tag
         categoryToUpdate.position = position
+        categoryToUpdate.type = type
         categoryToUpdate.save()
         
         await db.disconnect()
@@ -90,7 +99,7 @@ const updateCategory = async (req, res) => {
 }
 
 
-const removeCategory = async(req, res) => {
+const deleteCategory = async(req, res) => {
     
     const { id } = req.query    
 

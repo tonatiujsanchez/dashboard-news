@@ -14,6 +14,19 @@ export const categorySchema = new Schema({
     position: {
         type: Number,
         required: true,
+    },
+    type: {
+        type: String,
+        enum: {
+            values: ['category', 'subcategory'],
+            message: '{VALUE} no es un tipo válido',
+            required: true
+        },
+        required: true,
+    },
+    category: {
+        type: mongoose.Types.ObjectId,
+        default: null
     }
 })
 

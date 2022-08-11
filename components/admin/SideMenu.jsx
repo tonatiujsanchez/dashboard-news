@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import NextLink from 'next/link'
 
 import styled from '@emotion/styled'
-import { useUI } from '../../hook/useUI'
+import { useUI } from '../../hooks/useUI'
 
 
 export const SideMenu = () => {
@@ -66,6 +66,7 @@ export const SideMenu = () => {
 
 
 const SidebarConatiner = styled.div`
+
     @media screen and (max-width: 767px) {
         .nav__logo,
         .nav__toggle,
@@ -78,7 +79,7 @@ const SidebarConatiner = styled.div`
             bottom: 3rem;
             box-shadow: 0 8px 24px hsla(228, 81%, 24%, 0.15);
             width: 90%;
-            padding: 30px 40px;
+            padding: 25px 40px;
             border-radius: 1rem;
             margin: 0 auto;
             left: 0;
@@ -87,6 +88,7 @@ const SidebarConatiner = styled.div`
             justify-content: center;
             column-gap: 36px;
             transition: 0.4s;
+            background-color: var(--white-color);
         }
     }
 
