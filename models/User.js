@@ -16,7 +16,7 @@ export const userSchema = new Schema({
         }
     },
     photo: { type: String },
-}, {
+},{
     timestamps: true,
 })
 

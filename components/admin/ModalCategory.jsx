@@ -27,7 +27,7 @@ export const ModalCategory = ({ categoriesMemo, setModal, editCategory, setEditC
             })
         }
     }, [])
-
+    
 
     const handleSubmit = (ev) => {
         ev.preventDefault()
@@ -79,7 +79,7 @@ export const ModalCategory = ({ categoriesMemo, setModal, editCategory, setEditC
     return (
         <div className="py-5">
             <header className="mb-10">
-                <h3 className="text-center font-semibold text-3xl">{editCategory ? 'Editar' : 'Nueva Categoría'}</h3>
+                <h3 className="text-center font-semibold text-3xl">{editCategory ? `Editando: ${ editCategory.title }` : 'Nueva Categoría'}</h3>
             </header>
             <form onSubmit={handleSubmit} className="w-[320px] sm:w-[600px]">
                 <div className="my-5">
@@ -89,7 +89,7 @@ export const ModalCategory = ({ categoriesMemo, setModal, editCategory, setEditC
                     <select
                         name="typeCategory"
                         id="typeCategory"
-                        className="w-full border border-gray-200 p-4 rounded-md"
+                        className="w-full border border-gray-200 p-6 rounded-md"
                         value={typeCategory}
                         onChange={handleInputChange} >
 
@@ -105,12 +105,14 @@ export const ModalCategory = ({ categoriesMemo, setModal, editCategory, setEditC
                         <select
                             name="category"
                             id="category"
-                            className="w-full border border-gray-200 p-4 rounded-md"
+                            className="w-full border border-gray-200 p-6 rounded-md"
                             value={category}
                             onChange={handleInputChange} >
                             {
                                 categoriesMemo.map(category => (
-                                    <option key={category._id} value={category._id} >{category.title}</option>
+                                    <option key={category._id} value={category._id} >
+                                        {category.title}
+                                    </option>
                                 ))
                             }
                         </select>
@@ -126,7 +128,7 @@ export const ModalCategory = ({ categoriesMemo, setModal, editCategory, setEditC
                         id="title"
                         value={title}
                         onChange={handleInputChange}
-                        className="border mt-2 block w-full p-4 rounded-md shadow-sm focus:outline-slate-800 text-md" />
+                        className="border mt-2 block w-full p-6 rounded-md shadow-sm focus:outline-slate-800 text-md" />
                 </div>
                 <div className="my-5">
                     <label htmlFor="marca" className="block text-md mb-3 font-semibold text-gray-500 uppercase">
@@ -138,7 +140,7 @@ export const ModalCategory = ({ categoriesMemo, setModal, editCategory, setEditC
                         id="tag"
                         value={tag}
                         onChange={handleInputChange}
-                        className="border mt-2 block w-full p-4 rounded-md shadow-sm focus:outline-slate-800 text-md" />
+                        className="border mt-2 block w-full p-6 rounded-md shadow-sm focus:outline-slate-800 text-md" />
                 </div>
                 <div className="flex items-center justify-end gap-2 mt-10">
                     <button
@@ -148,7 +150,7 @@ export const ModalCategory = ({ categoriesMemo, setModal, editCategory, setEditC
                     </button>
                     <button
                         type="submit"
-                        className="bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-6 uppercase w-full sm:w-auto rounded-md cursor-pointer transition-colors">
+                        className="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-3 px-8 uppercase w-full sm:w-auto rounded-md cursor-pointer transition-colors">
                             { editCategory ? 'Editar' : 'Añadir' }
                     </button>
                 </div>

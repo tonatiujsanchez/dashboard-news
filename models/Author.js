@@ -7,18 +7,35 @@ export const authorSchema = new Schema({
         type: String,
         require: true,
     },
+    facebook: {
+        type: String,
+    },
+    twitter: {
+        type: String,
+    },
+    instagram: {
+        type: String,
+    },
     email: {
         type: String,
+    },
+    phone: {
+        type: Number,
     },
     web: {
         type: String,
     },
-    photo: {
+    occupation: {
         type: String,
     },
     description: {
         type: String,
+    },
+    photo: {
+        type: String,
     }
+},{
+    timestamps: true,
 })
 
 const AuthorModel = mongoose.models.Author || mongoose.model('Author', authorSchema)

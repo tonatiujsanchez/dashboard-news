@@ -29,13 +29,13 @@ export const SideMenu = () => {
                         <NextLink href="/admin/nuevo" passHref>
                             <a className={`nav__link ${ pathname === '/admin/nuevo' ? 'active-link' : '' }`}>
                                 <i className='bx bxs-plus-square' ></i>
-                                <span className="nav__name">Nuevo articulo</span>
+                                <span className="nav__name">Nuevo artículo</span>
                             </a>
                         </NextLink>
                         <NextLink href="/admin/articulos" passHref>
                             <a className={`nav__link ${ pathname === '/admin/articulos' ? 'active-link' : '' }`}>
                                 <i className='bx bx-list-ul' ></i>
-                                <span className="nav__name">Articulos</span>
+                                <span className="nav__name">Artículos</span>
                             </a>
                         </NextLink>
                         <NextLink href="/admin/multimedia" passHref>
@@ -47,7 +47,7 @@ export const SideMenu = () => {
                         <NextLink href="/admin/categorias" passHref>
                             <a className={`nav__link ${ pathname === '/admin/categorias' ? 'active-link' : '' }`}>
                                 <i className='bx bx-category-alt' ></i>
-                                <span className="nav__name">Categorias</span>
+                                <span className="nav__name">Categorías</span>
                             </a>
                         </NextLink>
                         <NextLink href="/admin/autores" passHref>
@@ -89,6 +89,7 @@ const SidebarConatiner = styled.div`
             column-gap: 36px;
             transition: 0.4s;
             background-color: var(--white-color);
+            z-index: 99;
         }
     }
 

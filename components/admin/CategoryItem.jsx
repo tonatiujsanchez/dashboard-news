@@ -6,6 +6,9 @@ import { useData } from '../../hooks/useData'
 
 
 const customStyles = {
+    overlay: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)'
+    },
     content: {
         top: '50%',
         left: '50%',
@@ -55,13 +58,13 @@ export const CategoryItem = ({ category, onEditCategory }) => {
 
     return (
         <>
-            <div key={category._id} className={`mb-3 border px-5 py-3 bg-white rounded-md ${openSubcategories ? 'h-auto' : 'h-25'}`}>
+            <div className={`mb-3 border pl-5 pr-10 py-4 bg-white rounded-md ${openSubcategories ? 'h-auto' : 'h-25'}`}>
                 <div className="flex justify-between items-center">
                     <div className="flex gap-2 items-center">
                         <button
                             onClick={() => setOpenSubcategories(!openSubcategories)}
                             className={`text-5xl p-2 ${category.subcategories.length > 0 ? 'opacity-100' : 'opacity-10'}`}>
-                            <i className={`bx bx-chevron-down transition-all ${openSubcategories ? 'rotate-180' : ''}`}></i>
+                            <i className={`bx bx-chevron-down transition-all ${openSubcategories && category.subcategories.length > 0 ? 'rotate-180' : ''}`}></i>
                         </button>
                         <p
                             onClick={() => setOpenSubcategories(!openSubcategories)}
@@ -89,7 +92,7 @@ export const CategoryItem = ({ category, onEditCategory }) => {
                             category.subcategories.map(subc => {
                                 if (subc.category === category._id) {
                                     return (
-                                        <div key={subc._id} className={`pl-10 pr-10 my-1 py-3 justify-between items-center even:bg-gray-100 ${openSubcategories ? 'opacity-100 flex' : 'opacity-0 hidden'}`}>
+                                        <div key={subc._id} className={`pl-10 pr-10 my-1 py-4 justify-between items-center even:bg-gray-100 ${openSubcategories ? 'opacity-100 flex' : 'opacity-0 hidden'}`}>
                                             <p><i className='bx bx-minus'></i> {subc.title}</p>
                                             <div className="flex gap-5">
                                                 <button
@@ -116,9 +119,10 @@ export const CategoryItem = ({ category, onEditCategory }) => {
                 <Modal
                     isOpen={modalDelete}
                     style={customStyles}>
-                    <div className="">
-                        <header className="">
-                            <h3 className="text-center font-semibold text-2xl">{`Desea eliminar la categoría: ${categoryDelete.title}`}</h3>
+                    <div className="p-5">
+                        <header className="text-center">
+                            <p className="text-center text-3xl mb-2">{`Desea eliminar la categoría:`}</p>
+                            <h3 className='font-semibold text-3xl'>{ categoryDelete.title }</h3>
                         </header>
                         <div className='flex items-center justify-center gap-2 mt-10'>
                             <button

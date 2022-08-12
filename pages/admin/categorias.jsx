@@ -10,6 +10,10 @@ import { BtnSuccess } from "../../components/ui"
 import { ModalCategory } from "../../components/admin"
 
 const customStyles = {
+    
+    overlay: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)'
+    },
     content: {
         top: '50%',
         left: '50%',
@@ -33,8 +37,9 @@ const CategoriasPage = () => {
     useEffect(() => {
         if (categories.length <= 0) {
             refreshCategories()
-        }
+        }      
     }, [])
+    
 
     const categoriesMemo = useMemo(() => {
         return (
@@ -73,7 +78,7 @@ const CategoriasPage = () => {
                 </button>
             </div>
             <section>
-                <div className="w-full mb-10">
+                <div className="w-full mb-5">
                     <BtnSuccess onClick={handleShowModal} text="Agregar nueva categoria" />
                 </div>
                 <div>

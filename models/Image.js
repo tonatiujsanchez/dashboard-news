@@ -16,6 +16,8 @@ export const imageSchema = new Schema({
     size: {
         type: Number,
     }
+},{
+    timestamps: true,
 })
 
 
