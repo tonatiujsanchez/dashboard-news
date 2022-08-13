@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { db } from "../../database"
 import { initialData } from "../../database"
-import { Category, Entry } from "../../models"
+import { Category, Author, Entry } from "../../models"
 
 
 
@@ -16,8 +16,12 @@ export default async function handler(req, res) {
     // Categories
     // await Category.deleteMany()
     // await Category.insertMany( initialData.categories )
-    await Category.insertMany( initialData.subcategories )
- 
+    // await Category.insertMany( initialData.subcategories )
+    
+    // Authors
+    await Author.deleteMany()
+    await Author.insertMany( initialData.authors )
+
 
     await db.disconnect()
 

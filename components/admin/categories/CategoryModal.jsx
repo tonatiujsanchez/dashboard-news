@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react"
-import { useData } from "../../hooks/useData"
-import { useForm } from "../../hooks/useForm"
+import { useEffect } from "react"
+import { useData } from "../../../hooks/useData"
+import { useForm } from "../../../hooks/useForm"
 
 
-export const ModalCategory = ({ categoriesMemo, setModal, editCategory, setEditCategory }) => {
+export const CategoryModal = ({ categoriesMemo, setModal, editCategory, setEditCategory }) => {
 
     const { addNewCategory, updateCategory } = useData()
 

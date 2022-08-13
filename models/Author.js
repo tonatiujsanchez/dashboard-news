@@ -7,6 +7,10 @@ export const authorSchema = new Schema({
         type: String,
         require: true,
     },
+    slug: {
+        type: String,
+        require: true,
+    },
     facebook: {
         type: String,
     },
@@ -20,7 +24,7 @@ export const authorSchema = new Schema({
         type: String,
     },
     phone: {
-        type: Number,
+        type: String,
     },
     web: {
         type: String,

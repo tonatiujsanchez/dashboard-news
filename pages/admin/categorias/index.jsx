@@ -2,12 +2,14 @@ import { useEffect, useMemo, useState } from "react"
 
 import Modal from 'react-modal'
 
-import { useData } from "../../hooks/useData"
+import { useData } from "../../../hooks/useData"
 
-import { CategoryItem, TitlePage } from "../../components/admin"
-import { AdminLayout } from "../../components/layouts"
-import { BtnSuccess } from "../../components/ui"
-import { ModalCategory } from "../../components/admin"
+import { AdminLayout } from "../../../components/layouts"
+
+import { BtnSuccess } from "../../../components/admin/ui"
+import { TitlePage } from "../../../components/admin/ui"
+import { CategoryModal } from "../../../components/admin/categories"
+import { CategoryItem } from "../../../components/admin/categories"
 
 const customStyles = {
     
@@ -99,7 +101,7 @@ const CategoriasPage = () => {
                 <Modal
                     isOpen={modal}
                     style={customStyles}>
-                    <ModalCategory
+                    <CategoryModal
                         categoriesMemo={categoriesMemo}
                         setModal={setModal}
                         editCategory={editCategory}

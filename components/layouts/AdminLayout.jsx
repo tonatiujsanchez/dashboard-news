@@ -4,7 +4,7 @@ import Head from 'next/head'
 import styled from '@emotion/styled'
 
 import { useUI } from '../../hooks/useUI'
-import { SideMenu } from "../admin"
+import { SideMenu } from "../admin/shared"
 
 
 

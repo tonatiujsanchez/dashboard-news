@@ -3,7 +3,7 @@ import { types } from "../../types"
 
 
 export const dataReducer = (state, action) => {
-    
+
 
     switch (action.type) {
 
@@ -17,15 +17,15 @@ export const dataReducer = (state, action) => {
         case types.dataAddNewCategory:
             return {
                 ...state,
-                categories: [ ...state.categories, action.payload ]
-            } 
+                categories: [...state.categories, action.payload]
+            }
 
         case types.dataUpdateCategory:
             return {
                 ...state,
-                categories: state.categories.map( category =>{
+                categories: state.categories.map(category => {
 
-                    if( category._id === action.payload._id ){
+                    if (category._id === action.payload._id) {
                         return {
                             ...category,
                             ...action.payload
@@ -39,9 +39,15 @@ export const dataReducer = (state, action) => {
         case types.dataDeleteCategory:
             return {
                 ...state,
-                categories: state.categories.filter( category => category._id !== action.payload )
+                categories: state.categories.filter(category => category._id !== action.payload)
             }
 
+        // Authors
+        case types.dataRefreshAuthors:
+            return {
+                ...state,
+                authors: [...action.payload]
+            }
         default:
             return state
     }

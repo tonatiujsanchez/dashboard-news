@@ -10,7 +10,7 @@ const DATA_INITIAL_STATE = {
     entries: [],
     multimedia: [],
     categories: [],
-    autores: [],
+    authors: [],
 }
 
 export const DataProvider = ({ children }) => {
@@ -21,7 +21,7 @@ export const DataProvider = ({ children }) => {
     // Categories
     const refreshCategories = async() => {
 
-        const { data: categories } = await axios.get(`/api/categories`)
+        const { data: categories } = await axios.get(`/api/public/categories`)
         dispatch({ type: types.dataRefreshCategories, payload: categories })
     }
 
@@ -38,15 +38,26 @@ export const DataProvider = ({ children }) => {
         dispatch({ type: types.dataDeleteCategory, payload: idCategory })
     }
 
+    // Authors
+    const refreshAuthors = async() => {
+
+        const { data: authors } = await axios.get(`/api/public/authors`)
+        dispatch({ type: types.dataRefreshAuthors, payload: authors })
+    }
 
 
     return (
         <DataContext.Provider value={{
             ...state,
+
+            // Categories
             refreshCategories,
             addNewCategory,
             updateCategory,
-            deleteCategory
+            deleteCategory,
+            
+            // Authors
+            refreshAuthors,
         }} >
             {children}
         </DataContext.Provider>

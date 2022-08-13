@@ -8,4 +8,7 @@ export const types = {
     dataAddNewCategory: '[DATA] New Category',
     dataUpdateCategory: '[DATA] Update Category',
     dataDeleteCategory: '[DATA] Delete Category',
+    
+    // Authors
+    dataRefreshAuthors: '[DATA] Refresh Authors',
 }

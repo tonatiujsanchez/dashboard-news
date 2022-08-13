@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import NextLink from 'next/link'
 
 import styled from '@emotion/styled'
-import { useUI } from '../../hooks/useUI'
+import { useUI } from '../../../hooks/useUI'
 
 
 export const SideMenu = () => {
@@ -17,7 +17,7 @@ export const SideMenu = () => {
                     <button
                         onClick={() => toggleSideMenu()}
                         className={`nav__toggle ${showSideMenu ? 'rotate-icon' : ''}`}>
-                        <i className='bx bx-chevron-right'></i>
+                        <i className='bx bx-menu-alt-left' ></i>
                     </button>
                     <NextLink href="/admin" passHref>
                         <a className="nav__logo">
@@ -27,31 +27,31 @@ export const SideMenu = () => {
                     </NextLink>
                     <div className="nav__list">
                         <NextLink href="/admin/nuevo" passHref>
-                            <a className={`nav__link ${ pathname === '/admin/nuevo' ? 'active-link' : '' }`}>
+                            <a className={`nav__link ${(pathname.split('/')[2]) === ('/admin/nuevo').split('/')[2] ? 'active-link' : ''}`}>
                                 <i className='bx bxs-plus-square' ></i>
                                 <span className="nav__name">Nuevo artículo</span>
                             </a>
                         </NextLink>
                         <NextLink href="/admin/articulos" passHref>
-                            <a className={`nav__link ${ pathname === '/admin/articulos' ? 'active-link' : '' }`}>
+                            <a className={`nav__link ${(pathname.split('/')[2]) === ('/admin/articulos').split('/')[2] ? 'active-link' : ''}`}>
                                 <i className='bx bx-list-ul' ></i>
                                 <span className="nav__name">Artículos</span>
                             </a>
                         </NextLink>
                         <NextLink href="/admin/multimedia" passHref>
-                            <a className={`nav__link ${ pathname === '/admin/multimedia' ? 'active-link' : '' }`}>
+                            <a className={`nav__link ${(pathname.split('/')[2]) === ('/admin/multimedia').split('/')[2] ? 'active-link' : ''}`}>
                                 <i className='bx bx-image' ></i>
                                 <span className="nav__name">Multimedia</span>
                             </a>
                         </NextLink>
                         <NextLink href="/admin/categorias" passHref>
-                            <a className={`nav__link ${ pathname === '/admin/categorias' ? 'active-link' : '' }`}>
+                            <a className={`nav__link ${(pathname.split('/')[2]) === ('/admin/categorias').split('/')[2] ? 'active-link' : ''}`}>
                                 <i className='bx bx-category-alt' ></i>
                                 <span className="nav__name">Categorías</span>
                             </a>
                         </NextLink>
                         <NextLink href="/admin/autores" passHref>
-                            <a className={`nav__link ${ pathname === '/admin/autores' ? 'active-link' : '' }`}>
+                            <a className={`nav__link ${(pathname.split('/')[2]) === ('/admin/autores').split('/')[2] ? 'active-link' : ''}`}>
                                 <i className='bx bxs-user-circle' ></i>
                                 <span className="nav__name">Autores</span>
                             </a>
@@ -174,12 +174,12 @@ const SidebarConatiner = styled.div`
 
         .nav__toggle {
             position: absolute;
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             background-color: black;
             color: #FFF;
             border-radius: 50%;
-            font-size: 1.2rem;
+            font-size: 1.6rem;
             display: grid;
             place-items: center;
             top: 3rem;
@@ -196,6 +196,7 @@ const SidebarConatiner = styled.div`
 
     /* Rotate toggle icon */
     .rotate-icon {
-        transform: rotate(180deg);
+        /* transform: rotate(180deg); */
+        transform: scaleX(-1);
     }
 `

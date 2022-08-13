@@ -2,7 +2,7 @@
 import { useState } from 'react'
 
 import Modal from 'react-modal'
-import { useData } from '../../hooks/useData'
+import { useData } from '../../../hooks/useData'
 
 
 const customStyles = {
@@ -45,7 +45,7 @@ export const CategoryItem = ({ category, onEditCategory }) => {
     const hiddenModalDelete = () => {
 
         const body = document.querySelector('body')
-        body.classList.add('fixed-body')
+        body.classList.remove('fixed-body')
 
         setCategoryDelete(null)
         setModalDelete(false)
@@ -74,12 +74,12 @@ export const CategoryItem = ({ category, onEditCategory }) => {
                     </div>
                     <div className="flex gap-5">
                         <button
-                            className='text-sky-700 hover:text-sky-800'  
+                            className='flex items-center text-sky-600 hover:text-white bg-sky-100 hover:bg-sky-500 font-bold text-3xl py-2 px-3 rounded-md'  
                             onClick={() => onEditCategory(category)}>
                             <i className='bx bx-edit'></i>
                         </button>
                         <button
-                            className='text-red-500 hover:text-red-600'  
+                            className='flex items-center text-red-600 hover:text-white bg-red-100 hover:bg-red-500 font-bold text-3xl py-2 px-3 rounded-md'  
                             onClick={ ()=> showModalDelete(category) }>
                             <i className='bx bx-trash' ></i>
                         </button>

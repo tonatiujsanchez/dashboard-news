@@ -1,5 +1,5 @@
 import React from 'react'
-import { TitlePage } from '../../components/admin'
+import { TitlePage } from '../../components/admin/ui'
 import { AdminLayout } from '../../components/layouts'
 
 

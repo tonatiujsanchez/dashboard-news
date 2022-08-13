@@ -2,8 +2,8 @@ import mongoose from "mongoose"
 
 import slugify from "slugify"
 
-import { db } from "../../../database"
-import { Category } from "../../../models"
+import { db } from "../../../../database"
+import { Category } from "../../../../models"
 
 
 
