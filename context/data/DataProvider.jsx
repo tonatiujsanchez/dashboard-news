@@ -20,9 +20,13 @@ export const DataProvider = ({ children }) => {
 
     // Categories
     const refreshCategories = async() => {
+        try {
+            const { data: categories } = await axios.get(`/api/public/categories`)
+            dispatch({ type: types.dataRefreshCategories, payload: categories })
 
-        const { data: categories } = await axios.get(`/api/public/categories`)
-        dispatch({ type: types.dataRefreshCategories, payload: categories })
+        } catch (error) {
+            console.log(error);            
+        }
     }
 
     const addNewCategory = async(category) => {

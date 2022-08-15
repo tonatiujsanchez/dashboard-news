@@ -3,7 +3,7 @@ import { useData } from "../../../hooks/useData"
 import { useForm } from "../../../hooks/useForm"
 
 
-export const CategoryModal = ({ categoriesMemo, setModal, editCategory, setEditCategory }) => {
+export const CategoryModal = ({ categoriesMemo, editCategory, hiddenModal }) => {
 
     const { addNewCategory, updateCategory } = useData()
 
@@ -53,27 +53,15 @@ export const CategoryModal = ({ categoriesMemo, setModal, editCategory, setEditC
             tag: tag.trim() === '' ? title : tag
         }
 
-
-        // Remove fixed-body
-        const body = document.querySelector('body')
-        body.classList.remove('fixed-body')
-        setModal(false)
-        
         if(editCategory?._id){
             updateCategory(newCategory)
-            setEditCategory(null)
+            hiddenModal()
         }else{
             newCategory.position = categoriesMemo.length + 1
             addNewCategory(newCategory)
+            hiddenModal()
         }
 
-    }
-
-    const hiddenModal = () => {
-        const body = document.querySelector('body')
-        body.classList.remove('fixed-body')
-        setModal(false)
-        setEditCategory(null)
     }
 
     return (

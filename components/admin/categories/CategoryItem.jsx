@@ -34,7 +34,7 @@ export const CategoryItem = ({ category, onEditCategory }) => {
 
 
     const showModalDelete = (category) => {
-        
+
         const body = document.querySelector('body')
         body.classList.add('fixed-body')
 
@@ -74,13 +74,13 @@ export const CategoryItem = ({ category, onEditCategory }) => {
                     </div>
                     <div className="flex gap-5">
                         <button
-                            className='flex items-center text-sky-600 hover:text-white bg-sky-100 hover:bg-sky-500 font-bold text-3xl py-2 px-3 rounded-md'  
+                            className='flex items-center text-sky-600 hover:text-white bg-sky-100 hover:bg-sky-500 font-bold text-3xl py-2 px-3 rounded-md'
                             onClick={() => onEditCategory(category)}>
                             <i className='bx bx-edit'></i>
                         </button>
                         <button
-                            className='flex items-center text-red-600 hover:text-white bg-red-100 hover:bg-red-500 font-bold text-3xl py-2 px-3 rounded-md'  
-                            onClick={ ()=> showModalDelete(category) }>
+                            className='flex items-center text-red-600 hover:text-white bg-red-100 hover:bg-red-500 font-bold text-3xl py-2 px-3 rounded-md'
+                            onClick={() => showModalDelete(category)}>
                             <i className='bx bx-trash' ></i>
                         </button>
                     </div>
@@ -96,13 +96,13 @@ export const CategoryItem = ({ category, onEditCategory }) => {
                                             <p><i className='bx bx-minus'></i> {subc.title}</p>
                                             <div className="flex gap-5">
                                                 <button
-                                                    className='text-sky-700 hover:text-sky-800'   
+                                                    className='text-sky-700 hover:text-sky-800'
                                                     onClick={() => onEditCategory(subc)}>
                                                     <i className='bx bx-edit'></i>
                                                 </button>
                                                 <button
-                                                    className='text-red-500 hover:text-red-600' 
-                                                    onClick={()=> showModalDelete(subc) }>
+                                                    className='text-red-500 hover:text-red-600'
+                                                    onClick={() => showModalDelete(subc)}>
                                                     <i className='bx bx-trash' ></i>
                                                 </button>
                                             </div>
@@ -114,31 +114,33 @@ export const CategoryItem = ({ category, onEditCategory }) => {
                     </div>
                 }
             </div>
-            {
-                modalDelete &&
-                <Modal
-                    isOpen={modalDelete}
-                    style={customStyles}>
-                    <div className="p-5">
-                        <header className="text-center">
-                            <p className="text-center text-3xl mb-2">{`Desea eliminar la categoría:`}</p>
-                            <h3 className='font-semibold text-3xl'>{ categoryDelete.title }</h3>
-                        </header>
-                        <div className='flex items-center justify-center gap-2 mt-10'>
-                            <button
-                                onClick={hiddenModalDelete}
-                                className="py-3 px-5 uppercase w-full rounded-md cursor-pointer transition-colors">
-                                Cancelar
-                            </button>
-                            <button
-                                onClick={onDeleteCategory}
-                                className="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 uppercase w-full rounded-md cursor-pointer transition-colors">
-                                Eliminar
-                            </button>
+
+            <Modal
+                isOpen={modalDelete}
+                style={customStyles}>
+                <div className="p-5">
+                    <header className="text-center">
+                        <div className='text-center text-7xl mb-2 text-red-600'>
+                            <i class='bx bx-trash'></i>
                         </div>
+                        <h3 className='font-bold text-4xl mb-5'>Eliminar categoría</h3>
+                        <p className="text-center text-2xl mb-2">{`Desea eliminar la categoría: ${categoryDelete?.title}`}</p>
+                    </header>
+                    <div className='flex items-center justify-center gap-2 mt-10'>
+                        <button
+                            onClick={hiddenModalDelete}
+                            className="py-3 px-5 uppercase w-full rounded-md cursor-pointer transition-colors">
+                            Cancelar
+                        </button>
+                        <button
+                            onClick={onDeleteCategory}
+                            className="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 uppercase w-full rounded-md cursor-pointer transition-colors">
+                            Eliminar
+                        </button>
                     </div>
-                </Modal>
-            }
+                </div>
+            </Modal>
+
         </>
     )
 }

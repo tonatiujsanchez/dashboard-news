@@ -72,37 +72,37 @@ export const AuthorCard = ({ author }) => {
                     </div>
                 </div>
                 <div className='flex items-center justify-center gap-7 mt-10'>
-                    <a href={`https://www.facebook.com/${ author.facebook }`} 
-                    rel="noopener noreferrer" 
-                    target="_blank"
-                    className={`flex items-end gap-1 mb-4 text-4xl text-gray-800 p-2 hover:bg-slate-200 rounded-full ${ author.facebook.length > 0 ? '' : 'pointer-events-none opacity-40' }`}>
+                    <a href={`https://www.facebook.com/${author.facebook}`}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        className={`flex items-end gap-1 mb-4 text-4xl text-gray-800 p-2 hover:bg-slate-200 rounded-full ${author.facebook.length > 0 ? '' : 'pointer-events-none opacity-40'}`}>
                         <i className='bx bxl-facebook-circle' ></i>
                     </a>
-                    <a href={`https://www.twitter.com/${ author.twitter }`} 
-                        rel="noopener noreferrer" 
-                        target="_blank" 
-                        className={`flex items-end gap-1 mb-4 text-4xl text-gray-800 p-2 hover:bg-slate-200 rounded-full ${ author.twitter.length > 0 ? '' : 'pointer-events-none opacity-40' }`}>
+                    <a href={`https://www.twitter.com/${author.twitter}`}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        className={`flex items-end gap-1 mb-4 text-4xl text-gray-800 p-2 hover:bg-slate-200 rounded-full ${author.twitter.length > 0 ? '' : 'pointer-events-none opacity-40'}`}>
                         <i className='bx bxl-twitter' ></i>
                     </a>
-                    <a href={`https://www.instagram.com/${ author.instagram }`} 
-                        rel="noopener noreferrer" 
-                        target="_blank" 
-                        className={`flex items-end gap-1 mb-4 text-4xl text-gray-800 p-2 hover:bg-slate-200 rounded-full ${ author.instagram.length > 0 ? '' : 'pointer-events-none opacity-40' }`}>
+                    <a href={`https://www.instagram.com/${author.instagram}`}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        className={`flex items-end gap-1 mb-4 text-4xl text-gray-800 p-2 hover:bg-slate-200 rounded-full ${author.instagram.length > 0 ? '' : 'pointer-events-none opacity-40'}`}>
                         <i className='bx bxl-instagram-alt' ></i>
                     </a>
                 </div>
                 <div className="flex flex-col">
                     <p className="border-b py-5">
-                        <span className='font-semibold'>Correo:</span> {author.email.length > 0 ? author.email : '--------------------'}
+                        <span className='font-semibold'>Correo:</span> {author.email.length > 0 ? author.email : <span className='opacity-40 font-normal text-slate-400'>--------------------</span>}
                     </p>
                     <p className="border-b py-5">
-                        <span className='font-semibold'>Telefono:</span> {author.phone.length > 0 ? author.phone : '--------------------'}
+                        <span className='font-semibold'>Telefono:</span> {author.phone.length > 0 ? author.phone : <span className='opacity-40 font-normal text-slate-400'>--------------------</span>}
                     </p>
                 </div>
                 <div className='mt-10 flex justify-between gap-5'>
                     <div className='flex gap-5'>
                         <button
-                            onClick={showModalDelete} 
+                            onClick={showModalDelete}
                             className="flex items-center text-red-600 hover:text-white bg-red-100 hover:bg-red-500 font-bold text-3xl py-2 px-3 rounded-md">
                             <i className='bx bx-trash'></i>
                         </button>
@@ -121,31 +121,33 @@ export const AuthorCard = ({ author }) => {
                     </div>
                 </div>
             </div>
-            {
-                modalDelete &&
-                <Modal
-                    isOpen={modalDelete}
-                    style={customStyles}>
-                    <div className="p-5">
-                        <header className="text-center">
-                            <p className="text-center text-3xl mb-2">{`Desea eliminar a:`}</p>
-                            <h3 className='font-semibold text-3xl'>{author.name}</h3>
-                        </header>
-                        <div className='flex items-center justify-center gap-2 mt-10'>
-                            <button
-                                onClick={hiddenModalDelete}
-                                className="py-3 px-5 uppercase w-full rounded-md cursor-pointer transition-colors">
-                                Cancelar
-                            </button>
-                            <button
-                                onClick={ onDeleteAuthor }
-                                className="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 uppercase w-full rounded-md cursor-pointer transition-colors">
-                                Eliminar
-                            </button>
+
+            <Modal
+                isOpen={modalDelete}
+                style={customStyles}>
+                <div className="p-5">
+                    <header className="text-center">
+                        <div className='text-center text-7xl mb-2 text-red-600'>
+                            <i class='bx bx-trash'></i>
                         </div>
+                        <h3 className='font-bold text-4xl mb-5'>Eliminar autor</h3>
+                        <p className="text-center text-2xl mb-2">{`Desea eliminar a: ${author.name}`}</p>
+                    </header>
+                    <div className='flex items-center justify-center gap-2 mt-10'>
+                        <button
+                            onClick={hiddenModalDelete}
+                            className="py-3 px-5 uppercase w-full rounded-md cursor-pointer transition-colors">
+                            Cancelar
+                        </button>
+                        <button
+                            onClick={onDeleteAuthor}
+                            className="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 uppercase w-full rounded-md cursor-pointer transition-colors">
+                            Eliminar
+                        </button>
                     </div>
-                </Modal>
-            }
+                </div>
+            </Modal>
+
         </>
     )
 }
