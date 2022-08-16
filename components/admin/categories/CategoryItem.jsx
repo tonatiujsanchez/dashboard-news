@@ -121,7 +121,7 @@ export const CategoryItem = ({ category, onEditCategory }) => {
                 <div className="p-5">
                     <header className="text-center">
                         <div className='text-center text-7xl mb-2 text-red-600'>
-                            <i class='bx bx-trash'></i>
+                            <i className='bx bx-trash'></i>
                         </div>
                         <h3 className='font-bold text-4xl mb-5'>Eliminar categoría</h3>
                         <p className="text-center text-2xl mb-2">{`Desea eliminar la categoría: ${categoryDelete?.title}`}</p>

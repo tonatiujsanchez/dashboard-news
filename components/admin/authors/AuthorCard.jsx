@@ -4,6 +4,8 @@ import { useState } from 'react'
 
 import Modal from 'react-modal'
 
+import { useData } from '../../../hooks/useData'
+
 const customStyles = {
     overlay: {
         backgroundColor: 'rgba(0, 0, 0, 0.8)'
@@ -26,6 +28,8 @@ export const AuthorCard = ({ author }) => {
 
     const [modalDelete, setModalDelete] = useState(false)
 
+    const { deleteAuthor } = useData()
+
     const showModalDelete = () => {
         const body = document.querySelector('body')
         body.classList.add('fixed-body')
@@ -39,8 +43,7 @@ export const AuthorCard = ({ author }) => {
     }
 
     const onDeleteAuthor = () => {
-        // TODO: Eliminar 
-        console.log('Eliminando a...', author.name);
+        deleteAuthor(author._id)
         hiddenModalDelete()
     }
 
@@ -58,7 +61,7 @@ export const AuthorCard = ({ author }) => {
                                     height={100}
                                     objectFit="cover"
                                     objectPosition="top"
-                                    src={author.photo}
+                                    src={author.photo || '/assets/admin/imgs/no-image-author.png'}
                                     alt={author.name}
                                 />
                             </div>
@@ -66,7 +69,7 @@ export const AuthorCard = ({ author }) => {
                     </NextLink>
                     <div>
                         <NextLink href={`/admin/autores/${author.slug}`} passHref>
-                            <a className="block font-bold mb-2">{author.name}</a>
+                            <a className="block font-bold mb-2 mt-1">{author.name}</a>
                         </NextLink>
                         <p className='text-slate-500 font-semibold'>{author.occupation}</p>
                     </div>
@@ -128,7 +131,7 @@ export const AuthorCard = ({ author }) => {
                 <div className="p-5">
                     <header className="text-center">
                         <div className='text-center text-7xl mb-2 text-red-600'>
-                            <i class='bx bx-trash'></i>
+                            <i className='bx bx-trash'></i>
                         </div>
                         <h3 className='font-bold text-4xl mb-5'>Eliminar autor</h3>
                         <p className="text-center text-2xl mb-2">{`Desea eliminar a: ${author.name}`}</p>

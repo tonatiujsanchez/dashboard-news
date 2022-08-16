@@ -33,15 +33,18 @@ const EditarAutorPage = () => {
 
     return (
         <AdminLayout title="- Editar" >
-            <div className="mb-5 flex gap-2 items-center py-3">
-                <TitlePage title={`Editando a ${ authorEdit.name }`} />
-            </div>
             {
                 loading
                     ? <div className="flex justify-center mt-96">
                         <LoadingAdmin />
                     </div>
-                    : <AuthorForm author={authorEdit} />
+                    :
+                    <>
+                        <div className="mb-5 flex gap-2 items-center py-3">
+                            <TitlePage title={`Editando a ${authorEdit.name}`} />
+                        </div>
+                        <AuthorForm author={authorEdit} />
+                    </>
             }
         </AdminLayout>
     )

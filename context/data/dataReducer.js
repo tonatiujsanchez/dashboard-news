@@ -48,6 +48,22 @@ export const dataReducer = (state, action) => {
                 ...state,
                 authors: [...action.payload]
             }
+        case types.dataAddNewAuthor:
+            return {
+                ...state,
+                authors: [...state.authors, action.payload]
+            }
+
+        case types.dataUpdateAuthor:
+            return {
+                ...state,
+                authors: state.authors.map( author => (author._id === action.payload._id ? {...author, ...action.payload} : author) )
+            }
+        case types.dataDeleteAuthor:
+            return {
+                ...state,
+                authors: state.authors.filter( author => author._id !== action.payload )
+            }
         default:
             return state
     }

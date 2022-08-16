@@ -11,4 +11,7 @@ export const types = {
     
     // Authors
     dataRefreshAuthors: '[DATA] Refresh Authors',
+    dataAddNewAuthor: '[DATA] New Author',
+    dataUpdateAuthor: '[DATA] Update Author',
+    dataDeleteAuthor: '[DATA] Delete Author',
 }

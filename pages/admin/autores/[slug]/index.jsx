@@ -5,9 +5,11 @@ import NextLink from 'next/link'
 
 import axios from 'axios'
 
+import { useUI } from '../../../../hooks/useUI'
+import { useData } from '../../../../hooks/useData'
+
 import { LoadingAdmin, TitlePage } from "../../../../components/admin/ui"
 import { AdminLayout } from "../../../../components/layouts/AdminLayout"
-import { useUI } from '../../../../hooks/useUI'
 
 
 import Modal from 'react-modal'
@@ -42,6 +44,7 @@ const DetallesAutorPage = () => {
     const { slug } = router.query
 
     const { showSideMenu } = useUI()
+    const { deleteAuthor } = useData()
 
 
     const getAuthorBySlug = async () => {
@@ -73,9 +76,8 @@ const DetallesAutorPage = () => {
         setModalDelete(false)
     }
 
-    const onDeleteAuthor = () => {
-        // TODO: Eliminar 
-        console.log('Eliminando a...', author.name);
+    const onDeleteAuthor = () => { 
+        deleteAuthor( author._id )
         hiddenModalDelete()
         router.push('/admin/autores')
     }
@@ -111,7 +113,7 @@ const DetallesAutorPage = () => {
                                                 ?
                                                 <>
                                                     <span className='block text-slate-700 p-2 text-3xl mb-2'>/ {author.facebook}</span>
-                                                    <a href='https://www.facebook.com/' rel="noopener noreferrer" target="_blank" className='opacity-70 text-3xl'>
+                                                    <a href={`https://www.facebook.com/${author.facebook}`} rel="noopener noreferrer" target="_blank" className='opacity-70 text-3xl'>
                                                         <i className='bx bx-link-external'></i>
                                                     </a>
                                                 </>
@@ -124,7 +126,7 @@ const DetallesAutorPage = () => {
                                             author.twitter && author.twitter.length > 0
                                                 ? <>
                                                     <span className='block text-slate-700 p-2 text-3xl mb-2'>/ {author.twitter}</span>
-                                                    <a href='https://www.facebook.com/' rel="noopener noreferrer" target="_blank" className='opacity-70 text-3xl'>
+                                                    <a href={`https://www.twitter.com/${author.twitter}`} rel="noopener noreferrer" target="_blank" className='opacity-70 text-3xl'>
                                                         <i className='bx bx-link-external'></i>
                                                     </a>
                                                 </>
@@ -137,7 +139,7 @@ const DetallesAutorPage = () => {
                                             author.instagram && author.instagram.length > 0
                                                 ? <>
                                                     <span className='block text-slate-700 p-2 text-3xl mb-2'>/ {author.instagram}</span>
-                                                    <a href='https://www.facebook.com/' rel="noopener noreferrer" target="_blank" className='opacity-70 text-3xl'>
+                                                    <a href={`https://www.instagram.com/${author.instagram}`} rel="noopener noreferrer" target="_blank" className='opacity-70 text-3xl'>
                                                         <i className='bx bx-link-external'></i>
                                                     </a>
                                                 </>
@@ -150,7 +152,7 @@ const DetallesAutorPage = () => {
                                             author?.web && author.web.length > 0
                                                 ? <>
                                                     <span className='block text-slate-700 p-2 text-3xl mb-2'>{author.web}</span>
-                                                    <a href='https://www.facebook.com/' rel="noopener noreferrer" target="_blank" className='opacity-70 text-3xl'>
+                                                    <a href={`https://${author.web}`} rel="noopener noreferrer" target="_blank" className='opacity-70 text-3xl'>
                                                         <i className='bx bx-link-external'></i>
                                                     </a>
                                                 </>
@@ -217,7 +219,7 @@ const DetallesAutorPage = () => {
                 <div className="p-5">
                     <header className="text-center">
                         <div className='text-center text-7xl mb-2 text-red-600'>
-                            <i class='bx bx-trash'></i>
+                            <i className='bx bx-trash'></i>
                         </div>
                         <h3 className='font-bold text-4xl mb-5'>Eliminar autor</h3>
                         <p className="text-center text-2xl mb-2">{`Desea eliminar a: ${author.name}`}</p>

@@ -49,6 +49,20 @@ export const DataProvider = ({ children }) => {
         dispatch({ type: types.dataRefreshAuthors, payload: authors })
     }
 
+    const addNewAuthor = async( author ) => {
+        author._id = Date.now()
+        dispatch({ type: types.dataAddNewAuthor, payload: author })
+    }
+
+    const updateAuthor = async( author ) => {
+        dispatch({ type: types.dataUpdateAuthor, payload: author })
+    }
+
+    const deleteAuthor = async( idAuthor ) => {
+        console.log(idAuthor);
+        dispatch({ type: types.dataDeleteAuthor, payload: idAuthor })
+    }
+
 
     return (
         <DataContext.Provider value={{
@@ -62,6 +76,9 @@ export const DataProvider = ({ children }) => {
             
             // Authors
             refreshAuthors,
+            addNewAuthor,
+            updateAuthor,
+            deleteAuthor
         }} >
             {children}
         </DataContext.Provider>
