@@ -6,7 +6,9 @@ const nextConfig = {
     domains: [
       'res.cloudinary.com',
       'zenix.dexignzone.com',
-      'www.eluniversal.com.mx'
+      'www.eluniversal.com.mx',
+      'contextos-guerrero.vercel.app',
+      'images.pexels.com'
     ]
   }
 }
