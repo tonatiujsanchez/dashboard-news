@@ -20,6 +20,7 @@ export const categorySchema = new Schema({
         enum: {
             values: ['category', 'subcategory'],
             message: '{VALUE} no es un tipo válido',
+            default: 'category',
             required: true
         },
         required: true,

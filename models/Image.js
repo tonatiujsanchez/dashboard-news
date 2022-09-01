@@ -6,16 +6,23 @@ export const imageSchema = new Schema({
         type: String,
     },
     url: {
-        type: String
-    },
-    createdAt: {
-        type: Number,
-        require: true,
-        default: Date.now,
+        type: String,
     },
     size: {
         type: Number,
-    }
+    },
+    format: {
+        type: String,
+    },
+    section: {
+        type: String,
+        enum: {
+            values: ['article', 'author', 'user'],
+            message: '{VALUE} no es una sección válida',
+            default: 'article',
+            required: true
+        },
+    },
 },{
     timestamps: true,
 })

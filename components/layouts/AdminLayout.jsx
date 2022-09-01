@@ -17,7 +17,7 @@ export const AdminLayout = ({ children, title = '' }) => {
             <Head>
                 <title>{`Admin ${title}`}</title>
             </Head>
-            <AdminLayoutContainer>
+            <AdminLayoutContainer className='bg-admin'>
                 <SideMenu showMenu={showSideMenu} setShowMenu={toggleSideMenu} />
                 <main className={`container-admin section ${showSideMenu ? 'container-show-sidemenu' : ''}`}>
                     {children}
