@@ -1,4 +1,4 @@
-
+import bcryptjs from 'bcryptjs'
 
 export const initialData = {
     entries: [],
@@ -230,4 +230,13 @@ export const initialData = {
             photo: 'https://zenix.dexignzone.com/xhtml/images/contacts/Untitled-3.jpg'
         },
     ],
+    users: [
+        {
+            name: 'Contextos Gro',
+            email: 'contextosguerrero@gmail.com',
+            password: bcryptjs.hashSync('123456'),
+            role: 'editor',
+            photo:'https://res.cloudinary.com/contextos-guerrero/image/upload/v1662093747/icon_le1rhi.png'
+        }
+    ]
 }
