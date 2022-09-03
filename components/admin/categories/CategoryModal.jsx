@@ -1,13 +1,13 @@
 import { useEffect } from "react"
 import { useData } from "../../../hooks/useData"
-import { useForm } from "../../../hooks/useForm"
+import { useCustomForm } from "../../../hooks/useCustomForm"
 
 
 export const CategoryModal = ({ categoriesMemo, editCategory, hiddenModal }) => {
 
     const { addNewCategory, updateCategory } = useData()
 
-    const [values, handleInputChange, reset] = useForm({
+    const [values, handleInputChange, reset] = useCustomForm({
         typeCategory: 'category',
         category: categoriesMemo[0]._id || '',
         title: '',

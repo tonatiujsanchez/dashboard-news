@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useAuth } from "../../../hooks/useAuth"
 
 
 
@@ -6,19 +7,23 @@ export const Profile = () => {
 
 
     const [showProfileOptions, setShowProfileOptions] = useState(false)
+    const { user, logout } = useAuth()
 
+    if(!user){
+        return <></>
+    }
 
     return (
         <div className="flex justify-end items-center gap-4 bg-white py-5 px-5 shadow">
-            <p className="font-bold text-slate-700">Contextos</p>
+            <p className="font-bold text-slate-700 capitalize">{user.name}</p>
             <div>
                 <div
                     onClick={() => setShowProfileOptions(!showProfileOptions)} 
-                    className="w-14 relative cursor-pointer group">
+                    className="w-14 h-14 rounded-full overflow-hidden relative cursor-pointer group border">
                     <img
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt="Nombre de usuario"
-                        className="w-full rounded-full bg-gray-200 aspect-w-1 aspect-h-1 overflow-hidden group-hover:opacity-75 lg:aspect-none"
+                        src={ user.photo }
+                        alt={ user.name }
+                        className="h-full w-full object-cover object-center lg:h-full lg:w-full bg-gray-200 aspect-w-1 aspect-h-1 group-hover:opacity-75 lg:aspect-none"
                     />
                 </div>
                 {
@@ -30,11 +35,16 @@ export const Profile = () => {
                                 <i className='bx bxs-user text-3xl'></i>
                                 <span>Perfil</span>
                             </button>
-                            <button className="w-full text-left text-gray-700 flex items-center gap-2 px-4 py-3 text-xl hover:bg-gray-100 hover:text-gray-900">
-                                <i className='bx bxs-user-account text-3xl'></i>
-                                <span>Usuarios</span>
-                            </button>
-                            <button className="w-full text-left text-gray-700 flex items-center gap-2 px-4 py-3 text-xl hover:bg-gray-100 hover:text-gray-900">
+                            {
+                                user.role === 'admin' &&
+                                <button className="w-full text-left text-gray-700 flex items-center gap-2 px-4 py-3 text-xl hover:bg-gray-100 hover:text-gray-900">
+                                    <i className='bx bxs-user-account text-3xl'></i>
+                                    <span>Usuarios</span>
+                                </button>
+                            }
+                            <button
+                                onClick={ logout } 
+                                className="w-full text-left text-gray-700 flex items-center gap-2 px-4 py-3 text-xl hover:bg-gray-100 hover:text-gray-900">
                                 <i className='bx bx-log-out text-3xl'></i>
                                 <span>Cerrar Sesión</span>
                             </button>

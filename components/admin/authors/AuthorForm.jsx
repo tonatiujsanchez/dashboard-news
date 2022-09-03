@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { useRouter } from 'next/router'
 
 
-import { useForm } from "../../../hooks/useForm"
+import { useCustomForm } from "../../../hooks/useCustomForm"
 import { useUI } from "../../../hooks/useUI"
 import { useData } from "../../../hooks/useData"
 
@@ -39,7 +39,7 @@ export const AuthorForm = ({ author = null }) => {
     const { showSideMenu } = useUI()
     const { addNewAuthor, updateAuthor } = useData()
 
-    const [values, handleInputChange, reset] = useForm({
+    const [values, handleInputChange, reset] = useCustomForm({
         name: '',
         facebook: '',
         twitter: '',
