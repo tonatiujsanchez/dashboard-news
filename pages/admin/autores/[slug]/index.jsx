@@ -77,7 +77,7 @@ const DetallesAutorPage = () => {
     }
 
     const onDeleteAuthor = () => { 
-        deleteAuthor( author._id )
+        deleteAuthor( author.slug )
         hiddenModalDelete()
         router.push('/admin/autores')
     }

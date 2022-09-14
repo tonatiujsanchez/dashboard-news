@@ -43,7 +43,7 @@ export const AuthorCard = ({ author }) => {
     }
 
     const onDeleteAuthor = () => {
-        deleteAuthor(author._id)
+        deleteAuthor(author.slug)
         hiddenModalDelete()
     }
 

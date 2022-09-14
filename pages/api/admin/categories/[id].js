@@ -49,14 +49,16 @@ const updateCategory = async (req, res) => {
         category = categoryToUpdate.category,
     } = req.body
 
+    console.log(req.body);
+
     if (title !== categoryToUpdate.title) {
         categoryToUpdate.slug = slugify(title, { replacement: '-', lower: true })
     }
 
     if (type === 'subcategory') {
-        categoryToUpdate.category = null
-    } else {
         categoryToUpdate.category = category
+    } else {
+        categoryToUpdate.category = null
     }
 
     try {

@@ -1,6 +1,4 @@
 
-
-import slugify from "slugify"
 import { db } from "../../../../database"
 import { Author } from "../../../../models"
 
@@ -24,5 +22,8 @@ const getAuthors = async (res) => {
     const authors = await Author.find().sort({ createdAt: 'ascending' })
     await db.disconnect()
 
-    return res.status(200).json(authors)
+    return res.status(200).json({
+        length: authors.length,
+        authors
+    })
 }

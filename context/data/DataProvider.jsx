@@ -18,49 +18,119 @@ export const DataProvider = ({ children }) => {
     const [state, dispatch] = useReducer(dataReducer, DATA_INITIAL_STATE)
 
 
-    // Categories
+    // ===== ===== ===== ===== Categories ===== ===== ===== =====
+    // ===== ===== ===== ===== ========== ===== ===== ===== =====
     const refreshCategories = async() => {
         try {
-            const { data: categories } = await axios.get(`/api/public/categories`)
-            dispatch({ type: types.dataRefreshCategories, payload: categories })
+            const { data } = await axios.get(`/api/public/categories`)
+            dispatch({ type: types.dataRefreshCategories, payload: data.categories })
 
         } catch (error) {
-            console.log(error);            
+            console.log(error);
+            // TODO: Mostrar el error en pantalla            
         }
     }
 
     const addNewCategory = async(category) => {
-        category._id = Date.now()
-        dispatch({ type: types.dataAddNewCategory, payload: category })
+        try {
+            
+            const { data } = await axios.post('/api/admin/categories', {
+                title: category.title,
+                tag: category.tag,
+                position: category.position,
+                type: category.type,
+                category: category.category
+            })
+    
+            dispatch({ type: types.dataAddNewCategory, payload: data })
+
+        } catch (error) {
+            console.log(error)
+            // TODO: Mostrar el error en pantalla
+        }
     }
+
 
     const updateCategory = async(category) => {
-        dispatch({ type: types.dataUpdateCategory, payload: category })
+        try {
+            const { data } = await axios.put(`/api/admin/categories/${category._id}`, {
+                title: category.title,
+                tag: category.tag,
+                position: category.position,
+                type: category.type,
+                category: category.category,
+            })
+            
+            dispatch({ type: types.dataUpdateCategory, payload: data })
+        
+        } catch (error) {
+
+            console.log(error)
+            // TODO: Mostrar el error en pantalla
+        }
+
     }
+
 
     const deleteCategory = async( idCategory ) => {
-        dispatch({ type: types.dataDeleteCategory, payload: idCategory })
+        try {
+            await axios.delete(`/api/admin/categories/${idCategory}`)
+            dispatch({ type: types.dataDeleteCategory, payload: idCategory })
+        } catch (error) {
+            console.log(error)
+            // TODO: Mostrar el error en pantalla
+        }
     }
 
-    // Authors
-    const refreshAuthors = async() => {
 
-        const { data: authors } = await axios.get(`/api/public/authors`)
-        dispatch({ type: types.dataRefreshAuthors, payload: authors })
+
+    // ===== ===== ===== ===== Authors ===== ===== ===== =====
+    // ===== ===== ===== ===== ======= ===== ===== ===== =====
+    const refreshAuthors = async() => {
+        try {
+            const { data } = await axios.get(`/api/public/authors`)
+            dispatch({ type: types.dataRefreshAuthors, payload: data.authors })
+        } catch (error) {
+            console.log(error)
+            // TODO: Mostrar el error en pantalla
+        }
     }
 
     const addNewAuthor = async( author ) => {
-        author._id = Date.now()
-        dispatch({ type: types.dataAddNewAuthor, payload: author })
+        try {
+            const { data } = await axios.post('/api/admin/authors',{
+                ...author
+            })
+            dispatch({ type: types.dataAddNewAuthor, payload: data })
+
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     const updateAuthor = async( author ) => {
-        dispatch({ type: types.dataUpdateAuthor, payload: author })
+        try {
+            const { data } = await axios.put(`/api/admin/authors/${author.slug}`, {
+                ...author
+            })
+            dispatch({ type: types.dataUpdateAuthor, payload: data })
+
+        } catch (error) {
+            console.log(error)
+        }
+
+
     }
 
-    const deleteAuthor = async( idAuthor ) => {
-        console.log(idAuthor);
-        dispatch({ type: types.dataDeleteAuthor, payload: idAuthor })
+    const deleteAuthor = async( slugAuthor ) => {
+        try {
+            await axios.delete(`/api/admin/authors/${slugAuthor}`)
+            dispatch({ type: types.dataDeleteAuthor, payload: slugAuthor })
+        } catch (error) {
+
+            console.log(error)
+        }
+
     }
 
 

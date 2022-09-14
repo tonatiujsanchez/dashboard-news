@@ -1,3 +1,5 @@
+import NextLink from 'next/link'
+
 import { useState } from "react"
 import { useAuth } from "../../../hooks/useAuth"
 
@@ -12,6 +14,7 @@ export const Profile = () => {
     if(!user){
         return <></>
     }
+
 
     return (
         <div className="flex justify-end items-center gap-4 bg-white py-5 px-5 shadow">
@@ -37,10 +40,12 @@ export const Profile = () => {
                             </button>
                             {
                                 user.role === 'admin' &&
-                                <button className="w-full text-left text-gray-700 flex items-center gap-2 px-4 py-3 text-xl hover:bg-gray-100 hover:text-gray-900">
-                                    <i className='bx bxs-user-account text-3xl'></i>
-                                    <span>Usuarios</span>
-                                </button>
+                                <NextLink href="/admin/usuarios" passHref>
+                                    <a className="w-full text-left text-gray-700 flex items-center gap-2 px-4 py-3 text-xl hover:bg-gray-100 hover:text-gray-900">
+                                        <i className='bx bxs-user-account text-3xl'></i>
+                                        <span>Usuarios</span>
+                                    </a>
+                                </NextLink>
                             }
                             <button
                                 onClick={ logout } 

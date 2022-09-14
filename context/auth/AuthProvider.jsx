@@ -30,19 +30,19 @@ export const AuthProvider = ({ children }) => {
 
     const checkToken = async () => {
 
-        if( !Cookies.get('news_token') ){ return }
+        if( !Cookies.get('news_session_UD3EZGXun367') ){ return }
 
         try {
 
             const { data } = await newsApi.get('/public/auth/validate-token')
             const { token, user } = data
             
-            Cookies.set('news_token', token)
+            Cookies.set('news_session_UD3EZGXun367', token)
             dispatch({ type: types.authLogin, payload: user })
             
         } catch (error) {
 
-            Cookies.remove('news_token')
+            Cookies.remove('news_session_UD3EZGXun367')
         }
 
 
@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }) => {
             const { data } = await newsApi.post('/public/auth/login', { email, password })
             const { token, user } = data
 
-            Cookies.set('news_token', token)
+            Cookies.set('news_session_UD3EZGXun367', token)
             dispatch({ type: types.authLogin, payload: user })
 
             return true
@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }) => {
             const { data } = await newsApi.post('/admin/auth/register', { name, email, password, role, photo })
             const { token, user } = data
 
-            Cookies.set('news_token', token)
+            Cookies.set('news_session_UD3EZGXun367', token)
             dispatch({ type: types.authLogin, payload: user })
 
             return {
@@ -99,7 +99,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     const logout = () => {
-        Cookies.remove('news_token')
+        Cookies.remove('news_session_UD3EZGXun367')
         router.reload()
     }
 

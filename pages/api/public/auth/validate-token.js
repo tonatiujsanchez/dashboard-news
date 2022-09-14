@@ -18,13 +18,13 @@ export default function handler(req, res) {
 
 const checkJWT = async (req, res) => {
 
-    const { news_token = '' } = req.cookies
+    const { news_session_UD3EZGXun367 = '' } = req.cookies
 
     let userId = ''
 
     try {
 
-        userId = await jwt.isValidToken( news_token )
+        userId = await jwt.isValidToken( news_session_UD3EZGXun367 )
 
     } catch (error) {
         return res.status(401).json({
@@ -43,7 +43,7 @@ const checkJWT = async (req, res) => {
     const { _id, email, name, role, photo } = user
 
     return res.status(200).json({
-        token: jwt.signToken( _id, email ),
+        token: jwt.signToken( _id, email, role ),
         user: {
             email,
             name,

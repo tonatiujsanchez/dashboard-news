@@ -41,7 +41,7 @@ const loginUser = async (req, res) => {
     
 
     const { _id, name, role, photo } = user
-    const token = jwt.signToken( _id, email ) //jwt
+    const token = jwt.signToken( _id, email, role ) //jwt
 
     return res.status(200).json({
         token,

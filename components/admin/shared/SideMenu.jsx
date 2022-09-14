@@ -2,13 +2,21 @@ import { useRouter } from 'next/router'
 import NextLink from 'next/link'
 
 import styled from '@emotion/styled'
+
 import { useUI } from '../../../hooks/useUI'
+import { useAuth } from '../../../hooks/useAuth'
 
 
 export const SideMenu = () => {
 
     const { pathname } = useRouter()
     const { showSideMenu, toggleSideMenu } = useUI()
+
+    const { user } = useAuth()
+
+    if(!user){
+        return <></>
+    }
 
     return (
         <SidebarConatiner>
@@ -44,18 +52,23 @@ export const SideMenu = () => {
                                 <span className="nav__name">Multimedia</span>
                             </a>
                         </NextLink>
-                        <NextLink href="/admin/categorias" passHref>
-                            <a className={`nav__link ${(pathname.split('/')[2]) === ('/admin/categorias').split('/')[2] ? 'active-link' : ''}`}>
-                                <i className='bx bx-category-alt' ></i>
-                                <span className="nav__name">Categorías</span>
-                            </a>
-                        </NextLink>
-                        <NextLink href="/admin/autores" passHref>
-                            <a className={`nav__link ${(pathname.split('/')[2]) === ('/admin/autores').split('/')[2] ? 'active-link' : ''}`}>
-                                <i className='bx bxs-user-circle' ></i>
-                                <span className="nav__name">Autores</span>
-                            </a>
-                        </NextLink>
+                        {
+                            user.role === 'admin' &&
+                            <>
+                                <NextLink href="/admin/categorias" passHref>
+                                    <a className={`nav__link ${(pathname.split('/')[2]) === ('/admin/categorias').split('/')[2] ? 'active-link' : ''}`}>
+                                        <i className='bx bx-category-alt' ></i>
+                                        <span className="nav__name">Categorías</span>
+                                    </a>
+                                </NextLink>
+                                <NextLink href="/admin/autores" passHref>
+                                    <a className={`nav__link ${(pathname.split('/')[2]) === ('/admin/autores').split('/')[2] ? 'active-link' : ''}`}>
+                                        <i className='bx bxs-user-circle' ></i>
+                                        <span className="nav__name">Autores</span>
+                                    </a>
+                                </NextLink>
+                            </>
+                        }
                     </div>
                 </nav>
             </div>

@@ -58,6 +58,9 @@ const postAuthor = async (req, res) => {
         await db.connect()
         await newAuthor.save()
         await db.disconnect()
+        
+        return res.status(201).json(newAuthor)
+
     } catch (error) {
 
         await db.disconnect()

@@ -2,7 +2,7 @@
 import jwt from 'jsonwebtoken'
 
 
-export const signToken = (_id, email) => {
+export const signToken = (_id, email, role) => {
     
     if( !process.env.JWT_SECRET_SEED ){
         throw new Error("No hay semilla de JWT - Revisar variables de entorno");
@@ -10,7 +10,7 @@ export const signToken = (_id, email) => {
 
     return jwt.sign(
         // payload
-        { _id, email },
+        { _id, email, role },
 
         // seed
         process.env.JWT_SECRET_SEED,

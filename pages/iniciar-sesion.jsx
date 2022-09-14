@@ -32,8 +32,6 @@ const iniciarSesionPage = () => {
             return
         }
 
-
-        setLoading(false)
         router.replace('/admin')
     }
 

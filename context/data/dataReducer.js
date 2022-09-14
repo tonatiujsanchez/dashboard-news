@@ -62,7 +62,7 @@ export const dataReducer = (state, action) => {
         case types.dataDeleteAuthor:
             return {
                 ...state,
-                authors: state.authors.filter( author => author._id !== action.payload )
+                authors: state.authors.filter( author => author.slug !== action.payload )
             }
         default:
             return state

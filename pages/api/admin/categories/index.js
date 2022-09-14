@@ -36,6 +36,10 @@ const postCategory = async (req, res) => {
     if (!position) {
         return res.status(400).json({ message: 'La propiedad position es requerida' })
     }
+    
+    if (type.type === 'subcategory' && !category ) {
+        return res.status(400).json({ message: 'La categoria es requerida' })
+    }
 
     // Create slug
     const slug = slugify(title, { replacement: '-', lower: true })

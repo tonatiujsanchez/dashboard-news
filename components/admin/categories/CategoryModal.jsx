@@ -67,7 +67,7 @@ export const CategoryModal = ({ categoriesMemo, editCategory, hiddenModal }) => 
     return (
         <div className="py-5">
             <header className="mb-10">
-                <h3 className="text-center font-semibold text-3xl">{editCategory ? `Editando: ${ editCategory.title }` : 'Nueva Categoría'}</h3>
+                <h3 className="text-center font-bold text-4xl">{editCategory ? `Editando: ${ editCategory.title }` : 'Nueva Categoría'}</h3>
             </header>
             <form onSubmit={handleSubmit} className="w-[320px] sm:w-[600px]">
                 <div className="my-5">

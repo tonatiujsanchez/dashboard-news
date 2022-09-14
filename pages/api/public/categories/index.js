@@ -1,5 +1,3 @@
-import slugify from "slugify"
-
 import { db } from "../../../../database"
 import { Category } from "../../../../models"
 
@@ -26,5 +24,10 @@ const getCategories = async (res) => {
     await db.disconnect()
 
 
-    return res.status(200).json(categories)
+    return res.status(200).json({
+        length: categories.length,
+        totalCategories: categories.filter( cat => cat.type === 'category' ).length,
+        totalSubcategories: categories.filter( cat => cat.type === 'subcategory' ).length,
+        categories
+    })
 }
