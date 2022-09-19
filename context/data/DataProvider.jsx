@@ -9,6 +9,7 @@ import { types } from '../../types'
 const DATA_INITIAL_STATE = {
     entries: [],
     multimedia: [],
+    users: [],
     categories: [],
     authors: [],
 }
@@ -16,6 +17,19 @@ const DATA_INITIAL_STATE = {
 export const DataProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(dataReducer, DATA_INITIAL_STATE)
+
+    // ===== ===== ===== ===== Users ===== ===== ===== =====
+    // ===== ===== ===== ===== ========== ===== ===== ===== =====
+    const refreshUsers = async() => {
+        try {
+            const { data } = await axios.get('/api/admin/users')
+            dispatch({ type: types.dataRefreshUsers, payload: data })
+        } catch (error) {
+            console.log(error);
+            // TODO: Mostrar el error en pantalla   
+        }
+    }
+
 
 
     // ===== ===== ===== ===== Categories ===== ===== ===== =====
@@ -137,6 +151,9 @@ export const DataProvider = ({ children }) => {
     return (
         <DataContext.Provider value={{
             ...state,
+            
+            // Users
+            refreshUsers,
 
             // Categories
             refreshCategories,

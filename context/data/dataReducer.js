@@ -7,6 +7,13 @@ export const dataReducer = (state, action) => {
 
     switch (action.type) {
 
+        // Users
+        case types.dataRefreshUsers:
+        return {
+            ...state,
+            users: [...action.payload]
+        }
+        
         // Categories
         case types.dataRefreshCategories:
             return {

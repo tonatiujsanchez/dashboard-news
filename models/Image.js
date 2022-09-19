@@ -17,7 +17,7 @@ export const imageSchema = new Schema({
     section: {
         type: String,
         enum: {
-            values: ['article', 'author', 'user'],
+            values: ['articles', 'authors', 'users'],
             message: '{VALUE} no es una sección válida',
             default: 'article',
             required: true

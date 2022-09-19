@@ -3,6 +3,9 @@ export const types = {
     uiToggleSideMenu: '[UI] - Toggle SideMenu',
 
 
+    // Users
+    dataRefreshUsers: '[DATA] - Refresh Users',
+
     // Categories
     dataRefreshCategories: '[DATA] - Refresh Categories',
     dataAddNewCategory: '[DATA] - New Category',
