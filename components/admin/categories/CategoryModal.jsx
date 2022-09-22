@@ -107,7 +107,7 @@ export const CategoryModal = ({ categoriesMemo, editCategory, hiddenModal }) => 
                     </div>
                 }
                 <div className="my-5">
-                    <label htmlFor="marca" className="block text-md mb-3 font-semibold text-gray-500 uppercase">
+                    <label htmlFor="title" className="block text-md mb-3 font-semibold text-gray-500 uppercase">
                         Título <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -119,7 +119,7 @@ export const CategoryModal = ({ categoriesMemo, editCategory, hiddenModal }) => 
                         className="border mt-2 block w-full p-6 rounded-md shadow-sm focus:outline-slate-800 text-md" />
                 </div>
                 <div className="my-5">
-                    <label htmlFor="marca" className="block text-md mb-3 font-semibold text-gray-500 uppercase">
+                    <label htmlFor="tag" className="block text-md mb-3 font-semibold text-gray-500 uppercase">
                         Etiqueta
                     </label>
                     <input
@@ -132,6 +132,7 @@ export const CategoryModal = ({ categoriesMemo, editCategory, hiddenModal }) => 
                 </div>
                 <div className="flex items-center justify-end gap-2 mt-10">
                     <button
+                        type="button"
                         onClick={hiddenModal}
                         className="py-3 px-5 uppercase w-full sm:w-auto rounded-md cursor-pointer transition-colors">
                         Cancelar

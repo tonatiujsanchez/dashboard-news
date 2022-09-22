@@ -24,7 +24,7 @@ export const Profile = () => {
                     onClick={() => setShowProfileOptions(!showProfileOptions)} 
                     className="w-14 h-14 rounded-full overflow-hidden relative cursor-pointer group border">
                     <img
-                        src={ user.photo }
+                        src={ user.photo ? user.photo : '/assets/admin/imgs/no-image-author.png' }
                         alt={ user.name }
                         className="h-full w-full object-cover object-center lg:h-full lg:w-full bg-gray-200 aspect-w-1 aspect-h-1 group-hover:opacity-75 lg:aspect-none"
                     />

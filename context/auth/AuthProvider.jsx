@@ -64,40 +64,6 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const registerUser = async (name, email, password, role, photo = undefined) => {
-
-        try {
-
-            const { data } = await newsApi.post('/admin/auth/register', { name, email, password, role, photo })
-            const { token, user } = data
-
-            Cookies.set('news_session_UD3EZGXun367', token)
-            dispatch({ type: types.authLogin, payload: user })
-
-            return {
-                hasError: false,
-                message : undefined
-            }
-
-        } catch (error) {
-
-            if (axios.isAxiosError(error)) {
-                const { message } = error.response.data
-                return {
-                    hasError: true,
-                    message
-                }
-            }
-
-            return {
-                hasError: true,
-                message: 'No se pudo crear el usuario, intente de nuevo'
-            }
-
-        }
-
-    }
-
     const logout = () => {
         Cookies.remove('news_session_UD3EZGXun367')
         router.reload()
@@ -108,7 +74,6 @@ export const AuthProvider = ({ children }) => {
             ...state,
             // Methods
             loginUser,
-            registerUser,
             logout,
         }}>
             {children}

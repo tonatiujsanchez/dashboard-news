@@ -1,5 +1,7 @@
 import { useReducer } from 'react'
+
 import axios from 'axios'
+import { toast } from 'react-toastify'
 
 import { DataContext } from './DataContext'
 import { dataReducer } from './dataReducer'
@@ -18,15 +20,126 @@ export const DataProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(dataReducer, DATA_INITIAL_STATE)
 
+    const notifySuccess = (msg) => toast.success(msg, {
+        theme: "colored",
+        autoClose: 1000
+    })
+    const notifyError = (msg) => toast.error(msg, {
+        theme: "colored",
+        autoClose: 3000
+    })
+
     // ===== ===== ===== ===== Users ===== ===== ===== =====
     // ===== ===== ===== ===== ========== ===== ===== ===== =====
     const refreshUsers = async() => {
         try {
+
             const { data } = await axios.get('/api/admin/users')
             dispatch({ type: types.dataRefreshUsers, payload: data })
+
         } catch (error) {
-            console.log(error);
-            // TODO: Mostrar el error en pantalla   
+
+            if(axios.isAxiosError(error)){
+                const { message } = error.response.data
+                notifyError(message)
+                return { hasError: true }
+            }
+
+            notifyError('Hubo un error inesperado')
+            return { hasError: true }
+
+        }
+    }
+
+    const addNewUser = async(role, name, email, password, photo = undefined ) => {
+        try {
+            const { data } = await axios.post(`/api/admin/users`, {
+                role,
+                name, 
+                email, 
+                password, 
+                photo
+            })
+
+            dispatch({ type: types.dataAddNewUser, payload: data })
+
+            notifySuccess('Usuario creado')
+            return { hasError: false }
+            
+        } catch (error) {
+
+            if(axios.isAxiosError(error)){
+                const { message } = error.response.data
+                notifyError(message)
+                return { hasError: true }
+            }
+
+            notifyError('Hubo un error inesperado')
+            return { hasError: true }
+        }
+    }
+
+    const updateUser = async (newUser) => {
+        try {
+            
+            const { data } = await axios.put(`/api/admin/users/${newUser._id}`,{ ...newUser })
+            dispatch({ type: types.dataUpdateUser, payload: data })
+
+            notifySuccess('Usuario actuazalizado')
+            return { hasError: false }
+
+        } catch (error) {
+
+            if(axios.isAxiosError(error)){
+                const { message } = error.response.data
+                notifyError(message)
+                return { hasError: true }
+            }
+
+            notifyError('Hubo un error inesperado')
+            return { hasError: true }
+        }
+    }
+
+    const deleteUser = async( idUser ) => {
+        try {
+            
+            await axios.delete(`/api/admin/users/${idUser}`)
+            dispatch({ type: types.dataDeleteUser, payload: idUser })
+
+            notifySuccess('Usuario eliminado')
+            return { hasError: false }
+
+        } catch (error) {
+
+            if(axios.isAxiosError(error)){
+                const { message } = error.response.data
+                notifyError(message)
+                return { hasError: true }
+            }
+
+            notifyError('Hubo un error inesperado')
+            return { hasError: true }
+        }
+    }
+
+    const updatePassword = async( idUser, password ) => {
+        try {
+
+            const { data } = await axios.put(`/api/admin/users/change-password/${idUser}`,{ password })
+            notifySuccess(data.message)
+            return { hasError: false }
+            
+        } catch (error) {
+
+            if(axios.isAxiosError(error)){
+                const { message } = error.response.data
+                notifyError(message)
+                return { hasError: true }
+            }
+
+            notifyError('Hubo un error inesperado')
+            return { hasError: true }
         }
     }
 
@@ -148,12 +261,18 @@ export const DataProvider = ({ children }) => {
     }
 
 
+
+
     return (
         <DataContext.Provider value={{
             ...state,
             
             // Users
             refreshUsers,
+            addNewUser,
+            updateUser,
+            deleteUser,
+            updatePassword,
 
             // Categories
             refreshCategories,

@@ -103,7 +103,7 @@ const deleteCategory = async (req, res) => {
 
         await db.disconnect()
         console.log(error)
-        return res.status(400).json({ message: 'Algo salio mal, revisar la consola del servidor' })
+        return res.status(500).json({ message: 'Algo salio mal, revisar la consola del servidor' })
     }
 
 } 

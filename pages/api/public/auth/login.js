@@ -32,20 +32,24 @@ const loginUser = async (req, res) => {
 
 
     if (!user) {
-        return res.status(400).json({ message: 'Correo o Contaseña no válidos (EMAIL)' })
+        await db.disconnect()
+        return res.status(400).json({ message: 'Correo o Contaseña no válidos' })
     }
 
     if (!(bcryptjs.compareSync(password, user.password))) {
-        return res.status(400).json({ message: 'Correo o Contaseña no válidos (PWD)' })
+        await db.disconnect()
+        return res.status(400).json({ message: 'Correo o Contaseña no válidos' })
     }
     
 
     const { _id, name, role, photo } = user
     const token = jwt.signToken( _id, email, role ) //jwt
 
+    await db.disconnect()
     return res.status(200).json({
         token,
         user: {
+            _id,
             name,
             email,
             role,

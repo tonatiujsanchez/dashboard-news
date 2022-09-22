@@ -30,11 +30,12 @@ export default async function handler(req, res) {
 const updateAuthor = async (req, res) => {
     const { slug } = req.query
 
-    db.connect()
+    await db.connect()
     const authorToUpdate = await Author.findOne({ slug })
 
     if (!authorToUpdate) {
-        res.status(400).json({ message: `No se encontro ningun autor con el slug: ${slug}` })
+        await db.disconnect()
+        return res.status(400).json({ message: `No se encontro ningun autor con el slug: ${slug}` })
     }
 
     const {
@@ -67,13 +68,13 @@ const updateAuthor = async (req, res) => {
         authorToUpdate.occupation = occupation
         authorToUpdate.description = description
         authorToUpdate.photo = photo
-        authorToUpdate.save()
+        await authorToUpdate.save()
 
-        db.disconnect()
+        await db.disconnect()
         return res.status(200).json(authorToUpdate)
 
     } catch (error) {
-        db.disconnect()
+        await db.disconnect()
         console.log(error)
         return res.status(500).json({ message: 'Algo salio mal, revisar la consola del servidor' })
     }
@@ -89,7 +90,7 @@ const deleteAuthor = async (req, res) => {
 
     if( !author ){
         await db.disconnect()
-        res.status(400).json({ message: `No se encontro ningun autor con el slug: ${slug}` })
+        return res.status(400).json({ message: `No se encontro ningun autor con el slug: ${slug}` })
     }
 
     try {

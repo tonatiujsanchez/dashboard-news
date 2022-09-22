@@ -9,10 +9,28 @@ export const dataReducer = (state, action) => {
 
         // Users
         case types.dataRefreshUsers:
-        return {
-            ...state,
-            users: [...action.payload]
-        }
+            return {
+                ...state,
+                users: [...action.payload]
+            }
+
+        case types.dataAddNewUser:
+            return {
+                ...state,
+                users: [ ...state.users, action.payload ]
+            }
+        //TODO: Update
+        case types.dataUpdateUser:
+            return {
+                ...state,
+                users: state.users.map( user => user._id === action.payload._id ? action.payload : user )
+            }
+
+        case types.dataDeleteUser:
+            return {
+                ...state,
+                users: state.users.filter( user => ( user._id !== action.payload ) )
+            }
         
         // Categories
         case types.dataRefreshCategories:

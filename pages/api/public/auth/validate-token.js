@@ -45,6 +45,7 @@ const checkJWT = async (req, res) => {
     return res.status(200).json({
         token: jwt.signToken( _id, email, role ),
         user: {
+            _id,
             email,
             name,
             role,

@@ -5,6 +5,9 @@ export const types = {
 
     // Users
     dataRefreshUsers: '[DATA] - Refresh Users',
+    dataAddNewUser: '[DATA] - New User',
+    dataUpdateUser: '[DATA] - Update User',
+    dataDeleteUser: '[DATA] - Delete User',
 
     // Categories
     dataRefreshCategories: '[DATA] - Refresh Categories',

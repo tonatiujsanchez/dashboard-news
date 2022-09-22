@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 import { LoadingCircle } from "../components/admin/ui"
 import { useRouter } from "next/router"
 
-const iniciarSesionPage = () => {
+const IniciarSesionPage = () => {
 
 
     const [showError, setShowError] = useState(false)
@@ -85,7 +85,8 @@ const iniciarSesionPage = () => {
                     </div>
                     <button
                         type="submit"
-                        className="bg-sky-500 hover:bg-sky-600 px-8 py-5 font-semibold rounded-md color-admin w-full ml-auto uppercase">
+                        disabled={loading}
+                        className="bg-sky-500 hover:bg-sky-600 px-8 py-5 font-semibold rounded-md color-admin w-full ml-auto uppercase disabled:bg-sky-300">
                         {
                             loading
                             ? <div className="flex justify-center text-center"> <LoadingCircle /> </div>
@@ -99,4 +100,4 @@ const iniciarSesionPage = () => {
     )
 }
 
-export default iniciarSesionPage
+export default IniciarSesionPage

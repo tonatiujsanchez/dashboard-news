@@ -5,15 +5,15 @@ import { emailValidator } from "../../../../utils/shared"
 import bcryptjs from 'bcryptjs'
 
 
-export default function (req, res) {
+export default function handler(req, res) {
     
     switch (req.method) {
 
         case 'GET':
             return getUsers( req, res )
-            
+
         case 'POST':
-            return addNewUser( req, res )
+            return registerUser( req, res )
     
         default:
             return res.status(400).json({ message: 'Endpoint NO existente' })
@@ -31,6 +31,7 @@ const getUsers = async( req, res ) => {
 
     res.status(200).json( users )
 }
+
 
 const registerUser = async( req, res ) => {
     
@@ -72,19 +73,16 @@ const registerUser = async( req, res ) => {
 
         await newUser.save({ validateBeforeSave: true })
         await db.disconnect()
+
+        const userDB = JSON.parse( JSON.stringify( newUser ) )
+        delete userDB.password
+
+        return res.status(200).json(userDB)
+
     } catch (error) {
         console.log(error)
         await db.disconnect()
         return res.status(500).json({ message: 'Al salio mal, revisar logs del servidor' })
     }
-
-    return res.status(200).json({
-        user: {
-            name,
-            email,
-            role,
-            photo
-        }
-    })
 
 }
