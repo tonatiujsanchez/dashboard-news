@@ -41,13 +41,15 @@ const updateUser = async (req, res) => {
     const { 
         role  = userUpdate.role, 
         name  = userUpdate.name, 
-        email = userUpdate.email 
+        email = userUpdate.email, 
+        photo = userUpdate.photo, 
     } = req.body
 
     try {
         userUpdate.role = role
         userUpdate.name = name
         userUpdate.email = email
+        userUpdate.photo = photo
         await userUpdate.save()
 
         return res.status(200).json(userUpdate)

@@ -10,7 +10,7 @@ import { types } from '../../types'
 
 const DATA_INITIAL_STATE = {
     entries: [],
-    multimedia: [],
+    images: [],
     users: [],
     categories: [],
     authors: [],
@@ -29,8 +29,38 @@ export const DataProvider = ({ children }) => {
         autoClose: 3000
     })
 
+    // ===== ===== ===== ===== Images ===== ===== ===== =====
+    // ===== ===== ===== ===== ===== ===== ===== ===== =====
+
+    const addNewImage = async(formData) => {
+        try {
+            const { data } = await axios.post('/api/shared/images/upload', formData)
+            dispatch({ type: types.dataAddNewImage, payload: data })
+            return { 
+                hasError: false,
+                urlImage: data.url
+            }
+
+        } catch (error) {
+            if(axios.isAxiosError(error)){
+                const { message } = error.response.data
+                notifyError(message)
+                return {
+                    hasError: true,
+                    urlImage: null
+                }
+            }
+
+            notifyError('Hubo un error inesperado')
+            return {
+                hasError: true,
+                urlImage: null
+            }
+        }
+    }
+
     // ===== ===== ===== ===== Users ===== ===== ===== =====
-    // ===== ===== ===== ===== ========== ===== ===== ===== =====
+    // ===== ===== ===== ===== ===== ===== ===== ===== =====
     const refreshUsers = async() => {
         try {
 
@@ -51,7 +81,7 @@ export const DataProvider = ({ children }) => {
         }
     }
 
-    const addNewUser = async(role, name, email, password, photo = undefined ) => {
+    const addNewUser = async(role, name, email, password, photo = null ) => {
         try {
             const { data } = await axios.post(`/api/admin/users`, {
                 role,
@@ -262,11 +292,13 @@ export const DataProvider = ({ children }) => {
 
 
 
-
     return (
         <DataContext.Provider value={{
             ...state,
             
+            // Image
+            addNewImage,
+
             // Users
             refreshUsers,
             addNewUser,

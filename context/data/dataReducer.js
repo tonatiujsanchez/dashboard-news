@@ -7,6 +7,14 @@ export const dataReducer = (state, action) => {
 
     switch (action.type) {
 
+
+        // Images
+        case types.dataAddNewImage:
+            return {
+                ...state,
+                images: [ ...state.images, action.payload ]
+            }
+
         // Users
         case types.dataRefreshUsers:
             return {
@@ -19,7 +27,7 @@ export const dataReducer = (state, action) => {
                 ...state,
                 users: [ ...state.users, action.payload ]
             }
-        //TODO: Update
+
         case types.dataUpdateUser:
             return {
                 ...state,
@@ -32,6 +40,7 @@ export const dataReducer = (state, action) => {
                 users: state.users.filter( user => ( user._id !== action.payload ) )
             }
         
+
         // Categories
         case types.dataRefreshCategories:
             return {
@@ -66,6 +75,7 @@ export const dataReducer = (state, action) => {
                 ...state,
                 categories: state.categories.filter(category => category._id !== action.payload)
             }
+
 
         // Authors
         case types.dataRefreshAuthors:

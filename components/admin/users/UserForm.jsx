@@ -3,11 +3,14 @@ import NextLink from "next/link"
 import { useRouter } from "next/router"
 
 import { useForm } from "react-hook-form"
+import { toast } from 'react-toastify'
 
 import { emailValidator } from "../../../utils/shared"
 import { useData } from "../../../hooks/useData"
 import { LoadingCircle } from "../ui"
+import axios from "axios"
 
+const imageMimeType = /image\/(png|jpg|jpeg|gif|webp)/i;
 
 export const UserForm = ({ userEdit = null }) => {
 
@@ -31,7 +34,7 @@ export const UserForm = ({ userEdit = null }) => {
         }
     })
 
-    const { addNewUser, updateUser } = useData()
+    const { addNewUser, updateUser, addNewImage } = useData()
 
     const password = useRef({})
     password.current = watch("password", "")
@@ -55,25 +58,81 @@ export const UserForm = ({ userEdit = null }) => {
         router.back()
     }
 
+    // Image select and preview 
+    const fileInputRef = useRef(null)
 
-    const setImagePreview = (file, urlImage) => {
-        setFile(file)
-        setFileDataURL(urlImage)
-        console.log({
-            file,
-            urlImage
-        });
-        console.log( typeof urlImage );
-        hiddenImagesModal()
+
+    const handleFileChange = (e) => {
+        if( !e.target.files || e.target.files.length === 0 ){
+            return
+        }
+
+        const fileSelected = e.target.files[0]
+
+        if (!fileSelected.type.match(imageMimeType)) {
+            toast.error('Formato no válido', {
+                theme: "colored",
+                autoClose: 1000
+            })
+            return
+        }
+        setFile(fileSelected)
     }
 
+    useEffect(() => {
+        let fileReader, isCancel = false;
 
-    // TODO: MODAL DE IMAGENES
+        if (file) {
+            fileReader = new FileReader()
+            fileReader.onload = (e) => {
+                const { result } = e.target
+                if (result && !isCancel) {
+                    setFile(file)
+                    setFileDataURL(result)
+                    setShowOptions(false)
+                }
+            }
+            fileReader.readAsDataURL(file)
+        }
+
+        return () => {
+            isCancel = true
+            if (fileReader && fileReader.readyState === 1) {
+                fileReader.abort()
+            }
+        }
+    }, [file])
+
+    const removePhoto = () => {
+        setPhoto(null)
+        setFile(null)
+        setFileDataURL(null)
+        setShowOptions(false)
+    }
+
 
     const onUserSubmit = async ({ role, name, email, password }) => {
         setLoadingSubmit(true)
 
-        // TODO: Añadir foto
+        // Subir foto
+        let newImageUrl =  null
+        
+        if(file){
+
+            const formData = new FormData()
+            formData.append('file', file)
+            formData.append('section', 'users')
+            // TODO: Añadir section && Eliminar imagen
+            const { hasError, urlImage } = await addNewImage(formData)
+            
+            if(hasError){
+                setLoadingSubmit(false)
+                return
+            }
+            
+            newImageUrl = urlImage
+        }
+        
 
         if( userEdit ){
             // Editar
@@ -82,6 +141,7 @@ export const UserForm = ({ userEdit = null }) => {
                 role,
                 name,
                 email,
+                photo : newImageUrl ? newImageUrl : photo
             }
             const { hasError } = await updateUser(newUser)
             if(hasError){
@@ -91,7 +151,15 @@ export const UserForm = ({ userEdit = null }) => {
 
         }else{
             // Nuevo
-            const { hasError } = await addNewUser(role, name, email, password)
+            
+            const { hasError } = await addNewUser(
+                role, 
+                name, 
+                email, 
+                password, 
+                newImageUrl ? newImageUrl : photo
+            )
+
             if(hasError){
                 setLoadingSubmit(false)
                 return
@@ -120,13 +188,24 @@ export const UserForm = ({ userEdit = null }) => {
                         showOptions &&
                         <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu">
                             <div className="py-2" role="none">
+                                <input
+                                    type="file"
+                                    style={{ display: 'none' }}
+                                    ref={ fileInputRef }
+                                    accept="image/png, image/jpg, image/jpeg, image/gif, image/webp"
+                                    onChange={handleFileChange}
+                                />
                                 <button
-                                    onClick={()=>{}}
-                                    className="w-full text-left text-gray-700 flex items-center gap-2 px-4 py-3 text-xl hover:bg-gray-100 hover:text-gray-900">
+                                    onClick={()=> fileInputRef.current.click()}
+                                    className="w-full text-left text-gray-700 flex items-center gap-2 px-4 py-3 text-xl hover:bg-gray-100 hover:text-gray-900"
+                                >
                                     <i className='bx bx-image-alt text-3xl'></i>
                                     <span>Actualizar foto</span>
                                 </button>
-                                <button className="w-full text-left text-gray-700 flex items-center gap-2 px-4 py-3 text-xl hover:bg-gray-100 hover:text-gray-900">
+                                <button
+                                    onClick={removePhoto}
+                                    className="w-full text-left text-gray-700 flex items-center gap-2 px-4 py-3 text-xl hover:bg-gray-100 hover:text-gray-900"
+                                >
                                     <i className='bx bx-trash text-red-600 text-3xl'></i>
                                     <span>Quitar foto</span>
                                 </button>

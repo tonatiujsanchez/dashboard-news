@@ -1,5 +1,5 @@
-import { TitlePage } from "../../components/admin/ui"
-import { AdminLayout } from "../../components/layouts"
+import { TitlePage } from "../../../components/admin/ui"
+import { AdminLayout } from "../../../components/layouts"
 
 
 const ArticulosPage = () => {
