@@ -1,23 +1,18 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+
 
 import { BtnSuccess, LoadingAdmin } from "../../../components/admin/ui"
 import { TitlePage } from "../../../components/admin/ui"
 import { AdminLayout } from "../../../components/layouts/AdminLayout"
 
+import { ImageList } from "../../../components/admin/images"
 
-const images = [
-    {
-        name: '',
-        url: '',
-        size: '',
-        format: '',
-        section: 'articles',
-    }
-]
+import { useData } from "../../../hooks/useData"
+
 
 const buttonsNav = [
     {
-        title: 'Articulos',
+        title: 'Artículos',
         id: 'articles'
     },
     {
@@ -31,25 +26,59 @@ const buttonsNav = [
 ]
 
 
-const MultimediaPage = () => {
+const ImagenesPage = () => {
+
 
     const [loading, setLoading] = useState(false)
     const [buttonActive, setButtonActive] = useState(buttonsNav[0].id)
+    const [imagesList, setImagesList] = useState([])
+
+    const { refreshImages, images } = useData()
 
 
+    const loadImages = async () => {
+        setLoading(true)
 
-    const loadMultimedia = () => {
-        console.log('Cargando imagenes...');
+        await refreshImages(buttonActive, '')
+        const imagesTemp = images.filter( image => ( image.section === buttonActive ))
+        setImagesList(imagesTemp)
+
+        setLoading(false)
     }
 
 
+
+
+    useEffect(() => {
+        const imagesTemp = images.filter( image => ( image.section === buttonActive ))
+
+        if ( imagesTemp.length <= 0) {
+            loadImages()
+        }else{
+            setImagesList(imagesTemp)
+        }
+
+
+    }, [buttonActive])
+    
+
+    // useEffect(()=> {
+
+    //     const imagesTemp = images.filter( image => ( image.section === buttonActive ))
+    //     setImagesList(imagesTemp)
+
+    // },[buttonActive])
+   
+
+
+
     return (
-        <AdminLayout title="- Multimedia" >
+        <AdminLayout title="- Imagenes" >
             <div className="mb-5 flex gap-2 items-center py-3">
-                <TitlePage title="Multimedia" />
+                <TitlePage title="Imagenes" />
                 <button
                     className="text-3xl text-slate-600 hover:bg-slate-200 hover:text-slate-900 py-2 px-3 rounded-full active:scale-95"
-                    onClick={() => loadMultimedia()}>
+                    onClick={() => loadImages()}>
                     <i className='bx bx-revision'></i>
                 </button>
             </div>
@@ -69,7 +98,8 @@ const MultimediaPage = () => {
                                         return (
                                             <button
                                                 key={btn.id}
-                                                className={`${buttonActive === btn.id ? 'bg-slate-100 shadow-md' : 'bg-white'} rounded-lg py-3 px-6 sm:px-10 lg:px-16 font-semibold border hover:bg-slate-100 flex-1`}
+                                                onClick={()=> setButtonActive(btn.id)}
+                                                className={`${buttonActive === btn.id ? 'bg-slate-100 shadow-md border-b-4 border-b-sky-500' : 'border-b-4 bg-white'} rounded-lg py-3 px-6 sm:px-10 lg:px-16 font-semibold border hover:bg-slate-100 flex-1`}
                                             >
                                                 {btn.title}
                                             </button>
@@ -79,17 +109,8 @@ const MultimediaPage = () => {
                             </div>
 
                         </div>
-                        <div>
-                            {/* {
-                                categoriesMemo.map(category => (
-                                    <CategoryItem
-                                        key={category._id}
-                                        category={category}
-                                        onEditCategory={onEditCategory}
-                                    />
-                                ))
-
-                            } */}
+                        <div className="mt-10">
+                            <ImageList images={ imagesList } />
                         </div>
                         <div className="flex justify-end">
                             <p>Paginación</p>
@@ -101,4 +122,4 @@ const MultimediaPage = () => {
     )
 }
 
-export default MultimediaPage
+export default ImagenesPage

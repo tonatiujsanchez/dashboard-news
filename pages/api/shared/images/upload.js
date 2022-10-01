@@ -3,7 +3,7 @@ import { Image } from '../../../../models'
 
 import formidable from 'formidable'
 import { v2 as cloudinary } from 'cloudinary'
-import { db } from '../../../../database'
+import { db, NEWS_CONSTANTS } from '../../../../database'
 // import fs from 'fs'
 
 
@@ -28,7 +28,7 @@ export default function handler(req, res) {
 }
 
 
-const saveFile = async(file, section) => {
+const saveFile = async(file, section, user) => {
 
     const { public_id, secure_url, bytes, format } = await cloudinary.uploader.upload( file.filepath )
 
@@ -37,7 +37,8 @@ const saveFile = async(file, section) => {
         url : secure_url,
         size: bytes,
         format,
-        section
+        section,
+        user
     }
 }
 
@@ -48,16 +49,19 @@ const parseFiles = async (req) => {
         const form = new formidable.IncomingForm()
         form.parse(req, async( err, fields, files )=>{
 
-            const validSections = ['articles', 'authors', 'users']
-            if(!validSections.includes(fields.section)){
+            if(!NEWS_CONSTANTS.validImagesSections.includes(fields.section)){
                 return reject('Sección NO valida')
+            }
+
+            if(!fields.user){
+                return reject('Es necesario un usuario para subir una imagen')
             }
 
             if( err ){
                 return reject(err)
             }
 
-            const image = await saveFile( files.file, fields.section )
+            const image = await saveFile( files.file, fields.section, fields.user )
             resolve(image)
         })
 
@@ -69,7 +73,6 @@ const uploadFile = async ( req, res ) => {
 
     try {
         const image = await parseFiles( req )
-        // image.section = section
         
         const newImage = new Image(image)
         

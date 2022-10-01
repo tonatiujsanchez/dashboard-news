@@ -9,6 +9,12 @@ export const dataReducer = (state, action) => {
 
 
         // Images
+        case types.dataRefreshImages:
+            return {
+                ...state,
+                images: [ ...action.payload ]
+            }
+
         case types.dataAddNewImage:
             return {
                 ...state,

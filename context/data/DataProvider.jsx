@@ -7,9 +7,13 @@ import { DataContext } from './DataContext'
 import { dataReducer } from './dataReducer'
 
 import { types } from '../../types'
+import { useAuth } from '../../hooks/useAuth'
 
 const DATA_INITIAL_STATE = {
     entries: [],
+    // images_articles: [],
+    // images_users: [],
+    // images_authors: [],
     images: [],
     users: [],
     categories: [],
@@ -17,6 +21,8 @@ const DATA_INITIAL_STATE = {
 }
 
 export const DataProvider = ({ children }) => {
+
+    const { user } = useAuth()
 
     const [state, dispatch] = useReducer(dataReducer, DATA_INITIAL_STATE)
 
@@ -32,7 +38,46 @@ export const DataProvider = ({ children }) => {
     // ===== ===== ===== ===== Images ===== ===== ===== =====
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
 
+
+    const refreshImages = async( section, limitStart ) => {        
+
+        try {
+
+            const { data } = await axios.get('/api/shared/images', { params: { section } })
+
+            const imagesBySection = state.images.filter( img => img.section === section )
+            if(imagesBySection.length > 0){
+
+                const newArrayImages = state.images.filter( img => img.section !== section )
+                dispatch({ type: types.dataRefreshImages, payload: [...newArrayImages, ...data] })
+
+            }else{
+                dispatch({ type: types.dataRefreshImages, payload: [...state.images, ...data] })
+            }
+
+        } catch (error) {
+            if(axios.isAxiosError(error)){
+                const { message } = error.response.data
+                notifyError(message)
+                return {
+                    hasError: true,
+                    urlImage: null
+                }
+            }
+
+            notifyError('Hubo un error inesperado')
+            return {
+                hasError: true,
+                urlImage: null
+            }
+        }
+
+    }
+
     const addNewImage = async(formData) => {
+
+        formData.append('user', user._id)
+
         try {
             const { data } = await axios.post('/api/shared/images/upload', formData)
             dispatch({ type: types.dataAddNewImage, payload: data })
@@ -297,6 +342,7 @@ export const DataProvider = ({ children }) => {
             ...state,
             
             // Image
+            refreshImages,
             addNewImage,
 
             // Users

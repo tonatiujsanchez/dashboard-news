@@ -2,7 +2,7 @@ import bcryptjs from 'bcryptjs'
 
 export const initialData = {
     entries: [],
-    multimedia: [],
+    imagenes: [],
     categories: [
         {
             title: 'Política',

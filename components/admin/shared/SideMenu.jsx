@@ -46,10 +46,10 @@ export const SideMenu = () => {
                                 <span className="nav__name">Artículos</span>
                             </a>
                         </NextLink>
-                        <NextLink href="/admin/multimedia" passHref>
-                            <a className={`nav__link ${(pathname.split('/')[2]) === ('/admin/multimedia').split('/')[2] ? 'active-link' : ''}`}>
+                        <NextLink href="/admin/imagenes" passHref>
+                            <a className={`nav__link ${(pathname.split('/')[2]) === ('/admin/imagenes').split('/')[2] ? 'active-link' : ''}`}>
                                 <i className='bx bx-image' ></i>
-                                <span className="nav__name">Multimedia</span>
+                                <span className="nav__name">Imagenes</span>
                             </a>
                         </NextLink>
                         {

@@ -5,10 +5,11 @@ import { useRouter } from "next/router"
 import { useForm } from "react-hook-form"
 import { toast } from 'react-toastify'
 
+
 import { emailValidator } from "../../../utils/shared"
 import { useData } from "../../../hooks/useData"
 import { LoadingCircle } from "../ui"
-import axios from "axios"
+
 
 const imageMimeType = /image\/(png|jpg|jpeg|gif|webp)/i;
 
@@ -18,10 +19,12 @@ export const UserForm = ({ userEdit = null }) => {
     const [loadingSubmit, setLoadingSubmit] = useState(false)
     const [showOptions, setShowOptions] = useState(false)
 
+    
     // file of images
     const [photo, setPhoto] = useState(null)
     const [file, setFile] = useState(null)
     const [fileDataURL, setFileDataURL] = useState(null)
+
 
 
     const { register, handleSubmit, watch, reset, formState: { errors } } = useForm({
@@ -122,6 +125,7 @@ export const UserForm = ({ userEdit = null }) => {
             const formData = new FormData()
             formData.append('file', file)
             formData.append('section', 'users')
+    
             // TODO: Añadir section && Eliminar imagen
             const { hasError, urlImage } = await addNewImage(formData)
             
