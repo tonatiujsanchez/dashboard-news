@@ -1,8 +1,37 @@
+import { useState } from "react"
 import Image from "next/image"
+
+import Modal from 'react-modal'
 import { toast } from 'react-toastify'
+
+import { useData } from "../../../hooks/useData"
+import { LoadingCircle } from "../ui"
+
+const customStyles = {
+    overlay: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)'
+    },
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+    },
+}
+Modal.setAppElement('#__next')
+
+
 
 
 export const ImageItem = ({ image }) => {
+
+    const [modalDelete, setModalDelete] = useState(false)
+    const [loadingDelete, setLoadingDelete] = useState(false)
+
+    const { deleteImage } = useData()
+
     
     const notifyCopy = (msg) => toast.dark(msg, {
         theme: "dark",
@@ -10,37 +39,117 @@ export const ImageItem = ({ image }) => {
         autoClose: 300
     })
 
+    const showModalDelete = () => {
 
-    const copyUrl = (urlImage) => {
-        notifyCopy('Se copio URL de la image')
-        navigator.clipboard.writeText(urlImage)
+        const body = document.querySelector('body')
+        body.classList.add('fixed-body')
+
+        setModalDelete(true)
+    }
+
+    const hiddenModalDelete = () => {
+
+        const body = document.querySelector('body')
+        body.classList.remove('fixed-body')
+
+        setModalDelete(false)
+    }
+
+
+    const onDeleteImage = async () => {
+
+        setLoadingDelete(true)
+
+        const { hasError } = await deleteImage(image._id)
+        
+        if(hasError){ 
+            setLoadingDelete(false)
+            return
+        }
+
+        hiddenModalDelete()
+        setLoadingDelete(false)
+           
+    }
+
+
+    // TODO: Verificar el chipboard funcione en el Movil
+    const copyUrl = () => {
+        navigator.clipboard.writeText(image.url).then(() => {
+        // navigator.clipboard.writeText(urlImage).then(() => {
+            /* clipboard successfully set */
+            notifyCopy('Se copio URL de la image')
+        }, () => {
+            /* clipboard write failed */
+            notifyCopy('NO se pudo copiar')
+        });
     }
 
     return (
-        <div className="rounded-lg overflow-hidden border w-[48%] sm:w-[170px] relative">
-            <Image
-                priority="true"
-                layout='responsive'
-                width={100}
-                height={70}
-                objectFit="cover"
-                src={image.url}
-                alt={`Imagen ${image.name}`}
-                title={`Imagen ${image.name}`}
-            />
-            <div className="pl-2 pt-2">
-                <p className="font-bold text-xl mb-2">{ image.name }</p>
-                <div className="flex justify-between">
-                    <p className="text-lg text-slate-600">{image.format}</p>
-                    <p className="text-lg text-slate-600">{image.size}</p>
-                    <button
-                        onClick={()=>copyUrl(image.url)} 
-                        className="bg-slate-200 text-slate-800 px-4 py-2 rounded-tl-lg text-xl active:scale-95">
-                        <i className='bx bx-clipboard'></i>
-                    </button>
-                </div>
+        <>
+            <div className="relative w-[48%] sm:w-[165px]">
+                <div className="rounded-lg overflow-hidden border">
+                    <Image
+                        priority="true"
+                        layout='responsive'
+                        width={100}
+                        height={70}
+                        objectFit="cover"
+                        src={image.url}
+                        alt={`Imagen ${image.name}`}
+                        title={`Imagen ${image.name}`}
+                    />
+                    <div className="pl-2 pt-2">
+                        <p className="font-bold text-xl mb-2">{ image.name }</p>
+                        <div className="flex justify-between items-center">
+                            <p className="text-lg text-slate-600">{image.format}</p>
+                            <p className="text-lg text-slate-600">{image.size}</p>
+                            <button
+                                onClick={ copyUrl } 
+                                className="bg-slate-200 text-slate-800 px-4 py-2 rounded-tl-lg text-xl active:scale-95">
+                                <i className='bx bx-clipboard'></i>
+                            </button>
+                        </div>
 
+                    </div>
+                </div>
+                <button
+                    onClick={showModalDelete} 
+                    className="absolute -top-2 -right-2 shadow text-white bg-red-500 opacity-75 rounded-full text-lg w-10 h-10 hover:bg-red-600 hover:opacity-100 active:scale-95">
+                    <i className='bx bx-trash'></i>
+                </button>
             </div>
-        </div>
+            <Modal
+                isOpen={modalDelete}
+                style={customStyles}>
+                <div className="p-5">
+                    <header className="text-center">
+                        <div className='text-center text-7xl mb-2 text-red-600'>
+                            <i className='bx bx-trash'></i>
+                        </div>
+                        <h3 className='font-bold text-4xl mb-5'>Eliminar Imagen</h3>
+                        <p className="text-center text-2xl mb-2">{`¿Desea eliminar esta imagen?`}</p>
+                    </header>
+                    <div className='flex items-center justify-center gap-2 mt-10'>
+                        <button
+                            disabled={loadingDelete}
+                            onClick={hiddenModalDelete}
+                            className="py-3 px-5 uppercase w-full rounded-md cursor-pointer transition-colors disabled:opacity-60 disabled:cursor-auto">
+                            Cancelar
+                        </button>
+                        <button
+                            disabled={loadingDelete}
+                            onClick={onDeleteImage}
+                            className="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 uppercase w-full rounded-md cursor-pointer transition-colors min-w-[120px] flex justify-center disabled:bg-red-300">
+                                {   loadingDelete
+                                    ? <LoadingCircle />
+                                    : <span>Eliminar</span>
+                                }
+                        </button>
+                    </div>
+                </div>
+            </Modal>
+
+        </>
     )
 }

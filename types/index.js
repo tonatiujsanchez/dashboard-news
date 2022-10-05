@@ -4,13 +4,9 @@ export const types = {
 
 
     // Images
-    dataRefreshImagesArticles: '[DATA] - Refresh Images Articles ',
-    dataRefreshImagesUsers: '[DATA] - Refresh Images Users ',
-    dataRefreshImagesAuthors: '[DATA] - Refresh Images Authors ',
-    
     dataRefreshImages: '[DATA] - Refresh Images ',
     dataAddNewImage: '[DATA] - New Image',
-
+    dataDeleteImage: '[DATA] - Delete Image',
 
     // Users
     dataRefreshUsers: '[DATA] - Refresh Users',

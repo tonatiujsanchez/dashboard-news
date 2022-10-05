@@ -11,9 +11,6 @@ import { useAuth } from '../../hooks/useAuth'
 
 const DATA_INITIAL_STATE = {
     entries: [],
-    // images_articles: [],
-    // images_users: [],
-    // images_authors: [],
     images: [],
     users: [],
     categories: [],
@@ -44,6 +41,10 @@ export const DataProvider = ({ children }) => {
         try {
 
             const { data } = await axios.get('/api/shared/images', { params: { section } })
+
+            if(data.length === 0){
+                return
+            }
 
             const imagesBySection = state.images.filter( img => img.section === section )
             if(imagesBySection.length > 0){
@@ -101,6 +102,32 @@ export const DataProvider = ({ children }) => {
                 hasError: true,
                 urlImage: null
             }
+        }
+    }
+
+    const deleteImage = async ( imageId ) => {
+
+        try {
+
+            const { data } = await axios.delete('/api/shared/images',{
+                data: {
+                    imageId:imageId
+                }
+              })
+            dispatch({ type: types.dataDeleteImage, payload: imageId })
+            notifySuccess(data.message)
+            return { hasError: false }
+            
+        } catch (error) {
+            if(axios.isAxiosError(error)){
+                const { message } = error.response.data
+                notifyError(message)
+                return { hasError: true }
+            }
+
+            notifyError('Hubo un error inesperado')
+            console.log(error);
+            return { hasError: true }
         }
     }
 
@@ -344,6 +371,7 @@ export const DataProvider = ({ children }) => {
             // Image
             refreshImages,
             addNewImage,
+            deleteImage,
 
             // Users
             refreshUsers,

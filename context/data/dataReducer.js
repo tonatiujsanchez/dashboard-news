@@ -18,7 +18,13 @@ export const dataReducer = (state, action) => {
         case types.dataAddNewImage:
             return {
                 ...state,
-                images: [ ...state.images, action.payload ]
+                images: [ action.payload, ...state.images ]
+            }
+
+        case types.dataDeleteImage:
+            return {
+                ...state,
+                images: state.images.filter( image => ( image._id !== action.payload ) )
             }
 
         // Users

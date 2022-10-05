@@ -1,13 +1,12 @@
 import { Image } from '../../../../models'
+import { db, NEWS_CONSTANTS } from '../../../../database'
 
 
 import formidable from 'formidable'
+
 import { v2 as cloudinary } from 'cloudinary'
-import { db, NEWS_CONSTANTS } from '../../../../database'
-// import fs from 'fs'
-
-
 cloudinary.config( process.env.CLOUDINARY_URL || '')
+
 
 export const config = {
     api: {
