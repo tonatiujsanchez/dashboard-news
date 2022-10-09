@@ -12,19 +12,36 @@ export const dataReducer = (state, action) => {
         case types.dataRefreshImages:
             return {
                 ...state,
-                images: [ ...action.payload ]
+                images: {
+                    ...state.images,
+                    [action.payload.section]: {
+                        ...action.payload.data
+                    }
+                }
             }
 
         case types.dataAddNewImage:
             return {
                 ...state,
-                images: [ action.payload, ...state.images ]
+                images: {
+                    ...state.images,
+                    [action.payload.section]: {
+                        ...state.images[action.payload.section],
+                        data: [ action.payload, ...state.images[action.payload.section].data ]
+                    }
+                }
             }
 
         case types.dataDeleteImage:
             return {
                 ...state,
-                images: state.images.filter( image => ( image._id !== action.payload ) )
+                images: {
+                    ...state.images,
+                    [action.payload.section]: {
+                        ...state.images[action.payload.section],
+                        data: state.images[action.payload.section].data.filter( image => ( image._id !== action.payload._id ) )
+                    }
+                }
             }
 
         // Users

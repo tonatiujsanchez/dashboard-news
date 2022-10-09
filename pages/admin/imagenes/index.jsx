@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
-import { toast } from 'react-toastify'
 
+import { toast } from 'react-toastify'
+import ReactPaginate from 'react-paginate'
 
 import { LoadingAdmin, LoadingCircle } from "../../../components/admin/ui"
 import { TitlePage } from "../../../components/admin/ui"
@@ -26,21 +27,28 @@ const buttonsNav = [
     },
 ]
 
+const section_active_storage = 'images_section_active_UD3EZGXun367'
+
+
 
 const ImagenesPage = () => {
-
 
     const [loading, setLoading] = useState(false)
     const [loadingUploadImages, setLoadingUploadImages] = useState(false)
 
-    const [buttonActive, setButtonActive] = useState(buttonsNav[0].id)
+    const [sectionActive, setSectionActive] = useState(null)
+    const [actualPage, setActualPage] = useState(null)
     const [imagesList, setImagesList] = useState([])
+
 
     const [files, setFiles] = useState([])
     const fileInputRef = useRef(null)
 
+
+
     const { refreshImages, addNewImage, images } = useData()
-    
+
+
 
     const notifySuccess = (msg) => toast.success(msg, {
         theme: "colored",
@@ -53,28 +61,44 @@ const ImagenesPage = () => {
     })
 
 
-
+    // Load images
     const loadImages = async () => {
         setLoading(true)
-
         setFiles([])
-        await refreshImages(buttonActive, '')
-        const imagesTemp = images.filter(image => (image.section === buttonActive))
-        setImagesList(imagesTemp)
-
+        await refreshImages(sectionActive, actualPage)
+        setImagesList(images[sectionActive].data)
         setLoading(false)
     }
 
-    useEffect(() => {
-        const imagesTemp = images.filter(image => (image.section === buttonActive))
 
-        if (imagesTemp.length <= 0) {
+    useEffect(()=>{
+        const imagesSectionActive = localStorage.getItem(section_active_storage) || buttonsNav[0].id
+        const imagesPageActive = Number(localStorage.getItem(`section_page_storage_${imagesSectionActive}_UD3EZGXun367`)) || 0
+
+        setSectionActive(imagesSectionActive)
+        setActualPage(imagesPageActive)
+    },[])
+
+
+
+    useEffect(() => {
+
+        if(!sectionActive || (!actualPage && actualPage !== 0)){ return }
+
+        if (images[sectionActive].data.length <= 0) {
             loadImages()
         } else {
-            setImagesList(imagesTemp)
+            setImagesList(images[sectionActive].data)
         }
-        
-    }, [buttonActive, images])
+
+    }, [sectionActive, images])
+
+
+    const updateSection = (section) => {
+        setSectionActive(section)
+        const imagesPageActive = Number(localStorage.getItem(`section_page_storage_${section}_UD3EZGXun367`)) || 0
+        setActualPage(imagesPageActive)
+    }
 
 
     // Image select and preview 
@@ -88,37 +112,18 @@ const ImagenesPage = () => {
     }
 
 
-    const uploadImages = async() => {
-
-        if(files.length === 0){
+    const uploadImages = async () => {
+        
+        if (files.length === 0) {
             notifyError('No hay archivos seleccionados para subir')
             return
         }
-
         setLoadingUploadImages(true)
-        
-        // files.forEach( async(file)=>{
-            
-        //     const formData = new FormData()
-        //     formData.append('file', file)
-        //     formData.append('section', buttonActive)
 
-        //     const {hasError} = await addNewImage(formData)
-
-        //     if(hasError){
-        //         notifyError('Hubo un error al subir la imagen')
-        //         setFiles([])
-        //         return
-        //     }
-
-        //     notifySuccess('Imagen subida correctamente')
-        //     console.log(loadingUploadImages);
-        // })
-
-        const imagesFormData = files.map( file => {
+        const imagesFormData = files.map(file => {
             const formData = new FormData()
             formData.append('file', file)
-            formData.append('section', buttonActive)
+            formData.append('section', sectionActive)
 
             return addNewImage(formData)
         })
@@ -131,13 +136,18 @@ const ImagenesPage = () => {
             notifySuccess('Imagenes subidas correctamente')
 
         } catch (error) {
-            
+
             setFiles([])
             setLoadingUploadImages(false)
             fileInputRef.current.value = ''
             notifyError('Hubo un error al intentar subir la imagen')
         }
 
+    }
+
+    const handlePageClick = async(event) => {
+        setActualPage(event.selected)
+        await refreshImages(sectionActive, event.selected)
     }
 
 
@@ -160,7 +170,8 @@ const ImagenesPage = () => {
                         <div className="mb-5">
                             <input
                                 type="file"
-                                ref={ fileInputRef }
+                                disabled={loadingUploadImages}
+                                ref={fileInputRef}
                                 accept="image/png, image/jpg, image/jpeg, image/gif, image/webp"
                                 multiple
                                 onChange={handleFilesChange}
@@ -169,20 +180,20 @@ const ImagenesPage = () => {
                         <div className="w-full mb-5 flex flex-col gap-5 sm:flex-row sm:justify-between">
                             <div>
                                 <button
-                                    className="bg-sky-500 hover:bg-sky-600 px-8 py-5 font-semibold rounded-md color-admin w-full sm:w-auto ml-auto flex justify-center min-w-[200px] gap-1 disabled:bg-sky-200"
+                                    className={`bg-sky-500 hover:bg-sky-600 px-8 py-5 font-semibold rounded-md color-admin w-full sm:w-auto ml-auto flex justify-center min-w-[200px] gap-1 ${ loadingUploadImages ? 'disabled:bg-sky-400' : 'disabled:bg-sky-200' }`}
                                     onClick={uploadImages}
-                                    disabled={ files.length === 0 || loadingUploadImages}
+                                    disabled={files.length === 0 || loadingUploadImages}
                                 >
                                     {
                                         loadingUploadImages
-                                        ?<>
-                                            <LoadingCircle />
-                                            <span className="ml-2">Subiendo...</span>
-                                         </>
-                                        :<>
-                                            <i className='bx bx-plus text-4xl'></i>
-                                            Subir imagenes
-                                         </>
+                                            ? <>
+                                                <LoadingCircle />
+                                                <span className="ml-2">Subiendo...</span>
+                                            </>
+                                            : <>
+                                                <i className='bx bx-plus text-4xl'></i>
+                                                Subir imagenes
+                                            </>
                                     }
                                 </button>
                             </div>
@@ -193,8 +204,8 @@ const ImagenesPage = () => {
                                             <button
                                                 key={btn.id}
                                                 disabled={loadingUploadImages}
-                                                onClick={() => setButtonActive(btn.id)}
-                                                className={`${buttonActive === btn.id ? 'bg-slate-100 shadow-md border-b-4 border-b-sky-500' : 'border-b-4 bg-white'} rounded-lg py-3 px-6 sm:px-10 lg:px-16 font-semibold border flex-1 hover:bg-slate-100 disabled:opacity-50`}
+                                                onClick={() => updateSection(btn.id)}
+                                                className={`${sectionActive === btn.id ? 'bg-slate-100 shadow-md border-b-4 border-b-sky-500' : 'border-b-4 bg-white'} rounded-lg py-3 px-6 sm:px-10 lg:px-16 font-semibold border flex-1 hover:bg-slate-100 disabled:opacity-50 hover:disabled:bg-white`}
                                             >
                                                 {btn.title}
                                             </button>
@@ -204,12 +215,36 @@ const ImagenesPage = () => {
                             </div>
 
                         </div>
-                        <div className="my-10">
+                        <div className="py-10 relative">
                             <ImageList images={imagesList} />
+                            
+                            {
+                                loadingUploadImages &&
+                                <div className="bg-admin absolute left-0 right-0 top-0 bottom-0 flex justify-center py-80 opacity-95">
+                                    <LoadingAdmin/>
+                                </div>
+                            }
+                            
                         </div>
-                        <div className="flex justify-end">
-                            <p>Paginación</p>
-                        </div>
+                        {
+                            sectionActive &&
+                            <div className="flex justify-end mt-16">
+                                {
+                                    images[sectionActive].pageCount > 1 &&
+                                    <ReactPaginate
+                                        previousLabel="<"
+                                        breakLabel="..."
+                                        nextLabel=">"
+                                        onPageChange={handlePageClick}
+                                        pageCount={ images[sectionActive].pageCount }
+                                        forcePage={actualPage}
+                                        className="flex justify-end gap-2"
+                                        pageLinkClassName="border-2 border-transparent opacity-50 px-5 hover:border-b-sky-500 hover:opacity-100 py-2 font-semibold"
+                                        activeLinkClassName="border-2 border-sky-500 opacity-100 py-2 rounded"
+                                    />
+                                }
+                            </div>
+                        }
                     </section>
             }
 

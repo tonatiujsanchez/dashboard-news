@@ -28,8 +28,9 @@ export default function handler(req, res) {
 
 const getImages = async ( req, res ) => {
 
+    const { section = '', skipStart = 0 } = req.query
+
     
-    const { section = '' } = req.query
     
     if( !section ){
         return res.status(400).json({ message: 'La porpiedad section es necesaria' })
@@ -40,15 +41,37 @@ const getImages = async ( req, res ) => {
         return res.status(400).json({ message: 'Sección de la imagen NO valida' })
     }
 
+    const imagesPerPage = 5
+    let skipImages = Number(skipStart)
+    
+
     try {
+
         await db.connect()
+
+        const imagesLengthDB = await Image.find({ section }).count()
+
+        if( skipImages >= imagesLengthDB || skipImages < 0 ){
+            skipImages = 0
+        }
+
         const images = await Image.find({ section })
+                                  .skip(skipImages)
+                                  .limit(imagesPerPage)
                                   .select('name url size format section')
                                   .sort({ createdAt: 'descending' })
                                   .lean()
+        
         await db.disconnect()
+        
+        // Return section, pagesCount ang Length 
 
-        return res.status(200).json(images)
+        return res.status(200).json({
+            section,
+            length: imagesLengthDB,
+            totalOfPages: Math.ceil(imagesLengthDB / imagesPerPage),
+            images,
+        })
 
     } catch (error) {
 

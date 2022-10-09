@@ -1,4 +1,4 @@
-import { useReducer } from 'react'
+import { useReducer, useState } from 'react'
 
 import axios from 'axios'
 import { toast } from 'react-toastify'
@@ -11,11 +11,29 @@ import { useAuth } from '../../hooks/useAuth'
 
 const DATA_INITIAL_STATE = {
     entries: [],
-    images: [],
+    images: {
+        articles: {
+            pageCount: 1,
+            length: 0,
+            data: [],
+        },
+        authors: {
+            pageCount: 1,
+            length: 0,
+            data: [],
+        },
+        users: {
+            pageCount: 1,
+            length: 0,
+            data: [],
+        }
+    },
     users: [],
     categories: [],
     authors: [],
 }
+
+const section_active_storage = 'images_section_active_UD3EZGXun367'
 
 export const DataProvider = ({ children }) => {
 
@@ -32,29 +50,36 @@ export const DataProvider = ({ children }) => {
         autoClose: 3000
     })
 
+    const updateSectionAndPageInStorage = (section, page) => {
+        localStorage.setItem(section_active_storage, section)
+        localStorage.setItem(`section_page_storage_${section}_UD3EZGXun367`, page)
+    }
+
+
     // ===== ===== ===== ===== Images ===== ===== ===== =====
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
-
-
-    const refreshImages = async( section, limitStart ) => {        
+    const refreshImages = async( section,  page = 0 ) => {        
 
         try {
 
-            const { data } = await axios.get('/api/shared/images', { params: { section } })
+            const skipStart = page * 5
 
-            if(data.length === 0){
+            const { data } = await axios.get(`/api/shared/images`, { params: { section, skipStart } })
+
+            if(data.images.length === 0){
                 return
             }
 
-            const imagesBySection = state.images.filter( img => img.section === section )
-            if(imagesBySection.length > 0){
+            dispatch({ type: types.dataRefreshImages, payload: {
+                section,
+                data: {
+                    data: data.images,
+                    length: data.length,
+                    pageCount: data.totalOfPages,
+                }
+            } })
 
-                const newArrayImages = state.images.filter( img => img.section !== section )
-                dispatch({ type: types.dataRefreshImages, payload: [...newArrayImages, ...data] })
-
-            }else{
-                dispatch({ type: types.dataRefreshImages, payload: [...state.images, ...data] })
-            }
+            updateSectionAndPageInStorage(section, page)
 
         } catch (error) {
             if(axios.isAxiosError(error)){
@@ -105,16 +130,16 @@ export const DataProvider = ({ children }) => {
         }
     }
 
-    const deleteImage = async ( imageId ) => {
+    const deleteImage = async ( image ) => {
 
         try {
 
             const { data } = await axios.delete('/api/shared/images',{
                 data: {
-                    imageId:imageId
+                    imageId:image._id
                 }
               })
-            dispatch({ type: types.dataDeleteImage, payload: imageId })
+            dispatch({ type: types.dataDeleteImage, payload: image })
             notifySuccess(data.message)
             return { hasError: false }
             

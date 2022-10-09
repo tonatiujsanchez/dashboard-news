@@ -1,8 +1,9 @@
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import Image from "next/image"
 
 import Modal from 'react-modal'
 import { toast } from 'react-toastify'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import { useData } from "../../../hooks/useData"
 import { LoadingCircle } from "../ui"
@@ -39,6 +40,7 @@ export const ImageItem = ({ image }) => {
         autoClose: 300
     })
 
+
     const showModalDelete = () => {
 
         const body = document.querySelector('body')
@@ -46,6 +48,7 @@ export const ImageItem = ({ image }) => {
 
         setModalDelete(true)
     }
+
 
     const hiddenModalDelete = () => {
 
@@ -60,30 +63,20 @@ export const ImageItem = ({ image }) => {
 
         setLoadingDelete(true)
 
-        const { hasError } = await deleteImage(image._id)
+        const { hasError } = await deleteImage(image)
         
         if(hasError){ 
             setLoadingDelete(false)
             return
         }
-
         hiddenModalDelete()
         setLoadingDelete(false)
-           
     }
 
 
-    // TODO: Verificar el chipboard funcione en el Movil
-    const copyUrl = () => {
-        navigator.clipboard.writeText(image.url).then(() => {
-        // navigator.clipboard.writeText(urlImage).then(() => {
-            /* clipboard successfully set */
-            notifyCopy('Se copio URL de la image')
-        }, () => {
-            /* clipboard write failed */
-            notifyCopy('NO se pudo copiar')
-        });
-    }
+    const onCopy = useCallback(() => {
+        notifyCopy('Se copio URL de la image')
+      }, [])
 
     return (
         <>
@@ -104,11 +97,13 @@ export const ImageItem = ({ image }) => {
                         <div className="flex justify-between items-center">
                             <p className="text-lg text-slate-600">{image.format}</p>
                             <p className="text-lg text-slate-600">{image.size}</p>
-                            <button
-                                onClick={ copyUrl } 
-                                className="bg-slate-200 text-slate-800 px-4 py-2 rounded-tl-lg text-xl active:scale-95">
-                                <i className='bx bx-clipboard'></i>
-                            </button>
+                            <CopyToClipboard onCopy={onCopy} text={image.url}>
+                                <button
+                                    // onClick={ copyUrl } 
+                                    className="bg-slate-200 text-slate-800 px-4 py-2 rounded-tl-lg text-xl active:scale-95">
+                                    <i className='bx bx-clipboard'></i>
+                                </button>
+                            </CopyToClipboard>
                         </div>
 
                     </div>
@@ -130,6 +125,18 @@ export const ImageItem = ({ image }) => {
                         <h3 className='font-bold text-4xl mb-5'>Eliminar Imagen</h3>
                         <p className="text-center text-2xl mb-2">{`¿Desea eliminar esta imagen?`}</p>
                     </header>
+                    <div className="px-10 py-5">
+                        <Image
+                            priority="true"
+                            layout='responsive'
+                            width={100}
+                            height={70}
+                            objectFit="cover"
+                            src={image.url}
+                            alt={`Imagen ${image.name}`}
+                            title={`Imagen ${image.name}`}
+                        />
+                    </div>
                     <div className='flex items-center justify-center gap-2 mt-10'>
                         <button
                             disabled={loadingDelete}

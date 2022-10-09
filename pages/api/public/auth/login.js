@@ -27,7 +27,7 @@ const loginUser = async (req, res) => {
     }
 
     await db.connect()
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ email: email.toLowerCase() })
     await db.disconnect()
 
 
