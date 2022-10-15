@@ -67,18 +67,18 @@ export const AuthorForm = ({ author = null }) => {
 
     useEffect(() => {
         if (author) {
-            reset({
-                name: author.name,
-                facebook: author.facebook,
-                twitter: author.twitter,
-                instagram: author.instagram,
-                email: author.email,
-                phone: author.phone,
-                web: author.web,
-                occupation: author.occupation,
-                description: author.description,
-                photo: author.photo,
-            })
+            // reset({
+            //     name: author.name,
+            //     facebook: author.facebook,
+            //     twitter: author.twitter,
+            //     instagram: author.instagram,
+            //     email: author.email,
+            //     phone: author.phone,
+            //     web: author.web,
+            //     occupation: author.occupation,
+            //     description: author.description,
+            //     photo: author.photo,
+            // })
             console.log('Editando...')
         } else {
             console.log('Nuevo')

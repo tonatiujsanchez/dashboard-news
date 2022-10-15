@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react'
 
 import { useRouter } from 'next/router'
 
-import axios from 'axios'
-
 import { AdminLayout } from "../../../../components/layouts/AdminLayout"
 import { LoadingAdmin, TitlePage } from "../../../../components/admin/ui"
 import { AuthorForm } from '../../../../components/admin/authors'
+
+import { useData } from '../../../../hooks/useData'
 
 const EditarAutorPage = () => {
 
@@ -16,11 +16,17 @@ const EditarAutorPage = () => {
     const router = useRouter()
     const { slug } = router.query
 
+    const { authors } = useData()
 
     const getAuthorBySlug = async () => {
         setLoading(true)
-        const { data } = await axios.get(`/api/public/authors/${slug}`)
-        setAuthorEdit(data)
+        const authorEdit = authors.find( author => author.slug === slug )
+        if(!authorEdit){
+            setLoading(false)
+            router.push('/admin/autores')
+            return
+        }
+        setAuthorEdit(authorEdit)
         setLoading(false)
     }
 
@@ -34,7 +40,7 @@ const EditarAutorPage = () => {
     return (
         <AdminLayout title="- Editar" >
             {
-                loading
+                loading && authors.length <= 0 
                     ? <div className="flex justify-center mt-96">
                         <LoadingAdmin />
                     </div>

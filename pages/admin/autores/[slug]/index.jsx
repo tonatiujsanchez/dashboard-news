@@ -3,8 +3,6 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import NextLink from 'next/link'
 
-import axios from 'axios'
-
 import { useUI } from '../../../../hooks/useUI'
 import { useData } from '../../../../hooks/useData'
 
@@ -44,13 +42,13 @@ const DetallesAutorPage = () => {
     const { slug } = router.query
 
     const { showSideMenu } = useUI()
-    const { deleteAuthor } = useData()
+    const { deleteAuthor, authors } = useData()
 
 
-    const getAuthorBySlug = async () => {
+    const getAuthorBySlug = () => {
         setLoading(true)
-        const { data } = await axios.get(`/api/public/authors/${slug}`)
-        setAuthor(data)
+        const authorView = authors.find( author => author.slug === slug )
+        setAuthor(authorView)
         setLoading(false)
 
     }

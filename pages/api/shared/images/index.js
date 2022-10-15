@@ -44,27 +44,54 @@ const getImages = async ( req, res ) => {
     const imagesPerPage = 5
     let skipImages = Number(skipStart)
     
+    const { news_session_UD3EZGXun367:token } = req.cookies
+    const { payload } = await jose.jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET_SEED))
+
+    if( section === 'authors' && payload.role !== 'admin' ){
+        return res.status(400).json({ message: 'No tiene permisos a esta sección de imagenes' })
+    }
 
     try {
 
         await db.connect()
 
-        const imagesLengthDB = await Image.find({ section }).count()
+        let imagesLengthDB = 0
+        
+        if(section === 'users' && payload.role !== 'admin'){
+            imagesLengthDB = await Image.find({ section, user: payload._id  }).count()
+        }else {
+            imagesLengthDB = await Image.find({ section }).count()
+        }
+
 
         if( skipImages >= imagesLengthDB || skipImages < 0 ){
             skipImages = 0
         }
 
-        const images = await Image.find({ section })
-                                  .skip(skipImages)
-                                  .limit(imagesPerPage)
-                                  .select('name url size format section')
-                                  .sort({ createdAt: 'descending' })
-                                  .lean()
+
+        let images = []
+
+        if(section === 'users' && payload.role !== 'admin') {
+            
+            images = await Image.find({ section, user: payload._id })
+                                .skip(skipImages)
+                                .limit(imagesPerPage)
+                                .select('name url size format section')
+                                .sort({ createdAt: 'descending' })
+                                .lean()
+        } else {
+
+            images = await Image.find({ section })
+                                .skip(skipImages)
+                                .limit(imagesPerPage)
+                                .select('name url size format section')
+                                .sort({ createdAt: 'descending' })
+                                .lean()
+        }
+
         
         await db.disconnect()
-        
-        // Return section, pagesCount ang Length 
+
 
         return res.status(200).json({
             section,
@@ -104,18 +131,6 @@ const deleteImage = async( req, res ) => {
         await db.disconnect()
         return res.status(400).json({ message: 'Imagen no encontrada' })
     }
-
-
-    const { news_session_UD3EZGXun367:token } = req.cookies
-
-    const { payload } = await jose.jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET_SEED))
-
-    
-    if( image.user !== payload._id && payload.role !== 'admin' ){
-        await db.disconnect()
-        return res.status(400).json({ message: 'No tiene permisos para eliminar esta imagen' })
-    }
-
     
     try {
         await cloudinary.uploader.destroy(image.name)

@@ -280,8 +280,20 @@ export const DataProvider = ({ children }) => {
             dispatch({ type: types.dataRefreshCategories, payload: data.categories })
 
         } catch (error) {
-            console.log(error);
-            // TODO: Mostrar el error en pantalla            
+            if(axios.isAxiosError(error)){
+                const { message } = error.response.data
+                notifyError(message)
+                return {
+                    hasError: true,
+                    urlImage: null
+                }
+            }
+
+            notifyError('Hubo un error inesperado')
+            return {
+                hasError: true,
+                urlImage: null
+            }         
         }
     }
 
@@ -299,8 +311,20 @@ export const DataProvider = ({ children }) => {
             dispatch({ type: types.dataAddNewCategory, payload: data })
 
         } catch (error) {
-            console.log(error)
-            // TODO: Mostrar el error en pantalla
+            if(axios.isAxiosError(error)){
+                const { message } = error.response.data
+                notifyError(message)
+                return {
+                    hasError: true,
+                    urlImage: null
+                }
+            }
+
+            notifyError('Hubo un error inesperado')
+            return {
+                hasError: true,
+                urlImage: null
+            }
         }
     }
 
@@ -318,9 +342,20 @@ export const DataProvider = ({ children }) => {
             dispatch({ type: types.dataUpdateCategory, payload: data })
         
         } catch (error) {
+            if(axios.isAxiosError(error)){
+                const { message } = error.response.data
+                notifyError(message)
+                return {
+                    hasError: true,
+                    urlImage: null
+                }
+            }
 
-            console.log(error)
-            // TODO: Mostrar el error en pantalla
+            notifyError('Hubo un error inesperado')
+            return {
+                hasError: true,
+                urlImage: null
+            }
         }
 
     }
@@ -331,8 +366,20 @@ export const DataProvider = ({ children }) => {
             await axios.delete(`/api/admin/categories/${idCategory}`)
             dispatch({ type: types.dataDeleteCategory, payload: idCategory })
         } catch (error) {
-            console.log(error)
-            // TODO: Mostrar el error en pantalla
+            if(axios.isAxiosError(error)){
+                const { message } = error.response.data
+                notifyError(message)
+                return {
+                    hasError: true,
+                    urlImage: null
+                }
+            }
+
+            notifyError('Hubo un error inesperado')
+            return {
+                hasError: true,
+                urlImage: null
+            }
         }
     }
 
@@ -345,8 +392,20 @@ export const DataProvider = ({ children }) => {
             const { data } = await axios.get(`/api/public/authors`)
             dispatch({ type: types.dataRefreshAuthors, payload: data.authors })
         } catch (error) {
-            console.log(error)
-            // TODO: Mostrar el error en pantalla
+            if(axios.isAxiosError(error)){
+                const { message } = error.response.data
+                notifyError(message)
+                return {
+                    hasError: true,
+                    urlImage: null
+                }
+            }
+
+            notifyError('Hubo un error inesperado')
+            return {
+                hasError: true,
+                urlImage: null
+            }
         }
     }
 
@@ -358,7 +417,20 @@ export const DataProvider = ({ children }) => {
             dispatch({ type: types.dataAddNewAuthor, payload: data })
 
         } catch (error) {
-            console.log(error)
+            if(axios.isAxiosError(error)){
+                const { message } = error.response.data
+                notifyError(message)
+                return {
+                    hasError: true,
+                    urlImage: null
+                }
+            }
+
+            notifyError('Hubo un error inesperado')
+            return {
+                hasError: true,
+                urlImage: null
+            }
         }
     }
 
@@ -370,7 +442,20 @@ export const DataProvider = ({ children }) => {
             dispatch({ type: types.dataUpdateAuthor, payload: data })
 
         } catch (error) {
-            console.log(error)
+            if(axios.isAxiosError(error)){
+                const { message } = error.response.data
+                notifyError(message)
+                return {
+                    hasError: true,
+                    urlImage: null
+                }
+            }
+
+            notifyError('Hubo un error inesperado')
+            return {
+                hasError: true,
+                urlImage: null
+            }
         }
 
 
@@ -382,7 +467,20 @@ export const DataProvider = ({ children }) => {
             dispatch({ type: types.dataDeleteAuthor, payload: slugAuthor })
         } catch (error) {
 
-            console.log(error)
+            if(axios.isAxiosError(error)){
+                const { message } = error.response.data
+                notifyError(message)
+                return {
+                    hasError: true,
+                    urlImage: null
+                }
+            }
+
+            notifyError('Hubo un error inesperado')
+            return {
+                hasError: true,
+                urlImage: null
+            }
         }
 
     }

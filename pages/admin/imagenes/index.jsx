@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { Fragment, useEffect, useRef, useState } from "react"
 
 import { toast } from 'react-toastify'
 import ReactPaginate from 'react-paginate'
@@ -10,6 +10,7 @@ import { AdminLayout } from "../../../components/layouts/AdminLayout"
 import { ImageList } from "../../../components/admin/images"
 
 import { useData } from "../../../hooks/useData"
+import { useAuth } from "../../../hooks/useAuth"
 
 
 const buttonsNav = [
@@ -22,7 +23,7 @@ const buttonsNav = [
         id: 'authors'
     },
     {
-        title: 'Usuarios',
+        title: 'Perfil',
         id: 'users'
     },
 ]
@@ -47,6 +48,7 @@ const ImagenesPage = () => {
 
 
     const { refreshImages, addNewImage, images } = useData()
+    const { user } = useAuth()
 
 
 
@@ -75,8 +77,16 @@ const ImagenesPage = () => {
         const imagesSectionActive = localStorage.getItem(section_active_storage) || buttonsNav[0].id
         const imagesPageActive = Number(localStorage.getItem(`section_page_storage_${imagesSectionActive}_UD3EZGXun367`)) || 0
 
-        setSectionActive(imagesSectionActive)
-        setActualPage(imagesPageActive)
+        if(imagesSectionActive === 'authors' && user.role !== 'admin'){
+            setSectionActive(buttonsNav[0].id)
+            setActualPage(0)
+
+        } else {
+
+            setSectionActive(imagesSectionActive)
+            setActualPage(imagesPageActive)
+        }
+
     },[])
 
 
@@ -198,8 +208,13 @@ const ImagenesPage = () => {
                                 </button>
                             </div>
                             <div className="flex items-center justify-center gap-2 lg:gap-5">
-                                {
+                                {   user &&
                                     buttonsNav.map(btn => {
+
+                                        if(user.role !== 'admin' && btn.id === 'authors'){
+                                            return <Fragment key={btn.id}></Fragment>
+                                        }
+
                                         return (
                                             <button
                                                 key={btn.id}
