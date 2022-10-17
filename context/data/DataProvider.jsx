@@ -212,7 +212,7 @@ export const DataProvider = ({ children }) => {
             const { data } = await axios.put(`/api/admin/users/${newUser._id}`,{ ...newUser })
             dispatch({ type: types.dataUpdateUser, payload: data })
 
-            notifySuccess('Usuario actuazalizado')
+            notifySuccess('Usuario actualizado')
             return { hasError: false }
 
         } catch (error) {
@@ -415,6 +415,8 @@ export const DataProvider = ({ children }) => {
                 ...author
             })
             dispatch({ type: types.dataAddNewAuthor, payload: data })
+            notifySuccess('Autor creado')
+            return { hasError: false }
 
         } catch (error) {
             if(axios.isAxiosError(error)){
@@ -440,7 +442,8 @@ export const DataProvider = ({ children }) => {
                 ...author
             })
             dispatch({ type: types.dataUpdateAuthor, payload: data })
-
+            notifySuccess('Autor actualizado')
+            return { hasError: false }
         } catch (error) {
             if(axios.isAxiosError(error)){
                 const { message } = error.response.data

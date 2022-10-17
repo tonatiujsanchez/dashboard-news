@@ -9,6 +9,7 @@ import { useData } from "../../../hooks/useData"
 
 import Modal from 'react-modal'
 import { AuthorImages } from "./AuthorImages"
+import { LoadingCircle } from "../ui"
 
 const customStyles = {
     overlay: {
@@ -29,7 +30,10 @@ export const AuthorForm = ({ author = null }) => {
 
     const [showOptions, setShowOptions] = useState(false)
     const [showImagesModal, setShowImagesModal] = useState(false)
+    const [loadingSubmit, setLoadingSubmit] = useState(false)
 
+
+    const [photo, setPhoto] = useState(null)
     const [file, setFile] = useState(null);
     const [fileDataURL, setFileDataURL] = useState(null);
 
@@ -37,7 +41,7 @@ export const AuthorForm = ({ author = null }) => {
     const router = useRouter()
 
     const { showSideMenu } = useUI()
-    const { addNewAuthor, updateAuthor } = useData()
+    const { addNewAuthor, updateAuthor, addNewImage } = useData()
 
     const [values, handleInputChange, reset] = useCustomForm({
         name: '',
@@ -49,7 +53,6 @@ export const AuthorForm = ({ author = null }) => {
         web: '',
         occupation: '',
         description: '',
-        photo: '',
     })
 
     const {
@@ -62,26 +65,23 @@ export const AuthorForm = ({ author = null }) => {
         web,
         occupation,
         description,
-        photo
     } = values
 
     useEffect(() => {
         if (author) {
-            // reset({
-            //     name: author.name,
-            //     facebook: author.facebook,
-            //     twitter: author.twitter,
-            //     instagram: author.instagram,
-            //     email: author.email,
-            //     phone: author.phone,
-            //     web: author.web,
-            //     occupation: author.occupation,
-            //     description: author.description,
-            //     photo: author.photo,
-            // })
+            reset({
+                name: author.name,
+                facebook: author.facebook,
+                twitter: author.twitter,
+                instagram: author.instagram,
+                email: author.email,
+                phone: author.phone,
+                web: author.web,
+                occupation: author.occupation,
+                description: author.description,
+            })
+            setPhoto(author.photo)
             console.log('Editando...')
-        } else {
-            console.log('Nuevo')
         }
     }, [author])
 
@@ -114,11 +114,38 @@ export const AuthorForm = ({ author = null }) => {
         hiddenImagesModal()
     }
 
-    const onSave = () => {
+    const removePhoto = () => {
+        setPhoto(null)
+        setFile(null)
+        setFileDataURL(null)
+        setShowOptions(false)
+    }
+
+    const onSave = async() => {
 
         if( name.trim().length <= 0 ){
             console.log('El nombre es necesario');
             return
+        }
+
+        setLoadingSubmit(true)
+
+        let newImageUrl =  null
+        if(file){
+
+            const formData = new FormData()
+            formData.append('file', file)
+            formData.append('section', 'users')
+    
+            // TODO: Añadir section && Eliminar imagen
+            const { hasError, urlImage } = await addNewImage(formData)
+            
+            if(hasError){
+                setLoadingSubmit(false)
+                return
+            }
+            
+            newImageUrl = urlImage
         }
 
         const newAuthor = {
@@ -132,16 +159,24 @@ export const AuthorForm = ({ author = null }) => {
             web,
             occupation,
             description,
-            photo,
+            photo: newImageUrl ? newImageUrl : photo,
         }
 
         if (author) {
-            updateAuthor(newAuthor)
-            router.push('/admin/autores')
+            const { hasError } = await updateAuthor(newAuthor)
+            if(hasError){
+                setLoadingSubmit(false)
+                return
+            }
         } else {
-            addNewAuthor(newAuthor)
-            router.push('/admin/autores')
+            const { hasError } = await addNewAuthor(newAuthor)
+            if(hasError){
+                setLoadingSubmit(false)
+                return
+            }
         }
+
+        router.replace('/admin/autores')
     }
 
 
@@ -171,7 +206,9 @@ export const AuthorForm = ({ author = null }) => {
                                             <i className='bx bx-image-alt text-3xl'></i>
                                             <span>Actualizar foto</span>
                                         </button>
-                                        <button className="w-full text-left text-gray-700 flex items-center gap-2 px-4 py-3 text-xl hover:bg-gray-100 hover:text-gray-900">
+                                        <button 
+                                            onClick={removePhoto}
+                                            className="w-full text-left text-gray-700 flex items-center gap-2 px-4 py-3 text-xl hover:bg-gray-100 hover:text-gray-900">
                                             <i className='bx bx-trash text-red-600 text-3xl'></i>
                                             <span>Quitar foto</span>
                                         </button>
@@ -188,7 +225,7 @@ export const AuthorForm = ({ author = null }) => {
                                 type="text"
                                 id="facebook"
                                 name="facebook"
-                                value={facebook}
+                                value={facebook || ''}
                                 onChange={handleInputChange}
                                 className="bg-admin rounded-md flex-1 border p-3" />
                         </div>
@@ -198,7 +235,7 @@ export const AuthorForm = ({ author = null }) => {
                                 type="text"
                                 id="twitter"
                                 name="twitter"
-                                value={twitter}
+                                value={twitter || ''}
                                 onChange={handleInputChange}
                                 className="bg-admin rounded-md flex-1 border p-3" />
                         </div>
@@ -208,7 +245,7 @@ export const AuthorForm = ({ author = null }) => {
                                 type="text"
                                 id="instagram"
                                 name="instagram"
-                                value={instagram}
+                                value={instagram || ''}
                                 onChange={handleInputChange}
                                 className="bg-admin rounded-md flex-1 border p-3" />
                         </div>
@@ -218,7 +255,7 @@ export const AuthorForm = ({ author = null }) => {
                                 type="text"
                                 id="web"
                                 name="web"
-                                value={web}
+                                value={web || ''}
                                 onChange={handleInputChange}
                                 className="bg-admin rounded-md flex-1 border p-3" />
                         </div>
@@ -233,7 +270,7 @@ export const AuthorForm = ({ author = null }) => {
                                 type="text"
                                 id="name"
                                 name="name"
-                                value={name}
+                                value={name || ''}
                                 onChange={handleInputChange}
                                 className="bg-admin rounded-md flex-1 border p-5" />
                         </div>
@@ -243,7 +280,7 @@ export const AuthorForm = ({ author = null }) => {
                                 type="text"
                                 id="email"
                                 name="email"
-                                value={email}
+                                value={email || ''}
                                 onChange={handleInputChange}
                                 className="bg-admin rounded-md flex-1 border p-5" />
                         </div>
@@ -253,7 +290,7 @@ export const AuthorForm = ({ author = null }) => {
                                 type="text"
                                 id="phone"
                                 name="phone"
-                                value={phone}
+                                value={phone || ''}
                                 onChange={handleInputChange}
                                 className="bg-admin rounded-md flex-1 border p-5" />
                         </div>
@@ -263,7 +300,7 @@ export const AuthorForm = ({ author = null }) => {
                                 type="text"
                                 id="occupation"
                                 name="occupation"
-                                value={occupation}
+                                value={occupation || ''}
                                 onChange={handleInputChange}
                                 className="bg-admin rounded-md flex-1 border p-5" />
                         </div>
@@ -272,7 +309,7 @@ export const AuthorForm = ({ author = null }) => {
                             <textarea
                                 id="description"
                                 name="description"
-                                value={description}
+                                value={description || ''}
                                 onChange={handleInputChange}
                                 cols="30"
                                 rows="10"
@@ -284,13 +321,20 @@ export const AuthorForm = ({ author = null }) => {
                     <div className="flex items-center justify-end gap-2 mt-5">
                         <button
                             onClick={onCalcel}
+                            disabled={loadingSubmit}
                             className="py-3 px-5 uppercase w-full sm:w-auto rounded-md cursor-pointer transition-colors">
                             Cancelar
                         </button>
                         <button
                             onClick={onSave}
-                            className="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-3 px-8 uppercase w-full sm:w-auto rounded-md cursor-pointer transition-colors">
-                            Guardar
+                            disabled={loadingSubmit}
+                            className="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-3 px-8 uppercase w-full sm:w-auto rounded-md cursor-pointer transition-colors min-w-[120px] flex justify-center disabled:bg-sky-300">
+                            {
+                                loadingSubmit
+                                ? <LoadingCircle />
+                                : <span>Guardar</span>
+                            }
+                            
                         </button>
                     </div>
                 </section>
