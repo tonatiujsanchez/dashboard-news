@@ -106,11 +106,6 @@ export const AuthorForm = ({ author = null }) => {
     const setImagePreview = (file, urlImage) => {
         setFile(file)
         setFileDataURL(urlImage)
-        console.log({
-            file,
-            urlImage
-        });
-        console.log( typeof urlImage );
         hiddenImagesModal()
     }
 
@@ -120,6 +115,8 @@ export const AuthorForm = ({ author = null }) => {
         setFileDataURL(null)
         setShowOptions(false)
     }
+
+    // TODO: Seleccionar foto desde el modal
 
     const onSave = async() => {
 
@@ -135,9 +132,8 @@ export const AuthorForm = ({ author = null }) => {
 
             const formData = new FormData()
             formData.append('file', file)
-            formData.append('section', 'users')
-    
-            // TODO: Añadir section && Eliminar imagen
+            formData.append('section', 'authors')
+
             const { hasError, urlImage } = await addNewImage(formData)
             
             if(hasError){
@@ -184,13 +180,14 @@ export const AuthorForm = ({ author = null }) => {
     return (
         <>
             <div className="flex flex-col sm:flex-row gap-10 sm:flex-wrap">
-                <section className={`bg-white p-5 sm:p-10 rounded-md lg:order-2 min-w-[300px] ${showSideMenu ? 'w-full' : 'sm:w-[300px]'} lg:w-[350px]`}>
+                <section className={`bg-white p-5 sm:p-10 rounded-md lg:order-2 min-w-[300px] ${showSideMenu ? 'w-full' : 'sm:w-[300px]'} lg:w-[320px]`}>
                     <div className={` rounded-lg w-full ${photo && photo.length > 0 || fileDataURL ? '' : 'p-20'} `}>
                         <div className={`w-full mb-5 relative ${photo && photo?.length > 0 || fileDataURL ? '' : 'border-2 border-dotted'}`}>
                             <img
                                 className={`rounded-lg w-full ${photo && photo?.length > 0 || fileDataURL ? '' : 'p-20 opacity-50'}`}
                                 src={ fileDataURL || photo || "/assets/admin/imgs/drop-image.png"}
-                                alt={name} />
+                                alt={name}
+                            />
                             <button
                                 onClick={() => setShowOptions(!showOptions)}
                                 className="flex justify-center items-center absolute right-[-10px] bottom-[-10px] text-3xl bg-admin text-sky-700 py-2 px-2 rounded-full shadow border hover:bg-sky-600 hover:text-white hover:border-sky-600">

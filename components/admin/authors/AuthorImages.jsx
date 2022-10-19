@@ -5,7 +5,7 @@ const imageMimeType = /image\/(png|jpg|jpeg)/i;
 
 export const AuthorImages = ({ hiddenImagesModal, setImagePreview }) => {
 
-    const [file, setFile] = useState(null);
+    const [file, setFile] = useState(null)
 
     const handlePicture = () => {
         document.querySelector('#filePicture').click()

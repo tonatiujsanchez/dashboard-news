@@ -126,7 +126,6 @@ export const UserForm = ({ userEdit = null }) => {
             formData.append('file', file)
             formData.append('section', 'users')
     
-            // TODO: Añadir section && Eliminar imagen
             const { hasError, urlImage } = await addNewImage(formData)
             
             if(hasError){
