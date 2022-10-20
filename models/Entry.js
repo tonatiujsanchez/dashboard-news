@@ -47,7 +47,7 @@ const entrySchema = new Schema({
         type: String,
         require: false,
     },
-    municipio: {
+    subcategory: {
         type: String,
         require: false,
     },

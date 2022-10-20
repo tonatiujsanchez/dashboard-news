@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo } from "react"
+import { Fragment, useEffect, useMemo, useState } from "react"
 import { useData } from "../../../hooks/useData"
 import { SelectCategories } from "./SelectCategories"
 
@@ -6,28 +6,8 @@ import { SelectCategories } from "./SelectCategories"
 
 export const ArticleForm = () => {
 
-    const {
-        categories,
-        refreshCategories,
-    } = useData()
+    const { article, setArticle } = useData()
 
-
-    const categoriesMemo = useMemo(() => {
-        return (
-            categories.filter(category => {
-                category.subcategories = categories.filter(
-                    subc => (subc.type === 'subcategory' && subc.category === category._id)
-                )
-                if (category.type === 'category') {
-                    return category
-                }
-            })
-        )
-    }, [categories])
-
-    useEffect(() => {
-        console.log(categoriesMemo);
-    }, [])
 
 
     return (
@@ -41,22 +21,14 @@ export const ArticleForm = () => {
                     className="bg-admin rounded-md flex-1 border p-5" />
             </div>
             <div className="flex flex-col gap-2 mb-4 w-full">
-                <div className="flex items-end gap-2">
-                    <label htmlFor="category" className="mb-1">Categoría</label>
-                    <button
-                        className="text-xl text-slate-600 hover:bg-slate-200 hover:text-slate-900 py-2 px-2 rounded-full grid place-content-center active:scale-95"
-                        onClick={() => refreshCategories()}>
-                        <i className='bx bx-revision'></i>
-                    </button>
-                </div>
-                <SelectCategories categories={categoriesMemo} />
-                <div>
-                    <p>Hola</p>
-                    <p>Hola</p>
-                    <p>Hola</p>
-                    <p>Hola</p>
-                    <p>Hola</p>
-                </div>
+                <SelectCategories />
+            </div>
+            <div>
+                <p>Hola</p>
+                <p>Hola</p>
+                <p>Hola</p>
+                <p>Hola</p>
+                <p>Hola</p>
             </div>
         </div>
     )

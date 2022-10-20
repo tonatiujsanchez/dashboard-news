@@ -39,6 +39,23 @@ export const DataProvider = ({ children }) => {
 
     const { user } = useAuth()
 
+    const [article, setArticle] = useState({
+        user: '',
+        title: '',
+        description: '',
+        content: '',
+        published: false,
+        image: '',
+        imageSocial: '',
+        destacado: '',
+        slug: '',
+        autor: '',
+        category: '',
+        subcategory: '',
+        views: '',
+    })
+
+
     const [state, dispatch] = useReducer(dataReducer, DATA_INITIAL_STATE)
 
     const notifySuccess = (msg) => toast.success(msg, {
@@ -516,7 +533,11 @@ export const DataProvider = ({ children }) => {
             refreshAuthors,
             addNewAuthor,
             updateAuthor,
-            deleteAuthor
+            deleteAuthor,
+
+            // New Article
+            article,
+            setArticle,
         }} >
             {children}
         </DataContext.Provider>
