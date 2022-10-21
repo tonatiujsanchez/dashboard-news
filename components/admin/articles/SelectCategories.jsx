@@ -28,7 +28,7 @@ export const SelectCategories = () => {
     }, [categories])
 
 
-    const loadCategories = async() => {
+    const loadCategories = async () => {
         setLoadingCategories(true)
         await refreshCategories()
         setLoadingCategories(false)
@@ -142,6 +142,7 @@ const ContenedorSelect = styled.div`
 	display: flex;
 	align-items: center;
 	transition: .5s ease all;
+    z-index: 20;
 	&:hover {
 		background-color: #E8EFF1;
 	}
@@ -152,6 +153,7 @@ const OpcionSeleccionada = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+    z-index: 20;
 `;
 
 const Opciones = styled.div`
@@ -163,13 +165,15 @@ const Opciones = styled.div`
 	border-radius: 0.625rem; /* 10px */
 	max-height: 28rem; /* 300px */
 	overflow-y: auto;
+    z-index: 20;
 `;
 
 const Opcion = styled.div`
 	display: flex;
     padding: ${(props) => props.subcategory ? '1rem 1.25rem 1rem 3rem' : '1.25rem'};
     font-weight: ${(props) => props.subcategory ? 'normal' : 'bold'};
-	&:hover {
+	z-index: 20;
+    &:hover {
 		background-color: #CBDDE2;
 	}
 `;

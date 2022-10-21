@@ -41,7 +41,7 @@ const getImages = async ( req, res ) => {
         return res.status(400).json({ message: 'Sección de la imagen NO valida' })
     }
 
-    const imagesPerPage = 5
+    const imagesPerPage = 10
     let skipImages = Number(skipStart)
     
     const { news_session_UD3EZGXun367:token } = req.cookies

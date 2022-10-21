@@ -85,6 +85,8 @@ export const ImageItem = ({ image }) => {
                     <Image
                         priority="true"
                         layout='responsive'
+                        blurDataURL={image.url}
+                        placeholder="blur"
                         width={100}
                         height={70}
                         objectFit="cover"

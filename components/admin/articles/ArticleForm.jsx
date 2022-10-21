@@ -2,8 +2,8 @@ import { Fragment, useEffect, useMemo, useState } from "react"
 
 import slugify from "slugify"
 
-import { useCustomForm } from "../../../hooks/useCustomForm"
 import { useData } from "../../../hooks/useData"
+import { SelectAuthors } from "./SelectAuthors"
 import { SelectCategories } from "./SelectCategories"
 
 
@@ -12,19 +12,15 @@ export const ArticleForm = () => {
 
     const { article, setArticle } = useData()
 
-
-
     const handleSetName = ({ target }) => {
-
         const slug = slugify(target.value, { replacement: '-', lower: true })
-
         setArticle({
             ...article,
             title: target.value,
             slug
         })
-
     }
+    
     const handleSetSlug = ({ target }) => {
         const slug = slugify(target.value, { replacement: '-', lower: true })
         setArticle({
@@ -58,11 +54,9 @@ export const ArticleForm = () => {
                         className="bg-admin rounded-md border p-5 text-slate-400 focus:text-black" />
                 </div>
             </div>
-            <div>
+            <div className="flex flex-col sm:flex-row gap-4 mb-4">
                 <SelectCategories />
-                <div className="">
-
-                </div>
+                <SelectAuthors />
             </div>
         </div>
     )
