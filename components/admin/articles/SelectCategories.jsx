@@ -8,7 +8,7 @@ import { useData } from "../../../hooks/useData"
 export const SelectCategories = () => {
 
 
-    const [loadingCategories, setLoadingCategories] = useState(true)
+    const [loadingCategories, setLoadingCategories] = useState(false)
     const [showSelect, setShowSelect] = useState(false)
     const [categoryActive, setCategoryActive] = useState(null)
 
@@ -53,8 +53,6 @@ export const SelectCategories = () => {
             setCategoryActive(article.category)            
         }
 
-        console.log(article);
-
     },[article, categories])
 
 
@@ -69,8 +67,8 @@ export const SelectCategories = () => {
     }
 
     return (
-        <>
-            <div className="flex items-end gap-2">
+        <div className="flex-1 flex flex-col gap-1">
+            <div className="flex items-end gap-2 mb-1">
                 <label htmlFor="category" className="mb-1">Categoría</label>
                 <button
                     className="text-xl text-slate-600 hover:bg-slate-200 hover:text-slate-900 py-2 px-2 rounded-full grid place-content-center active:scale-95"
@@ -124,7 +122,7 @@ export const SelectCategories = () => {
                 </ContenedorSelect>
                 
             }
-        </>
+        </div>
     )
 }
 
@@ -132,7 +130,7 @@ export const SelectCategories = () => {
 
 
 const ContenedorSelect = styled.div`
-    background-color: white;
+    background-color: rgb(250, 250, 255);
 	cursor: pointer;
 	border-radius: 0.625rem; /* 10px */
 	position: relative;

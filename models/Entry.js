@@ -1,4 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
+import CategoryModel, { categorySchema } from './Category'
+
 
 const entrySchema = new Schema({
     user: { 
@@ -40,14 +42,14 @@ const entrySchema = new Schema({
         require: true,
     },
     category: {
-        type: String,
+        type: categorySchema,
         require: true,
     },
-    autor: {
-        type: String,
+    subcategory: {
+        type: categorySchema,
         require: false,
     },
-    subcategory: {
+    autor: {
         type: String,
         require: false,
     },
