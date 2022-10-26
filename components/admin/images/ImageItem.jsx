@@ -101,7 +101,6 @@ export const ImageItem = ({ image }) => {
                             <p className="text-lg text-slate-600">{image.size}</p>
                             <CopyToClipboard onCopy={onCopy} text={image.url}>
                                 <button
-                                    // onClick={ copyUrl } 
                                     className="bg-slate-200 text-slate-800 px-4 py-2 rounded-tl-lg text-xl active:scale-95">
                                     <i className='bx bx-clipboard'></i>
                                 </button>

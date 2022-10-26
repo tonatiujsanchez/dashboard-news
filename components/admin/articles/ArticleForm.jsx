@@ -5,6 +5,7 @@ import slugify from "slugify"
 import { useData } from "../../../hooks/useData"
 import { SelectAuthors } from "./SelectAuthors"
 import { SelectCategories } from "./SelectCategories"
+import { SelectImage } from "./SelectImage"
 
 
 
@@ -57,6 +58,12 @@ export const ArticleForm = () => {
             <div className="flex flex-col sm:flex-row gap-4 mb-4">
                 <SelectCategories />
                 <SelectAuthors />
+            </div>
+            <div>
+                <div className="flex justify-center flex-wrap gap-10">
+                    <SelectImage image='https://res.cloudinary.com/ton/image/upload/v1665207011/phgtovidqrjyajceejsh.jpg' />
+                    <SelectImage />
+                </div>
             </div>
         </div>
     )

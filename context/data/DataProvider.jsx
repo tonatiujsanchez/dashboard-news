@@ -79,7 +79,7 @@ export const DataProvider = ({ children }) => {
 
         try {
 
-            const skipStart = page * 5
+            const skipStart = page * 10
 
             const { data } = await axios.get(`/api/shared/images`, { params: { section, skipStart } })
 
