@@ -30,6 +30,20 @@ export const ArticleForm = () => {
         })
     }
 
+    const handleSetImagePrincipal = (imageUrl) => {
+        setArticle({
+            ...article,
+            image: imageUrl
+        })
+    }
+
+    const handleSetImageSocial = (imageUrl) => {
+        setArticle({
+            ...article,
+            imageSocial: imageUrl
+        })
+    }
+
 
     return (
         <div className="bg-white p-5 sm:p-10 rounded-xl">
@@ -59,10 +73,20 @@ export const ArticleForm = () => {
                 <SelectCategories />
                 <SelectAuthors />
             </div>
-            <div>
+            <div className="mb-4">
                 <div className="flex justify-center flex-wrap gap-10">
-                    <SelectImage image='https://res.cloudinary.com/ton/image/upload/v1665207011/phgtovidqrjyajceejsh.jpg' />
-                    <SelectImage />
+                    <SelectImage
+                        image={article.image}
+                        label="Foto principal"
+                        heightContentImage='h-80'
+                        handleSetImage={handleSetImagePrincipal}
+                    />
+                    <SelectImage
+                        image={article.imageSocial} 
+                        heightContentImage='h-72'
+                        label="Redes sociales"
+                        handleSetImage={handleSetImageSocial}
+                    />
                 </div>
             </div>
         </div>

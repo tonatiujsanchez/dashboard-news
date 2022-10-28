@@ -102,7 +102,7 @@ const SidebarConatiner = styled.div`
             column-gap: 36px;
             transition: 0.4s;
             background-color: var(--white-color);
-            z-index: 99;
+            z-index: 98;
         }
     }
 

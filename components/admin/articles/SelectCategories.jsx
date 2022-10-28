@@ -142,7 +142,7 @@ const ContenedorSelect = styled.div`
 	display: flex;
 	align-items: center;
 	transition: .5s ease all;
-    z-index: 20;
+    /* z-index: 20; */
 	&:hover {
 		background-color: #E8EFF1;
 	}
@@ -153,7 +153,7 @@ const OpcionSeleccionada = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-    z-index: 20;
+    /* z-index: 20; */
 `;
 
 const Opciones = styled.div`
@@ -172,7 +172,7 @@ const Opcion = styled.div`
 	display: flex;
     padding: ${(props) => props.subcategory ? '1rem 1.25rem 1rem 3rem' : '1.25rem'};
     font-weight: ${(props) => props.subcategory ? 'normal' : 'bold'};
-	z-index: 20;
+	/* z-index: 20; */
     &:hover {
 		background-color: #CBDDE2;
 	}
