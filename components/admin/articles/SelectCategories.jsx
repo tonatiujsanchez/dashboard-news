@@ -48,6 +48,7 @@ export const SelectCategories = () => {
             
             if(!article.category){
                 setCategoryActive(categoriesMemo[0])
+                handleSelectCategory(categoriesMemo[0])
                 return
             }
             setCategoryActive(article.category)            

@@ -32,7 +32,7 @@ export const SelectImage = ({ image = null, heightContentImage='h-80', label="Fo
         if(image){
             setPhoto(image)
         }
-    },[image])
+    },[])
 
     const hiddenImagesModal = () => {
         const body = document.querySelector('body')
@@ -55,6 +55,7 @@ export const SelectImage = ({ image = null, heightContentImage='h-80', label="Fo
         const image = await fnSelectedImage()
         if(image){
             handleSetImage(image)
+            setPhoto(image)
             hiddenImagesModal()
         }
     }

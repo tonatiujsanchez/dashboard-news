@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react"
 
-import { useData } from "../../../hooks/useData"
-import { ImagesSelectModalList } from "./ImagesSelectModalList"
+import ReactPaginate from 'react-paginate'
 import styled from "@emotion/styled"
 
+import { LoadingAdmin } from "../ui/LoadingAdmin"
 
-const section_active_storage = 'images_section_active_UD3EZGXun367'
+import { ImagesSelectModalList } from "./ImagesSelectModalList"
+import { useData } from "../../../hooks/useData"
+
+
 const sectionImages = 'articles'
 
 export const ImagesSelectModal = ({ hiddenImagesModal, handleSelectedImage }) => {
@@ -27,6 +30,11 @@ export const ImagesSelectModal = ({ hiddenImagesModal, handleSelectedImage }) =>
         setLoading(false)
     }
 
+    useEffect(()=>{
+        const imagesPageActive = Number(localStorage.getItem(`section_page_storage_articles_UD3EZGXun367`)) || 0
+        setActualPage(imagesPageActive)
+    },[])
+
 
     useEffect(() => {
 
@@ -40,8 +48,6 @@ export const ImagesSelectModal = ({ hiddenImagesModal, handleSelectedImage }) =>
 
     }, [images])
 
-    // TODO: Implementar paginación
-
 
     const onSelectedImage = async() =>{
         if(!imageSelected){
@@ -50,7 +56,10 @@ export const ImagesSelectModal = ({ hiddenImagesModal, handleSelectedImage }) =>
         return imageSelected.url
     }
 
-
+    const handlePageClick = async(event) => {
+        setActualPage(event.selected)
+        await refreshImages(sectionImages, event.selected)
+    }
 
     return (
         <div className="relative">
@@ -63,26 +72,48 @@ export const ImagesSelectModal = ({ hiddenImagesModal, handleSelectedImage }) =>
                     <i className='bx bx-x text-5xl'></i>
                 </button>
             </header>
-            <ModalContent className="relative max-w-[700px] max-h-[65vh]">
-                <ImagesSelectModalList
-                    images={imagesList}
-                    imageSelected={imageSelected}
-                    setImageSelected={setImageSelected}
-                />
-                <div className="flex items-center justify-end gap-2 mt-5">
-                    <button
-                        onClick={hiddenImagesModal}
-                        className="py-3 px-5 uppercase w-full sm:w-auto rounded-md cursor-pointer transition-colors">
-                        Cancelar
-                    </button>
-                    <button
-                        onClick={()=>handleSelectedImage(onSelectedImage)}
-                        disabled={!imageSelected}
-                        className="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-3 px-8 uppercase w-full sm:w-auto rounded-md cursor-pointer transition-colors disabled:bg-sky-300">
-                        Seleccionar
-                    </button>
+            {
+                loading
+                ? <div className="flex justify-center items-center pt-52 pb-60">
+                    <LoadingAdmin />
                 </div>
-            </ModalContent>
+                :<ModalContent className="relative max-w-[700px] max-h-[65vh]">
+                    <ImagesSelectModalList
+                        images={imagesList}
+                        imageSelected={imageSelected}
+                        setImageSelected={setImageSelected}
+                    />
+                    <div className="flex justify-end mt-16">
+                        {
+                            images[sectionImages].pageCount > 1 &&
+                            <ReactPaginate
+                                previousLabel="<"
+                                breakLabel="..."
+                                nextLabel=">"
+                                onPageChange={handlePageClick}
+                                pageCount={ images[sectionImages].pageCount }
+                                forcePage={actualPage}
+                                className="flex justify-end gap-2"
+                                pageLinkClassName="border-2 border-transparent opacity-50 px-5 hover:border-b-sky-500 hover:opacity-100 py-2 font-semibold"
+                                activeLinkClassName="border-2 border-sky-500 opacity-100 py-2 rounded"
+                            />
+                        }
+                    </div>
+                    <div className="flex items-center justify-end gap-10 mt-5">
+                        <button
+                            onClick={hiddenImagesModal}
+                            className="py-3 px-5 uppercase w-full sm:w-auto rounded-md cursor-pointer transition-colors">
+                            Cancelar
+                        </button>
+                        <button
+                            onClick={()=>handleSelectedImage(onSelectedImage)}
+                            disabled={!imageSelected}
+                            className="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-3 px-8 uppercase w-full sm:w-auto rounded-md cursor-pointer transition-colors disabled:bg-sky-300">
+                            Seleccionar
+                        </button>
+                    </div>
+                </ModalContent>
+            }
         </div>
     )
 }

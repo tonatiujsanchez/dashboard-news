@@ -44,7 +44,6 @@ export const ArticleForm = () => {
         })
     }
 
-
     return (
         <div className="bg-white p-5 sm:p-10 rounded-xl">
             <div className="flex flex-col sm:flex-row gap-4 mb-4">

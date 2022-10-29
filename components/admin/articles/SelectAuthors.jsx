@@ -26,6 +26,7 @@ export const SelectAuthors = () => {
     useEffect(()=>{
         if(!article.author){
             setAuthorActive(authors[0])
+            handleSelectAuthor(authors[0])
             return
         }
         setAuthorActive(article.author)

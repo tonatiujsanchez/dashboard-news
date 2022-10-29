@@ -61,7 +61,6 @@ const getImages = async ( req, res ) => {
             imagesLengthDB = await Image.find({ section, user: payload._id  }).count()
         }else {
             imagesLengthDB = await Image.find({ section }).count()
-            console.log(imagesLengthDB);
         }
 
 

@@ -49,7 +49,7 @@ export const DataProvider = ({ children }) => {
         imageSocial: null,
         destacado: '',
         slug: '',
-        autor: '',
+        author: '',
         category: '',
         subcategory: '',
         views: '',
