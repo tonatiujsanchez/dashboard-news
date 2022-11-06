@@ -30,7 +30,7 @@ export const SelectAuthors = () => {
             return
         }
         setAuthorActive(article.author)
-    },[article, authors])
+    },[article.author, authors])
 
     const handleSelectAuthor = (author) => {
         setArticle({

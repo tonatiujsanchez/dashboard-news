@@ -72,6 +72,14 @@ export const DataProvider = ({ children }) => {
         localStorage.setItem(`section_page_storage_${section}_UD3EZGXun367`, page)
     }
 
+    // ===== ===== ===== ===== Entries ===== ===== ===== =====
+    // ===== ===== ===== ===== ===== ===== ===== ===== =====
+
+    const createNewEntry = () => {
+        console.log(article);
+    }
+
+
 
     // ===== ===== ===== ===== Images ===== ===== ===== =====
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -510,7 +518,9 @@ export const DataProvider = ({ children }) => {
     return (
         <DataContext.Provider value={{
             ...state,
-            
+            // Entries
+            createNewEntry,
+
             // Image
             refreshImages,
             addNewImage,

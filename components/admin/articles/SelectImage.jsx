@@ -32,7 +32,7 @@ export const SelectImage = ({ image = null, heightContentImage='h-80', label="Fo
         if(image){
             setPhoto(image)
         }
-    },[])
+    },[image])
 
     const hiddenImagesModal = () => {
         const body = document.querySelector('body')
@@ -64,7 +64,7 @@ export const SelectImage = ({ image = null, heightContentImage='h-80', label="Fo
     return (
         <>
             <div 
-                className={`rounded-lg w-full flex flex-col gap-2 mb-4 min-w-[320px] max-w-[400px]`}
+                className={`rounded-lg flex flex-col sm:flex-1 gap-2 mb-4`}
             >
                 <p className="mb-1">{ label }</p>
                 <div className={`w-full rounded-lg mb-5 relative ${photo ? '' : 'px-40 border-2 border-dotted'}`}>

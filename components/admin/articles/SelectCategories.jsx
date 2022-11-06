@@ -54,7 +54,7 @@ export const SelectCategories = () => {
             setCategoryActive(article.category)            
         }
 
-    },[article, categories])
+    },[article.subcategory, article.category, categories])
 
 
     const handleSelectCategory = (category, subcategory = null) => {
