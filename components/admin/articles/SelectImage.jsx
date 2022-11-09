@@ -64,17 +64,17 @@ export const SelectImage = ({ image = null, heightContentImage='h-80', label="Fo
     return (
         <>
             <div 
-                className={`rounded-lg flex flex-col sm:flex-1 gap-2 mb-4`}
+                className={`rounded-lg flex flex-col sm:flex-1 gap-2`}
             >
-                <p className="mb-1">{ label }</p>
-                <div className={`w-full rounded-lg mb-5 relative ${photo ? '' : 'px-40 border-2 border-dotted'}`}>
+                <p className="mb-1 font-medium">{ label }</p>
+                <div className={`w-full rounded-lg relative ${photo ? '' : 'border-2 border-dotted'}`}>
                     <div className={`rounded-lg overflow-hidden ${heightContentImage} relative w-full ${photo ? '' : 'opacity-40'}`}>
                         <Image
                             priority="true"
                             layout='fill'
                             blurDataURL={"/assets/admin/imgs/drop-image.png"}
                             placeholder="blur"
-                            objectFit="cover"
+                            objectFit={photo ? 'cover' : 'contain'}
                             src={photo || "/assets/admin/imgs/drop-image.png"}
                             alt={'Imagen para el artículo'}
                             title={'Imagen para el artículo'}

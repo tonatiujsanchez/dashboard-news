@@ -47,7 +47,7 @@ export const DataProvider = ({ children }) => {
         published: false,
         image: null,
         imageSocial: null,
-        destacado: '',
+        inFrontPage: false,
         slug: '',
         author: '',
         category: '',

@@ -70,7 +70,7 @@ export const SelectCategories = () => {
     return (
         <div className="flex-1 flex flex-col gap-1">
             <div className="flex items-end gap-2 mb-1">
-                <label htmlFor="category" className="mb-1">Categoría</label>
+                <label htmlFor="category" className="mb-1 font-medium">Categoría</label>
                 <button
                     className="text-xl text-slate-600 hover:bg-slate-200 hover:text-slate-900 py-2 px-2 rounded-full grid place-content-center active:scale-95"
                     onClick={() => loadCategories()}>

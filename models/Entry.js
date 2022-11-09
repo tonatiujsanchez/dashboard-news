@@ -32,7 +32,7 @@ const entrySchema = new Schema({
         type: String,
         require: false,
     },
-    destacado: {
+    inFrontPage: {
         type: Boolean,
         require: true,
         default: true,

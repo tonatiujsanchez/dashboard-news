@@ -1,79 +1,37 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-import Modal from 'react-modal'
 import styled from '@emotion/styled';
 
 import { useQuill } from 'react-quilljs'
 import 'quill/dist/quill.snow.css'
-
-import { ImagesSelectModal } from "./ImagesSelectModal"
-
-
-const customStyles = {
-    overlay: {
-        backgroundColor: 'rgba(0, 0, 0, 0.8)'
-    },
-    content: {
-        top: '45%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)',
-        zIndex: '99',
-        paddingTop: '0'
-    },
-}
-Modal.setAppElement('#__next')
-
 
 const modules = {
     toolbar: '#toolbar'
 };
 
 const formats = [
-    'header',
     'bold', 'italic', 'underline', 'strike',
     'color', 'background',
     'align',
     'list', 'list',
-    'image', 'link', "code-block", "video", "blockquote", "clean"
+    'link', "code-block", "video", "blockquote", "clean"
 ];
 
 const colors = ['#000055', '#FF7600', '#222222', '#18222b', '#238633', '#0284c7']
 
 
-export const QuillEditor = ({ placeholder, onEditorChange, content, label="Contenido" }) => {
+export const QuillEditorLite = ({ placeholder, onEditorChange, content, label="Descripción" }) => {
 
-    const [showImagesModal, setShowImagesModal] = useState(false)
-    const [positionEditor, setPositionEditor] = useState(null)
-    const { quill, quillRef } = useQuill({ modules, formats, placeholder })
-    
-
-
-    const insertToEditor = (url) => {
-        quill.insertEmbed((positionEditor - 1), 'image', url);
-    }
-
-    useEffect(() => {
-        if (quill) {
-            quill.getModule('toolbar').addHandler('image', openImagesModal);
-        }
-    }, [quill])
+    const { quill , quillRef } = useQuill({ modules, formats, placeholder })
 
     useEffect(() => {
         if (quill) {
             quill.on('text-change', (delta, oldDelta, source) => {
-                // console.log(quill.getText()); // Get text only
-                // console.log(quill.getContents()); // Get delta contents
-                // console.log(quill.root.innerHTML); // Get innerHTML using quill
-                // onEditorChange(quill.root.innerHTML)
-                // console.log(quill.root); // Get innerHTML using quill
-                
+                // onEditorChange(quill.root.innerHTML)                
             })
-
         }
     }, [quill])
+
 
     useEffect(()=>{
         if(content){
@@ -82,48 +40,12 @@ export const QuillEditor = ({ placeholder, onEditorChange, content, label="Conte
             }
         }
     },[quill])
-    
-
-    const hiddenImagesModal = () => {
-        const body = document.querySelector('body')
-        body.classList.remove('fixed-body')
-        setPositionEditor(null)
-        setShowImagesModal(false)
-    }
-
-    const openImagesModal = () => {
-        const body = document.querySelector('body')
-        body.classList.add('fixed-body')
-
-        const range = quill.getSelection()
-        setPositionEditor(range.index)
-
-        setShowImagesModal(true)
-    }
-
-    const handleSelectedImage = async (fnSelectedImage) => {
-        const image = await fnSelectedImage()
-        if (image) {
-            insertToEditor(image)
-            hiddenImagesModal()
-        }
-    }
-
-    // TODO: Insertar videos de facebook y otras redes sociales. 
 
     return (
         <>
-            <p className="mb-2 font-medium">{ label }</p>
-            <EditorContent >
+            <p className="mb-2 font-bold">{ label }</p>
+            <EditorContent>
                 <div id="toolbar">
-                    <select className="ql-header" defaultValue={""} onChange={e => e.persist()}>
-                        <option value="2" />
-                        <option value="3" />
-                        <option value="4" />
-                        <option value="5" />
-                        <option value="6" />
-                        <option value="" />
-                    </select>
                     <button className="ql-bold" />
                     <button className="ql-italic" />
                     <button className="ql-underline" />
@@ -153,9 +75,6 @@ export const QuillEditor = ({ placeholder, onEditorChange, content, label="Conte
 
                     <button className="ql-list" value="bullet" />
                     <button className="ql-list" value="ordered" />
-  
-                    <button className="ql-image"/>
-                    <button className="ql-video" />
 
                     <button className="ql-link" />
                     <button className="ql-code-block" />
@@ -164,17 +83,8 @@ export const QuillEditor = ({ placeholder, onEditorChange, content, label="Conte
 
                 </div>
                 <div ref={quillRef} />
+                <div id="editors" />
             </EditorContent>
-            <Modal
-                isOpen={showImagesModal}
-                style={customStyles}
-            >
-                <ImagesSelectModal
-                    hiddenImagesModal={hiddenImagesModal}
-                    handleSelectedImage={handleSelectedImage}
-                />
-            </Modal>
-
         </>
     )
 }
@@ -182,11 +92,11 @@ export const QuillEditor = ({ placeholder, onEditorChange, content, label="Conte
 
 const EditorContent = styled.div`
     width: 100%;
-    height: 52rem;
+    height: 18rem;
+    margin-bottom: 2rem;
     padding-bottom: 5rem;
     border-radius: 0.8rem;
     border: 1.5px solid rgba(229, 231, 235, 1);
-
 
     .ql-toolbar {
         border-radius: 0.8rem;
@@ -203,9 +113,6 @@ const EditorContent = styled.div`
     
     .ql-editor{
         line-height: 2.5rem;
-        &:focus {
-            outline: 2px solid #333;
-        }
     }
 
     .ql-editor::-webkit-scrollbar {
