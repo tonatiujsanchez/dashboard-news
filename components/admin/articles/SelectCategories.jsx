@@ -5,14 +5,14 @@ import styled from "@emotion/styled"
 import { useData } from "../../../hooks/useData"
 
 
-export const SelectCategories = () => {
+export const SelectCategories = ({ category, subcategory, handleSelectCategory }) => {
 
 
     const [loadingCategories, setLoadingCategories] = useState(false)
     const [showSelect, setShowSelect] = useState(false)
     const [categoryActive, setCategoryActive] = useState(null)
 
-    const { article, setArticle, categories, refreshCategories } = useData()
+    const { categories, refreshCategories } = useData()
 
     const categoriesMemo = useMemo(() => {
         return (
@@ -42,30 +42,20 @@ export const SelectCategories = () => {
 
     useEffect(()=>{
 
-        if(article.subcategory){
-            setCategoryActive(article.subcategory)
+        if(subcategory){
+            setCategoryActive(subcategory)
         }else{
             
-            if(!article.category){
+            if(!category){
                 setCategoryActive(categoriesMemo[0])
                 handleSelectCategory(categoriesMemo[0])
                 return
             }
-            setCategoryActive(article.category)            
+            setCategoryActive(category)            
         }
 
-    },[article.subcategory, article.category, categories])
+    },[subcategory, category, categories])
 
-
-    const handleSelectCategory = (category, subcategory = null) => {
-
-        setArticle({
-            ...article,
-            category: category,
-            subcategory: subcategory ? subcategory : null
-        })
-
-    }
 
     return (
         <div className="flex-1 flex flex-col gap-1">

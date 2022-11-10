@@ -20,6 +20,10 @@ const entrySchema = new Schema({
         require: true,
     },
     published: {
+        type: String,
+        require: false,
+    },
+    publishedAt: {
         type: Boolean,
         require: true,
         default: false,

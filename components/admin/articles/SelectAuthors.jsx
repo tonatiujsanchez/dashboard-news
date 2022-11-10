@@ -3,13 +3,13 @@ import { Fragment, useEffect, useState } from "react"
 import styled from "@emotion/styled"
 import { useData } from "../../../hooks/useData"
 
-export const SelectAuthors = () => {
+export const SelectAuthors = ({ author, handleSelectAuthor }) => {
 
     const [loadingAuthors, setLoadingAuthors] = useState(false)
     const [showSelect, setShowSelect] = useState(false)
     const [authorActive, setAuthorActive] = useState(null)
 
-    const { article, setArticle, authors, refreshAuthors } = useData()
+    const { authors, refreshAuthors } = useData()
 
     const LoadAuthors = async () => {
         setLoadingAuthors(true)
@@ -24,20 +24,14 @@ export const SelectAuthors = () => {
     }, [])
 
     useEffect(()=>{
-        if(!article.author){
+        if(!author){
             setAuthorActive(authors[0])
             handleSelectAuthor(authors[0])
             return
         }
-        setAuthorActive(article.author)
-    },[article.author, authors])
+        setAuthorActive(author)
+    },[author, authors])
 
-    const handleSelectAuthor = (author) => {
-        setArticle({
-            ...article,
-            author: author,
-        })
-    }
 
     return (
         <div className="flex-1 flex flex-col gap-1">

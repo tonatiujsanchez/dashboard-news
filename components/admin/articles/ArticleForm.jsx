@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 
 import slugify from "slugify"
 
@@ -8,7 +8,7 @@ import { SelectCategories } from "./SelectCategories"
 import { SelectImage } from "./SelectImage"
 import { QuillEditor } from "./QuillEditor"
 import { QuillEditorLite } from "./QuillEditorLite"
-import { Checkbox } from "../ui"
+import { Checkbox, DTPicker } from "../ui"
 
 
 
@@ -26,6 +26,57 @@ export const ArticleForm = ({ articleEdit = null }) => {
             slug
         })
     }
+
+    const handleSetCategory = ( category, subcategory = null ) => {
+        setArticle({
+            ...article,
+            category: category,
+            subcategory: subcategory ? subcategory : null
+        })
+    }
+    
+    const handleSetAuthor = ( author ) => {
+        setArticle({
+            ...article,
+            author: author,
+        })
+    }
+
+    const handleSetPublishedAt = ( dateTime ) => {
+        setArticle({
+            ...article,
+            publishedAt: dateTime,
+        })
+    }
+    
+    const handleSetImagePrincipal = ( imageUrl ) => {
+        setArticle({
+            ...article,
+            image: imageUrl
+        })
+    }
+
+    const handleSetImageSocial = ( imageUrl ) => {
+        setArticle({
+            ...article,
+            imageSocial: imageUrl
+        })
+    }
+
+    // TODO:
+    const handleSetDescripction = ( html ) => {
+        setArticle({
+            ...article,
+            description: html
+        })
+    }
+
+    const onEditorChange = ( html ) => {
+        setArticle({
+            ...article,
+            content: html
+        })
+    }
     
     const handleSetSlug = ({ target }) => {
         const slug = slugify(target.value, { replacement: '-', lower: true })
@@ -35,36 +86,6 @@ export const ArticleForm = ({ articleEdit = null }) => {
         })
     }
 
-    const handleSetImagePrincipal = (imageUrl) => {
-        setArticle({
-            ...article,
-            image: imageUrl
-        })
-    }
-
-    const handleSetImageSocial = (imageUrl) => {
-        setArticle({
-            ...article,
-            imageSocial: imageUrl
-        })
-    }
-
-
-    const handleSetDescripction = ( html ) => {
-        setArticle({
-            ...article,
-            description: html
-        })
-    }
-
-    // Quill-Editor methods
-    const onEditorChange = ( html ) => {
-        setArticle({
-            ...article,
-            content: html
-        })
-    }
-    
     const handleSetInFrontPage = () => {
         setArticle({
             ...article,
@@ -81,10 +102,15 @@ export const ArticleForm = ({ articleEdit = null }) => {
 
         setArticle({
             ...article,
-            inFrontPage: true
+            title: article?.title || '',
+            inFrontPage: true,
+            slug: article?.slug || '',
         })
     },[articleEdit])
 
+    if( !article ){
+        return <></>
+    }
 
     return (
         <div className="bg-white p-5 sm:p-10 rounded-xl">
@@ -100,8 +126,20 @@ export const ArticleForm = ({ articleEdit = null }) => {
             </div>
             <div className="flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-20 sm:items-start mb-4 sm:mb-10">
                 <div className="flex-1 flex flex-col gap-4 mb-4 sm:order-2">
-                    <SelectCategories />
-                    <SelectAuthors />
+                    <SelectCategories
+                        category={ article.category }
+                        subcategory={ article.subcategory }
+                        handleSelectCategory={handleSetCategory}
+                    />
+                    <SelectAuthors
+                        author={ article.author }
+                        handleSelectAuthor = { handleSetAuthor }
+                    />
+                    <DTPicker
+                        value={article.publishedAt}
+                        onChangePublishedAt={handleSetPublishedAt}
+                        label="Fecha de publicación"
+                    />
                 </div>
                 <div className="flex-1 mb-4 sm:order-1">
                     <div className="flex justify-center flex-col sm:flex-row gap-5 sm:gap-10">

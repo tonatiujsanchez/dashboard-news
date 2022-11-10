@@ -39,21 +39,22 @@ export const DataProvider = ({ children }) => {
 
     const { user } = useAuth()
 
-    const [article, setArticle] = useState({
-        user: '',
-        title: '',
-        description: '',
-        content: '',
-        published: false,
-        image: null,
-        imageSocial: null,
-        inFrontPage: false,
-        slug: '',
-        author: '',
-        category: '',
-        subcategory: '',
-        views: '',
-    })
+    const [article, setArticle] = useState(null)
+    // const [article, setArticle] = useState({
+    //     user: '',
+    //     title: '',
+    //     description: '',
+    //     content: '',
+    //     published: false,
+    //     image: null,
+    //     imageSocial: null,
+    //     inFrontPage: false,
+    //     slug: '',
+    //     author: '',
+    //     category: '',
+    //     subcategory: '',
+    //     views: '',
+    // })
 
 
     const [state, dispatch] = useReducer(dataReducer, DATA_INITIAL_STATE)

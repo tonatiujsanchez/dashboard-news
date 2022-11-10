@@ -39,6 +39,17 @@ body.fixed-body {
 }
 
 
+
+/* datetime-picker */
+.react-datetime-picker__calendar--open,
+.react-datetime-picker__calendar--closed,
+.react-datetime-picker__clock,
+.react-datetime-picker__clock--open {
+    position: absolute;
+}
+
+
+
 @media screen and (min-width: 2048px) {
     body {
         zoom: 1.5;

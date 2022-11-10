@@ -50,14 +50,13 @@ export const QuillEditor = ({ placeholder, onEditorChange, content, label="Conte
     const { quill, quillRef } = useQuill({ modules, formats, placeholder })
     
 
-
     const insertToEditor = (url) => {
-        quill.insertEmbed((positionEditor - 1), 'image', url);
+        quill.insertEmbed((positionEditor - 1), 'image', url)
     }
 
     useEffect(() => {
         if (quill) {
-            quill.getModule('toolbar').addHandler('image', openImagesModal);
+            quill.getModule('toolbar').addHandler('image', openImagesModal)
         }
     }, [quill])
 
@@ -67,18 +66,16 @@ export const QuillEditor = ({ placeholder, onEditorChange, content, label="Conte
                 // console.log(quill.getText()); // Get text only
                 // console.log(quill.getContents()); // Get delta contents
                 // console.log(quill.root.innerHTML); // Get innerHTML using quill
-                // onEditorChange(quill.root.innerHTML)
+                onEditorChange(quill.root.innerHTML)
                 // console.log(quill.root); // Get innerHTML using quill
-                
             })
-
         }
     }, [quill])
 
     useEffect(()=>{
         if(content){
             if (quill) {
-                quill.clipboard.dangerouslyPasteHTML(content);
+                quill.clipboard.dangerouslyPasteHTML(content)
             }
         }
     },[quill])
@@ -114,7 +111,7 @@ export const QuillEditor = ({ placeholder, onEditorChange, content, label="Conte
     return (
         <>
             <p className="mb-2 font-medium">{ label }</p>
-            <EditorContent >
+            <EditorContent className='pb-32 sm:pb-24'>
                 <div id="toolbar">
                     <select className="ql-header" defaultValue={""} onChange={e => e.persist()}>
                         <option value="2" />
@@ -183,7 +180,7 @@ export const QuillEditor = ({ placeholder, onEditorChange, content, label="Conte
 const EditorContent = styled.div`
     width: 100%;
     height: 52rem;
-    padding-bottom: 5rem;
+    /* padding-bottom: 10rem; */
     border-radius: 0.8rem;
     border: 1.5px solid rgba(229, 231, 235, 1);
 
@@ -203,9 +200,6 @@ const EditorContent = styled.div`
     
     .ql-editor{
         line-height: 2.5rem;
-        &:focus {
-            outline: 2px solid #333;
-        }
     }
 
     .ql-editor::-webkit-scrollbar {
