@@ -14,6 +14,7 @@ export const DTPicker = ({ value, onChangePublishedAt, label = "Fecha y hora" })
     const onChangeDateTime = (value) => {
         onChangePublishedAt(value)
         setOpenCalendar(false)
+
     }
 
     return (

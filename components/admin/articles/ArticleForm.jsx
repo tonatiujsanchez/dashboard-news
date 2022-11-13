@@ -9,6 +9,7 @@ import { SelectImage } from "./SelectImage"
 import { QuillEditor } from "./QuillEditor"
 import { QuillEditorLite } from "./QuillEditorLite"
 import { Checkbox, DTPicker } from "../ui"
+import { useRouter } from "next/router"
 
 
 
@@ -16,7 +17,7 @@ export const ArticleForm = ({ articleEdit = null }) => {
 
     
     const { article, setArticle, createNewEntry } = useData()
-
+    const  router = useRouter()
 
     const handleSetName = ({ target }) => {
         const slug = slugify(target.value, { replacement: '-', lower: true })
@@ -30,15 +31,34 @@ export const ArticleForm = ({ articleEdit = null }) => {
     const handleSetCategory = ( category, subcategory = null ) => {
         setArticle({
             ...article,
-            category: category,
-            subcategory: subcategory ? subcategory : null
+            category: {
+                _id : category?._id,
+                title : category?.title,
+                slug : category?.slug,
+                tag : category?.tag,
+            },
+            subcategory: subcategory 
+                ? {
+                    _id: subcategory?._id,
+                    title: subcategory?.title,
+                    slug: subcategory?.slug,
+                    tag: subcategory?.tag,
+                } 
+                : null
         })
     }
     
     const handleSetAuthor = ( author ) => {
         setArticle({
             ...article,
-            author: author,
+            author: author ? {
+                _id: author?._id,
+                name: author?.name,
+                slug: author?.slug,
+                photo: author?.photo,
+                occupation: author?.occupation,
+            } : null
+            
         })
     }
 
@@ -107,6 +127,14 @@ export const ArticleForm = ({ articleEdit = null }) => {
             slug: article?.slug || '',
         })
     },[articleEdit])
+
+
+
+    const onCancelArticle = () => {
+        setArticle(null)
+        router.replace('/admin/articulos')
+    }
+
 
     if( !article ){
         return <></>
@@ -202,7 +230,7 @@ export const ArticleForm = ({ articleEdit = null }) => {
                 </button>
                 <div className="flex items-center justify-center flex-col sm:flex-row w-full sm:w-auto gap-5 sm:gap-10">
                     <button
-                        onClick={()=> console.log('Cancelado...') }
+                        onClick={ onCancelArticle }
                         className="py-3 px-8 uppercase w-full sm:w-auto rounded-md cursor-pointer transition-colors bg-slate-100 hover:bg-slate-300">
                         Cancelar
                     </button>

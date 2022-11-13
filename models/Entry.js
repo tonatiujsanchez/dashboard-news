@@ -1,5 +1,4 @@
 import mongoose, { Schema } from 'mongoose'
-import CategoryModel, { categorySchema } from './Category'
 
 
 const entrySchema = new Schema({
@@ -19,14 +18,13 @@ const entrySchema = new Schema({
         type: String, 
         require: true,
     },
-    published: {
-        type: String,
-        require: false,
+    published: { 
+        type: Boolean, 
+        default: false 
     },
     publishedAt: {
-        type: Boolean,
+        type: String,
         require: true,
-        default: false,
     },
     image: {
         type: String,
@@ -46,16 +44,23 @@ const entrySchema = new Schema({
         require: true,
     },
     category: {
-        type: categorySchema,
-        require: true,
+        _id  : { type: mongoose.Types.ObjectId, ref: 'Category' },
+        title: { type: String, require: true },
+        slug: { type: String, require: true },
+        tag: { type: String, require: true },        
     },
     subcategory: {
-        type: categorySchema,
-        require: false,
+        _id  : { type: mongoose.Types.ObjectId, ref: 'Category' },
+        title: { type: String, require: true },
+        slug: { type: String, require: true },
+        tag: { type: String, require: true },     
     },
     autor: {
-        type: String,
-        require: false,
+        _id  : { type: mongoose.Types.ObjectId, ref: 'Author' },
+        name: { type: String, require: true },
+        slug: { type: String, require: true },
+        photo: { type: String, require: false },
+        occupation: { type: String, require: false },
     },
     views: {
         type: Number,

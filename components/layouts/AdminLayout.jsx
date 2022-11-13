@@ -3,14 +3,16 @@ import Head from 'next/head'
 
 import styled from '@emotion/styled'
 
-import { useUI } from '../../hooks/useUI'
 import { SideMenu, Profile } from "../admin/shared"
+import { useUI } from '../../hooks/useUI'
+import { useAuth } from '../../hooks/useAuth'
 
 
 
 export const AdminLayout = ({ children, title = '' }) => {
 
     const { showSideMenu, toggleSideMenu } = useUI()
+    const { user } = useAuth()
 
     return (
         <>
@@ -21,7 +23,13 @@ export const AdminLayout = ({ children, title = '' }) => {
                 <SideMenu showMenu={showSideMenu} setShowMenu={toggleSideMenu} />
                 <Profile />
                 <main className={`container-admin section ${showSideMenu ? 'container-show-sidemenu' : ''}`}>
-                    {children}
+                    { !user
+                        ? (
+                            <div>Cargando...</div>
+                        ):(
+                            children
+                        )
+                    }
                 </main>
             </AdminLayoutContainer>
         </>

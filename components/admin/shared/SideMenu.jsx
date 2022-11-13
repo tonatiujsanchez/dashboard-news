@@ -14,65 +14,91 @@ export const SideMenu = () => {
 
     const { user } = useAuth()
 
-    if(!user){
-        return <></>
-    }
-
     return (
         <SidebarConatiner>
-            <div className={`nav ${showSideMenu ? 'show-menu' : ''}`}>
-                <nav className="nav__content">
-                    <button
-                        onClick={() => toggleSideMenu()}
-                        className={`nav__toggle ${showSideMenu ? 'rotate-icon' : ''}`}>
-                        <i className='bx bx-menu-alt-left' ></i>
-                    </button>
-                    <NextLink href="/admin" passHref>
-                        <a className="nav__logo">
-                            <i className='bx bxs-dashboard'></i>
-                            <span className="nav__logo-name">ADMIN</span>
-                        </a>
-                    </NextLink>
-                    <div className="nav__list">
-                        <NextLink href="/admin/nuevo" passHref>
-                            <a className={`nav__link ${(pathname.split('/')[2]) === ('/admin/nuevo').split('/')[2] ? 'active-link' : ''}`}>
-                                <i className='bx bxs-plus-square' ></i>
-                                <span className="nav__name">Nuevo artículo</span>
-                            </a>
-                        </NextLink>
-                        <NextLink href="/admin/articulos" passHref>
-                            <a className={`nav__link ${(pathname.split('/')[2]) === ('/admin/articulos').split('/')[2] ? 'active-link' : ''}`}>
-                                <i className='bx bx-list-ul' ></i>
-                                <span className="nav__name">Artículos</span>
-                            </a>
-                        </NextLink>
-                        <NextLink href="/admin/imagenes" passHref>
-                            <a className={`nav__link ${(pathname.split('/')[2]) === ('/admin/imagenes').split('/')[2] ? 'active-link' : ''}`}>
-                                <i className='bx bx-image' ></i>
-                                <span className="nav__name">Imagenes</span>
-                            </a>
-                        </NextLink>
-                        {
-                            user.role === 'admin' &&
-                            <>
-                                <NextLink href="/admin/categorias" passHref>
-                                    <a className={`nav__link ${(pathname.split('/')[2]) === ('/admin/categorias').split('/')[2] ? 'active-link' : ''}`}>
-                                        <i className='bx bx-category-alt' ></i>
-                                        <span className="nav__name">Categorías</span>
-                                    </a>
-                                </NextLink>
-                                <NextLink href="/admin/autores" passHref>
-                                    <a className={`nav__link ${(pathname.split('/')[2]) === ('/admin/autores').split('/')[2] ? 'active-link' : ''}`}>
-                                        <i className='bx bxs-user-circle' ></i>
-                                        <span className="nav__name">Autores</span>
-                                    </a>
-                                </NextLink>
-                            </>
-                        }
+            {
+                !user 
+                ? (
+                    <div className={`nav`}>
+                        <nav className="nav__content">
+                            <button
+                                className={`nav__toggle`}>
+                                <i className='bx bx-menu-alt-left' ></i>
+                            </button>
+                            <NextLink href="/admin" passHref>
+                                <a className="nav__logo">
+                                    <i className='bx bxs-dashboard'></i>
+                                    <span className="nav__logo-name">ADMIN</span>
+                                </a>
+                            </NextLink>
+                            <div className="nav__list">
+                                {
+                                    [0,1,2,3,4].map( (item, index) => (
+                                        <span key={index} className={`nav__link`}>
+                                            <i className="animate-pulse space-x-4 rounded-sm bg-slate-300 h-7 w-7"></i>
+                                            <span className="nav__name">Cargado...</span>
+                                        </span>
+                                    ))
+                                }                             
+                            </div>
+                        </nav>
                     </div>
-                </nav>
-            </div>
-
+                )
+                :(
+                    <div className={`nav ${showSideMenu ? 'show-menu' : ''}`}>
+                        <nav className="nav__content">
+                            <button
+                                onClick={() => toggleSideMenu()}
+                                className={`nav__toggle ${showSideMenu ? 'rotate-icon' : ''}`}>
+                                <i className='bx bx-menu-alt-left' ></i>
+                            </button>
+                            <NextLink href="/admin" passHref>
+                                <a className="nav__logo">
+                                    <i className='bx bxs-dashboard'></i>
+                                    <span className="nav__logo-name">ADMIN</span>
+                                </a>
+                            </NextLink>
+                            <div className="nav__list">
+                                <NextLink href="/admin/nuevo" passHref>
+                                    <a className={`nav__link ${(pathname.split('/')[2]) === ('/admin/nuevo').split('/')[2] ? 'active-link' : ''}`}>
+                                        <i className='bx bxs-plus-square' ></i>
+                                        <span className="nav__name">Nuevo artículo</span>
+                                    </a>
+                                </NextLink>
+                                <NextLink href="/admin/articulos" passHref>
+                                    <a className={`nav__link ${(pathname.split('/')[2]) === ('/admin/articulos').split('/')[2] ? 'active-link' : ''}`}>
+                                        <i className='bx bx-list-ul' ></i>
+                                        <span className="nav__name">Artículos</span>
+                                    </a>
+                                </NextLink>
+                                <NextLink href="/admin/imagenes" passHref>
+                                    <a className={`nav__link ${(pathname.split('/')[2]) === ('/admin/imagenes').split('/')[2] ? 'active-link' : ''}`}>
+                                        <i className='bx bx-image' ></i>
+                                        <span className="nav__name">Imagenes</span>
+                                    </a>
+                                </NextLink>
+                                {
+                                    user.role === 'admin' &&
+                                    <>
+                                        <NextLink href="/admin/categorias" passHref>
+                                            <a className={`nav__link ${(pathname.split('/')[2]) === ('/admin/categorias').split('/')[2] ? 'active-link' : ''}`}>
+                                                <i className='bx bx-category-alt' ></i>
+                                                <span className="nav__name">Categorías</span>
+                                            </a>
+                                        </NextLink>
+                                        <NextLink href="/admin/autores" passHref>
+                                            <a className={`nav__link ${(pathname.split('/')[2]) === ('/admin/autores').split('/')[2] ? 'active-link' : ''}`}>
+                                                <i className='bx bxs-user-circle' ></i>
+                                                <span className="nav__name">Autores</span>
+                                            </a>
+                                        </NextLink>
+                                    </>
+                                }
+                            </div>
+                        </nav>
+                    </div>
+                )
+            }
         </SidebarConatiner>
     )
 }
