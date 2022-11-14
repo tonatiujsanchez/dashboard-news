@@ -11,12 +11,12 @@ const entrySchema = new Schema({
         type: String, 
         require: true,
     },
-    description: { 
-        type: String, 
-    },
     content: { 
         type: String, 
         require: true,
+    },
+    description: { 
+        type: String, 
     },
     published: { 
         type: Boolean, 

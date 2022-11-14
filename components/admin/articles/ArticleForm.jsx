@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 import slugify from "slugify"
 
@@ -16,8 +16,39 @@ import { useRouter } from "next/router"
 export const ArticleForm = ({ articleEdit = null }) => {
 
     
+    const [contentEditor, setContentEditor] = useState(null)
     const { article, setArticle, createNewEntry } = useData()
     const  router = useRouter()
+
+    // Starting article in provider
+    useEffect(()=>{
+        if(articleEdit){
+            setArticle({ ...articleEdit })
+            return
+        }
+        setArticle({
+            ...article,
+            title: article?.title || '',
+            inFrontPage: true,
+            slug: article?.slug || '',
+            publishedAt: null,
+        })
+    },[articleEdit])
+    
+
+    useEffect(()=>{
+
+        if(!contentEditor){ return }
+
+        const desc = contentEditor.split('<p><br></p>')
+
+        setArticle({
+            ...article,
+            content: contentEditor,
+            description: desc[0] !== '' ? desc[0] : null
+        })
+
+    },[contentEditor])
 
     const handleSetName = ({ target }) => {
         const slug = slugify(target.value, { replacement: '-', lower: true })
@@ -29,6 +60,11 @@ export const ArticleForm = ({ articleEdit = null }) => {
     }
 
     const handleSetCategory = ( category, subcategory = null ) => {
+
+        if( !category ){
+            return
+        }
+
         setArticle({
             ...article,
             category: {
@@ -77,26 +113,18 @@ export const ArticleForm = ({ articleEdit = null }) => {
     }
 
     const handleSetImageSocial = ( imageUrl ) => {
+
         setArticle({
             ...article,
             imageSocial: imageUrl
         })
     }
 
-    // TODO:
-    const handleSetDescripction = ( html ) => {
-        setArticle({
-            ...article,
-            description: html
-        })
+    const onEditorChange = ( html ) => {
+        if(!html){ return }
+        setContentEditor(html)
     }
 
-    const onEditorChange = ( html ) => {
-        setArticle({
-            ...article,
-            content: html
-        })
-    }
     
     const handleSetSlug = ({ target }) => {
         const slug = slugify(target.value, { replacement: '-', lower: true })
@@ -113,28 +141,18 @@ export const ArticleForm = ({ articleEdit = null }) => {
         })
     }
 
-    // Starting article in provider
-    useEffect(()=>{
-        if(articleEdit){
-            setArticle({ ...articleEdit })
-            return
-        }
 
-        setArticle({
-            ...article,
-            title: article?.title || '',
-            inFrontPage: true,
-            slug: article?.slug || '',
-        })
-    },[articleEdit])
-
+    // TODO: Save entry
+    const saveEntry = () => {
+        
+    }
 
 
     const onCancelArticle = () => {
         setArticle(null)
         router.replace('/admin/articulos')
     }
-
+    
 
     if( !article ){
         return <></>
@@ -223,8 +241,7 @@ export const ArticleForm = ({ articleEdit = null }) => {
             {/* Buttons  */}
             <div className="flex items-center justify-between flex-col sm:flex-row mt-10">
                 <button
-                    // onClick={ createNewEntry }
-                    // disabled={!imageSelected}
+                    onClick={ ()=> createNewEntry(false) }
                     className="border-2 border-sky-500 text-sky-500 hover:text-white hover:bg-sky-500 font-semibold py-3 px-8 uppercase w-full sm:w-auto rounded-md cursor-pointer transition-colors disabled:bg-sky-300 mb-10 sm:mb-0">
                     Guardar
                 </button>
@@ -235,8 +252,7 @@ export const ArticleForm = ({ articleEdit = null }) => {
                         Cancelar
                     </button>
                     <button
-                        onClick={ createNewEntry }
-                        // disabled={!imageSelected}
+                        onClick={ ()=> createNewEntry(true) }
                         className="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-3 px-8 uppercase w-full sm:w-auto rounded-md cursor-pointer transition-colors border-2 border-sky-500 hover:border-sky-600 disabled:bg-sky-300">
                         Guardar y publicar
                     </button>

@@ -48,6 +48,7 @@ export const SelectImage = ({ image = null, heightContentImage='h-80', label="Fo
 
     const removePhoto = () => {
         setPhoto(null)
+        handleSetImage(null)
     }
 
 

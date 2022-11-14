@@ -76,8 +76,18 @@ export const DataProvider = ({ children }) => {
     // ===== ===== ===== ===== Entries ===== ===== ===== =====
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
 
-    const createNewEntry = () => {
-        console.log(article);
+    const createNewEntry = async( published = false ) => {
+
+        const body = {
+            ...article,
+            published,
+            user: user._id
+        }
+
+        const { data } = await axios.post('/api/shared/articles', body)
+
+
+        console.log( data );
     }
 
 
