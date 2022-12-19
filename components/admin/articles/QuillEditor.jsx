@@ -63,7 +63,7 @@ export const QuillEditor = ({ placeholder, onEditorChange, content, label="Conte
     useEffect(() => {
         if (quill) {
             quill.on('text-change', (delta, oldDelta, source) => {
-                // console.log(quill.getText()); // Get text only
+                //console.log(quill.getText()); // Get text only
                 // console.log(quill.getContents()); // Get delta contents
                 // console.log(quill.root.innerHTML); // Get innerHTML using quill
                 onEditorChange(quill.root.innerHTML)

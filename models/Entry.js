@@ -23,7 +23,7 @@ const entrySchema = new Schema({
         default: false 
     },
     publishedAt: {
-        type: String,
+        type: Date,
         require: true,
     },
     image: {
@@ -55,7 +55,7 @@ const entrySchema = new Schema({
         slug: { type: String, require: true },
         tag: { type: String, require: true },     
     },
-    autor: {
+    author: {
         _id  : { type: mongoose.Types.ObjectId, ref: 'Author' },
         name: { type: String, require: true },
         slug: { type: String, require: true },

@@ -18,6 +18,7 @@ export const ArticleForm = ({ articleEdit = null }) => {
     
     const [contentEditor, setContentEditor] = useState(null)
     const { article, setArticle, createNewEntry } = useData()
+
     const  router = useRouter()
 
     // Starting article in provider
@@ -28,17 +29,13 @@ export const ArticleForm = ({ articleEdit = null }) => {
         }
         setArticle({
             ...article,
-            title: article?.title || '',
-            inFrontPage: true,
-            slug: article?.slug || '',
-            publishedAt: null,
         })
     },[articleEdit])
     
 
     useEffect(()=>{
 
-        if(!contentEditor){ return }
+        if( !contentEditor ){ return }
 
         const desc = contentEditor.split('<p><br></p>')
 

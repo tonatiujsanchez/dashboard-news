@@ -39,22 +39,20 @@ export const DataProvider = ({ children }) => {
 
     const { user } = useAuth()
 
-    const [article, setArticle] = useState(null)
-    // const [article, setArticle] = useState({
-    //     user: '',
-    //     title: '',
-    //     description: '',
-    //     content: '',
-    //     published: false,
-    //     image: null,
-    //     imageSocial: null,
-    //     inFrontPage: false,
-    //     slug: '',
-    //     author: '',
-    //     category: '',
-    //     subcategory: '',
-    //     views: '',
-    // })
+    // const [article, setArticle] = useState(null)
+    const [article, setArticle] = useState({
+
+        title: '',
+        content: '',
+        description: '',
+
+        publishedAt: null,
+        image: null,
+        imageSocial: null,
+        inFrontPage: true,
+        slug: '',
+
+    })
 
 
     const [state, dispatch] = useReducer(dataReducer, DATA_INITIAL_STATE)
@@ -78,15 +76,30 @@ export const DataProvider = ({ children }) => {
 
     const createNewEntry = async( published = false ) => {
 
+        if( article.title.trim() ==='' ){
+            return notifyError('El título es requerido')
+        }
+
+        if( !article.category ){
+            return notifyError('Seleccione una categoría')
+        }
+        
+        if( !article.author ){
+            return notifyError('Seleccione un autor')
+        }
+
+        if( (!article.content || article.content === '<p><br></p>') && published ){
+            return notifyError('No se puede publicar un artículo sin contenido')
+        }
+
         const body = {
             ...article,
             published,
-            user: user._id
         }
 
+        // console.log(body);
+
         const { data } = await axios.post('/api/shared/articles', body)
-
-
         console.log( data );
     }
 
